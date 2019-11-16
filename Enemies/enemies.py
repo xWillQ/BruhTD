@@ -24,78 +24,62 @@ class Enemy():
         newX2 = x2 - h * (self.posY - turnY) / d
         newY2 = y2 + h * (self.posX - turnX) / d
         if clockwise:
-            if (self.posX >= turnX) and (self.posY > turnY):
-                currentSection = 1
-            elif (self.posX < turnX) and (self.posY >= turnY):
-                currentSection = 2
-            elif (self.posX <= turnX) and (self.posY < turnY):
-                currentSection = 3
-            elif (self.posX > turnX) and (self.posY <= turnY):
-                currentSection = 4
-            if currentSection == 1:
+            if (self.posX >= turnX) and (self.posY < turnY):
                 if newX1 > newX2:
                     self.posX = newX1
                     self.posY = newY1
                 else:
                     self.posX = newX2
                     self.posY = newY2
-            elif currentSection == 2:
-                if newY1 > newY2:
+            elif (self.posX < turnX) and (self.posY <= turnY):
+                if newY1 < newY2:
                     self.posX = newX1
                     self.posY = newY1
                 else:
                     self.posX = newX2
                     self.posY = newY2
-            elif currentSection == 3:
+            elif (self.posX <= turnX) and (self.posY > turnY):
                 if newX1 < newX2:
                     self.posX = newX1
                     self.posY = newY1
                 else:
                     self.posX = newX2
                     self.posY = newY2
-            elif currentSection == 4:
-                if newY1 < newY2:
+            elif (self.posX > turnX) and (self.posY >= turnY):
+                if newY1 > newY2:
                     self.posX = newX1
                     self.posY = newY1
                 else:
                     self.posX = newX2
                     self.posY = newY2
         else:
-            if (self.posX > turnX) and (self.posY >= turnY):
-                currentSection = 1
-            elif (self.posX <= turnX) and (self.posY > turnY):
-                currentSection = 2
-            elif (self.posX < turnX) and (self.posY <= turnY):
-                currentSection = 3
-            elif (self.posX >= turnX) and (self.posY < turnY):
-                currentSection = 4
-            if currentSection == 1:
-                if newY1 > newY2:
-                    self.posX = newX1
-                    self.posY = newY1
-                else:
-                    self.posX = newX2
-                    self.posY = newY2
-            elif currentSection == 2:
-                if newX1 < newX2:
-                    self.posX = newX1
-                    self.posY = newY1
-                else:
-                    self.posX = newX2
-                    self.posY = newY2
-            elif currentSection == 3:
+            if (self.posX > turnX) and (self.posY <= turnY):
                 if newY1 < newY2:
                     self.posX = newX1
                     self.posY = newY1
                 else:
                     self.posX = newX2
                     self.posY = newY2
-            elif currentSection == 4:
+            elif (self.posX <= turnX) and (self.posY < turnY):
+                if newX1 < newX2:
+                    self.posX = newX1
+                    self.posY = newY1
+                else:
+                    self.posX = newX2
+                    self.posY = newY2
+            elif (self.posX < turnX) and (self.posY >= turnY):
+                if newY1 > newY2:
+                    self.posX = newX1
+                    self.posY = newY1
+                else:
+                    self.posX = newX2
+                    self.posY = newY2
+            elif (self.posX >= turnX) and (self.posY > turnY):
                 if newX1 > newX2:
                     self.posX = newX1
                     self.posY = newY1
                 else:
                     self.posX = newX2
                     self.posY = newY2
-        self.posX = int(self.posX)
-        self.posY = int(self.posY)
+        self.posX = round(self.posX)
+        self.posY = round(self.posY)
