@@ -99,4 +99,3 @@ class Enemy():
                     self.posY = newY2
         self.posX = int(self.posX)
         self.posY = int(self.posY)
-        
