@@ -27,16 +27,15 @@ def windowRE():
     pygame.display.update()
 
 
-player1 = [pygame.image.load('1_enemies_1_WALK_000.png'),
-pygame.image.load('1_enemies_1_WALK_001.png'),
-pygame.image.load('1_enemies_1_WALK_002.png'),
-pygame.image.load('1_enemies_1_WALK_003.png'),
-pygame.image.load('1_enemies_1_WALK_004.png'),
-pygame.image.load('1_enemies_1_WALK_005.png'),
-pygame.image.load('1_enemies_1_WALK_006.png'),
-pygame.image.load('1_enemies_1_WALK_007.png'),
-pygame.image.load('1_enemies_1_WALK_008.png'),
-pygame.image.load('1_enemies_1_WALK_009.png')]
+#player1 = [pygame.image.load('1_enemies_1_WALK_000.png'),
+#pygame.image.load('1_enemies_1_WALK_002.png'),
+#pygame.image.load('1_enemies_1_WALK_003.png'),
+#pygame.image.load('1_enemies_1_WALK_004.png'),
+#pygame.image.load('1_enemies_1_WALK_005.png'),
+#pygame.image.load('1_enemies_1_WALK_006.png'),
+#pygame.image.load('1_enemies_1_WALK_007.png'),
+#pygame.image.load('1_enemies_1_WALK_008.png'),
+#pygame.image.load('1_enemies_1_WALK_009.png')]
 
 main_bg = pygame.image.load('main_bg.png')
 main_bg = pygame.transform.scale(main_bg, (1360, 768))
