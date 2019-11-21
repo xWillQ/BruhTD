@@ -2,7 +2,6 @@ from math import sqrt
 
 
 class Turn():
-    """Структура для хранения данных о повороте"""
     def __init__(self, x, y, radius, clockwise, startSection, endSection):
         self.x = x
         self.y = y
@@ -23,8 +22,6 @@ class Turn():
         if (self.startSection == 4 and (x >= self.x and y >= self.y)):
             return True
         
-        if self.endSection == self.startSection:
-            return True
         if (self.endSection == 1 and (x >= self.x and y <= self.y)):
             return True
         if (self.endSection == 2 and (x <= self.x and y <= self.y)):
