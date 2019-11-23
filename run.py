@@ -1,7 +1,7 @@
 import pygame
-from main_menu.main_menu import MainMenu
+from game import game
 
 pygame.init()
 win = pygame.display.set_mode((1368, 720))
-mainmenu = MainMenu(win)
-mainmenu.run()
+gamewindow = game(win)
+gamewindow.run()
