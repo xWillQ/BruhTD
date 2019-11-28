@@ -7,7 +7,8 @@ class Enemy():
         self.posY = startY
         self.velX = 0
         self.velY = 0
-
+        self.hp = 150
+        
     def move(self):
         self.posX += self.velX
         self.posY += self.velY

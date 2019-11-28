@@ -3,12 +3,22 @@ import os
 from main_menu.Mapi.map import Turn
 from main_menu.Enemies.enemies import Enemy
 from main_menu.main_menu import main_menu
+from main_menu.Mapi.tower import Tower
 
 condition = 0
 
 bg = pygame.transform.scale((pygame.image.load(os.path.join('game_assets/td-gui/PNG/menu/bg.png'))), (1368, 720))
 playBTN = pygame.transform.scale((pygame.image.load(os.path.join('game_assets/td-gui/PNG/menu/button_play.png'))), (200, 200))
 win = pygame.display.set_mode((1368, 720))
+
+mob = Enemy(0, 175)
+mobs = [mob]
+mob.velX = 2
+turn = Turn(300, 150, 90, False, 4, 1)
+
+turns = [turn]
+tower = Tower(500, 150)
+towers = [tower]
 
 def turner(x, y, radius, clockW, halfSTART, halfEND):
     turn = Turn(x, y, radius, clockW, halfSTART, halfEND)
@@ -26,10 +36,9 @@ class game:
         self.game_condition = False
 
     def draw(self):
-        menu = main_menu(win, bg, playBTN, condition)
+        menu = main_menu(win, bg, playBTN, condition, mob, tower, turn, mobs, towers, turns)
         if self.menu_condition is True:
             menu.draw()
-        #if self.game_condition is True:
 
 
 
@@ -39,8 +48,8 @@ class game:
         global condition
         while run:
 
-            pygame.time.delay(30)
-            print(pygame.mouse.get_pos())
+            pygame.time.delay(10)
+            #print(pygame.mouse.get_pos())
 
             for event in pygame.event.get():
 
@@ -55,6 +64,6 @@ class game:
                     if condition == 1:
                         if mouse_pos[1] <= 210 and mouse_pos[0] >= 985 and mouse_pos[1] >= 160 and mouse_pos[0] <= 1035:
                             condition = 2
-
+                    #if condition == 2:
 
             self.draw()
