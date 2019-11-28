@@ -39,7 +39,7 @@ class game:
         global condition
         while run:
 
-            pygame.time.delay(10)
+            pygame.time.delay(30)
             print(pygame.mouse.get_pos())
 
             for event in pygame.event.get():
@@ -49,7 +49,12 @@ class game:
 
                 if event.type is pygame.MOUSEBUTTONUP:
                     mouse_pos = pygame.mouse.get_pos()
-                    if mouse_pos[1] <= 475 and mouse_pos[0] >= 565 and mouse_pos[1] >= 275 and mouse_pos[0] <= 765:
-                        condition = 1
+                    if condition == 0:
+                        if mouse_pos[1] <= 475 and mouse_pos[0] >= 565 and mouse_pos[1] >= 275 and mouse_pos[0] <= 765:
+                            condition = 1
+                    if condition == 1:
+                        if mouse_pos[1] <= 210 and mouse_pos[0] >= 985 and mouse_pos[1] >= 160 and mouse_pos[0] <= 1035:
+                            condition = 2
+
 
             self.draw()
