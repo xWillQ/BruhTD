@@ -1,69 +1,51 @@
 import pygame
 import os
-from main_menu.Mapi.map import Turn
-from main_menu.Enemies.enemies import Enemy
+from Map.map import Turn
+from game_objects.enemies import Enemy
 from main_menu.main_menu import main_menu
-from main_menu.Mapi.tower import Tower
+from game_objects.tower import Tower
+from levels.level import Level
 
+def draw(condition, number):
+    if condition <= 9:
+
+        menu = main_menu(condition, win)
+        menu.draw()
+
+    if condition >= 10:
+
+        level = Level(win, number)
+        level.draw()
+
+
+
+pygame.init()
+win = pygame.display.set_mode((1920, 1080)) #pygame.FULLSCREEN)
 condition = 0
+number = 0
+run = True
 
-bg = pygame.transform.scale((pygame.image.load(os.path.join('game_assets/td-gui/PNG/menu/bg.png'))), (1368, 720))
-playBTN = pygame.transform.scale((pygame.image.load(os.path.join('game_assets/td-gui/PNG/menu/button_play.png'))), (200, 200))
-win = pygame.display.set_mode((1368, 720))
+while run:
 
-mob = Enemy(0, 175)
-mobs = [mob]
-mob.velX = 2
-turn = Turn(300, 150, 90, False, 4, 1)
+    pygame.time.delay(20)
+    print(pygame.mouse.get_pos())
+    #print(condition)
+    for event in pygame.event.get():
 
-turns = [turn]
-tower = Tower(500, 150)
-towers = [tower]
+        if event.type is pygame.QUIT:
+            run = False
 
-def turner(x, y, radius, clockW, halfSTART, halfEND):
-    turn = Turn(x, y, radius, clockW, halfSTART, halfEND)
-    if (turn.isInside(mob.posX, mob.posY)):
-        mob.turn(turn)
-    else:
-        mob.move()
+        if event.type is pygame.MOUSEBUTTONUP:
+            mouse_pos = pygame.mouse.get_pos()
+            if condition == 0:
+                if mouse_pos[1] <= 475 and mouse_pos[0] >= 565 and mouse_pos[1] >= 275 and mouse_pos[0] <= 765:
+                    condition = 1
+            if condition == 1:
+                if mouse_pos[1] <= 210 and mouse_pos[0] >= 985 and mouse_pos[1] >= 160 and mouse_pos[0] <= 1035:
+                    condition = 0
+                if mouse_pos[1] <= 350 and mouse_pos[0] >= 420 and mouse_pos[1] >= 250 and mouse_pos[0] <= 510:
+                    number = 1
+                    condition = 10
 
-class game:
-    def __init__(self, win):
-        self.width = 1368
-        self.height = 720
-        self.win = win
-        self.menu_condition = True
-        self.game_condition = False
-
-    def draw(self):
-        menu = main_menu(win, bg, playBTN, condition, mob, tower, turn, mobs, towers, turns)
-        if self.menu_condition is True:
-            menu.draw()
-
-
-
-    def run(self):
-
-        run = True
-        global condition
-        while run:
-
-            pygame.time.delay(10)
-            #print(pygame.mouse.get_pos())
-
-            for event in pygame.event.get():
-
-                if event.type is pygame.QUIT:
-                    run = False
-
-                if event.type is pygame.MOUSEBUTTONUP:
-                    mouse_pos = pygame.mouse.get_pos()
-                    if condition == 0:
-                        if mouse_pos[1] <= 475 and mouse_pos[0] >= 565 and mouse_pos[1] >= 275 and mouse_pos[0] <= 765:
-                            condition = 1
-                    if condition == 1:
-                        if mouse_pos[1] <= 210 and mouse_pos[0] >= 985 and mouse_pos[1] >= 160 and mouse_pos[0] <= 1035:
-                            condition = 2
-                    #if condition == 2:
-
-            self.draw()
+    draw(condition, number)
+    pygame.display.update()
