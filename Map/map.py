@@ -1,10 +1,25 @@
 from math import sqrt
 
 
-class Turn():
-    def __init__(self, x, y, transformation, clockwise, section):
+def loadMap(directions, transformation, level):
+    pass  # TODO: сделать загрузку карты из массива
+
+
+class Path():
+    def __init__(self, x, y, transformation, asset):
         self.x = x
         self.y = y
+        self.asset = asset  # TODO: установить размер transformation по x и y
+
+    def draw(self):
+        pass  # TODO: сделать отрисовку текстуры asset на координатах x, y (!!ВАЖНО: не добавлять метод draw в объект Turn!!)
+
+
+class Turn(Path):
+    def __init__(self, x, y, transformation, clockwise, section, asset):
+        self.x = x
+        self.y = y
+        self.asset = asset  # TODO: установить размер transformation по x и y
         self.radius = round(transformation * 75 / 100)
         self.clockwise = clockwise
         self.section = section
