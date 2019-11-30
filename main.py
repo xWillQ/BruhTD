@@ -1,36 +1,34 @@
 import pygame
 from Enemies.enemies import Enemy
 from Map.map import Turn
+from Map.tower import Tower
 from time import time
+from logicLoop import logicLoop
 
 
 pygame.init()
-screen = pygame.display.set_mode([1280, 720])
-mob = Enemy(400, 250)
-mob.velX = 2
-turn = Turn(500, 300, 100, True, 1, 4)
+mobs = []   # Массив с мобами
+turns = []  # Массив с поворотами
+towers = [] # Массив с башнями
 t1 = time()
-f = True
-while f:
+run = True
+while run:
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+
     t2 = time()
     if (t2 - t1 >= 0.1):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                f = False
-        screen.fill((255, 255, 255))
-
-        if (turn.isInside(mob.posX, mob.posY)):
-            mob.turn(turn)
-        else:
-            mob.move()
-
-        pygame.draw.rect(screen, (255, 0, 0),
-                         pygame.Rect(turn.x - 5, turn.y - 5, 10, 10))
-        pygame.draw.circle(screen, (0, 255, 255), (turn.x, turn.y),
-                           turn.radius, 1)
-        pygame.draw.rect(screen, (255, 0, 0),
-                         pygame.Rect(mob.posX, mob.posY, 5, 5))
-        print(mob.posX, mob.posY)
-        
         t1 = time()
+
+        logicLoop(mobs, towers, turns)
+
+        for mob in mobs:
+            mob.draw()
+        for turn in turns:
+            turn.draw()
+        for tower in towers:
+            tower.draw()
+
         pygame.display.flip()
