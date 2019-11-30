@@ -110,3 +110,6 @@ class Enemy():
                 elif turn.endSection == 4:
                     self.velX = 0
                     self.velY = -velocity
+                    
+    def draw(self, texture, win, posX, posY):
+        win.blit(texture, (posX, posY))
