@@ -20,7 +20,7 @@ def draw(condition, number):
 
 
 pygame.init()
-win = pygame.display.set_mode((1920, 1080)) #pygame.FULLSCREEN)
+win = pygame.display.set_mode((1920, 1080))  #pygame.FULLSCREEN)
 condition = 0
 number = 0
 run = True
