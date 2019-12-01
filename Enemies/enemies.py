@@ -1,5 +1,5 @@
 from math import sqrt
-
+import pygame
 
 class Enemy():
     def __init__(self, startX, startY, transformation, asset):
@@ -8,7 +8,7 @@ class Enemy():
         self.velX = 0
         self.velY = 0
         self.hp = 100
-        self.asset = asset  # TODO: установить размер transformation по x и y
+        self.asset = pygame.transform.scale(asset, (transformation, transformation))
         self.shiftX = round(transformation / 2)
         self.shiftY = transformation
 
@@ -114,5 +114,5 @@ class Enemy():
                 self.velX = 0
                 self.velY = -velocity
 
-    def draw(self):
-        pass  # TODO: сделать отрисовку текстуры asset на координатах (posX - shiftX), (posY - shiftY)
+    def draw(self, win):
+        win.blit(self.asset, ((self.posX - self.shiftX), (self.posY - self.shiftY)))

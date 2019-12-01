@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "B:\\SSD\\python.exe",
+    "python.linting.pylintArgs": [
+        "--extension-pkg-whitelist=pygame" // comma separated
+    ],
+    "git.ignoreLimitWarning": true
+}

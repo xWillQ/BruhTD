@@ -9,17 +9,17 @@ class Path():
     def __init__(self, x, y, transformation, asset):
         self.x = x
         self.y = y
-        self.asset = asset  # TODO: установить размер transformation по x и y
+        self.asset = pygame.transform.scale(asset, (transformation, transformation))
 
-    def draw(self):
-        pass  # TODO: сделать отрисовку текстуры asset на координатах x, y (!!ВАЖНО: не добавлять метод draw в объект Turn!!)
+    def draw(self, win):
+        win.blit(self.asset, (self.x, self.y))
 
 
 class Turn(Path):
     def __init__(self, x, y, transformation, clockwise, section, asset):
         self.x = x
         self.y = y
-        self.asset = asset  # TODO: установить размер transformation по x и y
+        self.asset = pygame.transform.scale(asset, (transformation, transformation)) 
         self.radius = round(transformation * 75 / 100)
         self.clockwise = clockwise
         self.section = section
