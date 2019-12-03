@@ -8,60 +8,80 @@ def loadMap(directions, start, transformation, level):
     y = start[1]
     if (start[0] == 0):
         if (directions[0] == "r"):
-            path.append(Path(x, y, transformation, True))  # TODO: Заменить True на ассет прямого пути вправо
+            asset =  # TODO: Переменной asset присвоить путь к горизонтальному прямому пути
+            path.append(Path(x, y, transformation, asset))
             x += transformation
         elif (directions[0] == "u"):
-            turns.append(Turn(x, y, transformation, False, 4, True))  # TODO: Заменить True на ассет поворота в 4 секции
+            asset =  # TODO: Переменной asset присвоить путь к повороту 4 секции
+            turns.append(Turn(x, y, transformation, False, 4, asset))
             y -= transformation
         elif (directions[0] == "d"):
-            turns.append(Turn(x, y, transformation, True, 1, True))  # TODO: Заменить второй True на ассет поворота в 1 секции
+            asset =  # TODO: Переменной asset присвоить путь к повороту 1 секции
+            turns.append(Turn(x, y, transformation, True, 1, asset))
             y += transformation
     elif (start[1] == 0):
         if (directions[0] == "d"):
-            path.append(Path(x, y, transformation, True))  # TODO: Заменить True на ассет прямого пути вниз
+            asset =   # TODO: Переменной asset присвоить путь к вертикальному прямому пути
+            path.append(Path(x, y, transformation, asset))
             y += transformation
         elif (directions[0] == "r"):
-            turns.append(Turn(x, y, transformation, False, 3, True))  # TODO: Заменить True на ассет поворота в 3 секции
+            asset =   # TODO: Переменной asset присвоить путь к повороту 3 секции
+            turns.append(Turn(x, y, transformation, False, 3, asset))
             x += transformation
         elif (directions[0] == "l"):
-            turns.append(Turn(x, y, transformation, True, 4, True))  # TODO: Заменить второй True на ассет поворота в 4 секции
+            asset =   # TODO: Переменной asset присвоить путь к повороту 4 секции
+            turns.append(Turn(x, y, transformation, True, 4, asset))
             x -= transformation
     
     for i in range(1, len(directions)):
         if (directions[i] == directions[i - 1]):
             if (directions[i] == "u"):
-                path.append(Path(x, y, transformation, True))  # TODO: Заменить True на ассет прямого пути вниз
+                asset =   # TODO: Переменной asset присвоить путь к вертикальному прямому пути
+                path.append(Path(x, y, transformation, asset))
                 y -= transformation
             if (directions[i] == "d"):
-                path.append(Path(x, y, transformation, True))  # TODO: Заменить True на ассет прямого пути вниз
+                asset =   # TODO: Переменной asset присвоить путь к вертикальному прямому пути
+                path.append(Path(x, y, transformation, asset))
                 y += transformation
             if (directions[i] == "l"):
-                path.append(Path(x, y, transformation, True))  # TODO: Заменить True на ассет прямого пути вправо
+                asset =   # TODO: Переменной asset присвоить путь к горизонтальному прямому пути
+                path.append(Path(x, y, transformation, asset))
                 x -= transformation
             if (directions[i] == "r"):
-                path.append(Path(x, y, transformation, True))  # TODO: Заменить True на ассет прямого пути вправо
+                asset =   # TODO: Переменной asset присвоить путь к горизонтальному прямому пути
+                path.append(Path(x, y, transformation, asset))
                 x += transformation
         else:
             if (directions[i - 1] == "u"):
                 if (directions[i] == "l"):
-                    turns.append(Turn(x, y, transformation, False, 1, True))  # TODO: Заменить True на ассет поворота в 1 секции
+                    asset =   # TODO: Переменной asset присвоить путь к повороту 1 секции
+                    turns.append(Turn(x, y, transformation, False, 1, asset))
                 elif (directions[i] == "r"):
-                    turns.append(Turn(x, y, transformation, True, 2, True))  # TODO: Заменить второй True на ассет поворота в 2 секции
+                    asset =   # TODO: Переменной asset присвоить путь к повороту 2 секции
+                    turns.append(Turn(x, y, transformation, True, 2, asset))
             elif (directions[i - 1] == "d"):
                 if (directions[i] == "l"):
-                    turns.append(Turn(x, y, transformation, True, 4, True))  # TODO: Заменить второй True на ассет поворота в 4 секции
+                    asset =   # TODO: Переменной asset присвоить путь к повороту 4 секции
+                    turns.append(Turn(x, y, transformation, True, 4, asset))
                 elif (directions[i] == "r"):
-                    turns.append(Turn(x, y, transformation, False, 3, True))  # TODO: Заменить True на ассет поворота в 3 секции
+                    asset =   # TODO: Переменной asset присвоить путь к повороту 3 секции
+                    turns.append(Turn(x, y, transformation, False, 3, asset))
             elif (directions[i - 1] == "l"):
                 if (directions[i] == "u"):
-                    turns.append(Turn(x, y, transformation, True, 3, True))  # TODO: Заменить второй True на ассет поворота в 3 секции
+                    asset =   # TODO: Переменной asset присвоить путь к повороту 3 секции
+                    turns.append(Turn(x, y, transformation, True, 3, asset))
                 elif (directions[i] == "d"):
-                    turns.append(Turn(x, y, transformation, False, 2, True))  # TODO: Заменить True на ассет поворота в 2 секции
+                    asset =   # TODO: Переменной asset присвоить путь к повороту 2 секции
+                    turns.append(Turn(x, y, transformation, False, 2, asset))
             elif (directions[i - 1] == "r"):
                 if (directions[i] == "u"):
-                    turns.append(Turn(x, y, transformation, False, 4, True))  # TODO: Заменить True на ассет поворота в 4 секции
+                    asset =   # TODO: Переменной asset присвоить путь к повороту 4 секции
+                    turns.append(Turn(x, y, transformation, False, 4, asset))
                 elif (directions[i] == "d"):
-                    turns.append(Turn(x, y, transformation, True, 1, True))  # TODO: Заменить второй True на ассет поворота в 1 секции
+                    asset =   # TODO: Переменной asset присвоить путь к повороту 1 секции
+                    turns.append(Turn(x, y, transformation, True, 1, asset))
+    
+    return (path, turns)
 
 
 class Path():
