@@ -1,6 +1,7 @@
 from math import sqrt
 import pygame
 
+
 class Enemy():
     def __init__(self, startX, startY, transformation, asset):
         self.posX = startX
@@ -8,7 +9,8 @@ class Enemy():
         self.velX = 0
         self.velY = 0
         self.hp = 100
-        self.asset = pygame.transform.scale(asset, (transformation, transformation))
+        self.asset = pygame.transform.scale(asset,
+                                            (transformation, transformation))
         self.shiftX = round(transformation / 2)
         self.shiftY = transformation
 
@@ -115,4 +117,5 @@ class Enemy():
                 self.velY = -velocity
 
     def draw(self, win):
-        win.blit(self.asset, ((self.posX - self.shiftX), (self.posY - self.shiftY)))
+        win.blit(self.asset,
+                 ((self.posX - self.shiftX), (self.posY - self.shiftY)))
