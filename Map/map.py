@@ -1,10 +1,25 @@
 from math import sqrt
+#from .game_objects.tile import Tile
+
+def loadMap(directions, transformation, level):
+    pass  # TODO: сделать загрузку карты из массива
 
 
-class Turn():
-    def __init__(self, x, y, transformation, clockwise, section):
+class Path():
+    def __init__(self, x, y, transformation, asset):
         self.x = x
         self.y = y
+        self.asset = pygame.transform.scale(asset, (transformation, transformation))
+
+    def draw(self, win):
+        win.blit(self.asset, (self.x, self.y))
+
+
+class Turn(Path):
+    def __init__(self, x, y, transformation, clockwise, section, asset):
+        self.x = x
+        self.y = y
+        self.asset = pygame.transform.scale(asset, (transformation, transformation)) 
         self.radius = round(transformation * 75 / 100)
         self.clockwise = clockwise
         self.section = section

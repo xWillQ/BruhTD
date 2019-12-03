@@ -5,7 +5,6 @@ towerType = {"archer": {"damage": 5, "cooldown": 10, "radius": 100}}
 
 class Tower():
     def __init__(self, x, y):
-        
         self.x = x
         self.y = y
         self.damage = 0

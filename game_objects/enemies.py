@@ -1,13 +1,16 @@
 from math import sqrt
-
+import pygame
 
 class Enemy():
-    def __init__(self, startX, startY):
+    def __init__(self, startX, startY, transformation, asset):
         self.posX = startX
         self.posY = startY
         self.velX = 0
         self.velY = 0
         self.hp = 100
+        self.asset = pygame.transform.scale(asset, (transformation, transformation))
+        self.shiftX = round(transformation / 2)
+        self.shiftY = transformation
 
     def move(self):
         self.posX += self.velX
@@ -97,16 +100,19 @@ class Enemy():
             elif turn.section == 4:
                 self.velX = -velocity
                 self.velY = 0
-            else:
-                if turn.section == 1:
-                    self.velX = -velocity
-                    self.velY = 0
-                elif turn.section == 2:
-                    self.velX = 0
-                    self.velY = velocity
-                elif turn.section == 3:
-                    self.velX = velocity
-                    self.velY = 0
-                elif turn.section == 4:
-                    self.velX = 0
-                    self.velY = -velocity
+        else:
+            if turn.section == 1:
+                self.velX = -velocity
+                self.velY = 0
+            elif turn.section == 2:
+                self.velX = 0
+                self.velY = velocity
+            elif turn.section == 3:
+                self.velX = velocity
+                self.velY = 0
+            elif turn.section == 4:
+                self.velX = 0
+                self.velY = -velocity
+
+    def draw(self, win):
+        win.blit(self.asset, ((self.posX - self.shiftX), (self.posY - self.shiftY)))
