@@ -1,6 +1,7 @@
 from math import sqrt
 import pygame
 
+
 class Enemy():
     def __init__(self, startX, startY, transformation, asset):
         self.posX = startX
