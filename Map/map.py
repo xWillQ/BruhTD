@@ -2,6 +2,7 @@ from math import sqrt
 import pygame
 import os
 
+
 def loadMap(directions, start, transformation, level):
 
     horiz = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/8.png")), (transformation, transformation))
@@ -10,7 +11,7 @@ def loadMap(directions, start, transformation, level):
     turn2 = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/2.png")), (transformation, transformation))
     turn3 = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/3.png")), (transformation, transformation))
     turn4 = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/4.png")), (transformation, transformation))
-    
+
     path = []
     turns = []
     x = start[0]
@@ -18,7 +19,7 @@ def loadMap(directions, start, transformation, level):
 
     if (start[0] == 0):
         if (directions[0] == "r"):
-            asset = horiz 
+            asset = horiz
             path.append(Path(x, y, transformation, asset))
             x += transformation
         elif (directions[0] == "u"):
@@ -42,7 +43,7 @@ def loadMap(directions, start, transformation, level):
             asset = turn4
             turns.append(Turn(x, y, transformation, True, 4, asset))
             x -= transformation
-    
+
     for i in range(1, len(directions)):
         if (directions[i] == directions[i - 1]):
             if (directions[i] == "u"):
@@ -66,31 +67,39 @@ def loadMap(directions, start, transformation, level):
                 if (directions[i] == "l"):
                     asset = turn1
                     turns.append(Turn(x, y, transformation, False, 1, asset))
+                    x -= transformation
                 elif (directions[i] == "r"):
                     asset = turn2
                     turns.append(Turn(x, y, transformation, True, 2, asset))
+                    x += transformation
             elif (directions[i - 1] == "d"):
                 if (directions[i] == "l"):
                     asset = turn4
                     turns.append(Turn(x, y, transformation, True, 4, asset))
+                    x -= transformation
                 elif (directions[i] == "r"):
                     asset = turn3
                     turns.append(Turn(x, y, transformation, False, 3, asset))
+                    x += transformation
             elif (directions[i - 1] == "l"):
                 if (directions[i] == "u"):
                     asset = turn3
                     turns.append(Turn(x, y, transformation, True, 3, asset))
+                    y -= transformation
                 elif (directions[i] == "d"):
                     asset = turn2
                     turns.append(Turn(x, y, transformation, False, 2, asset))
+                    y += transformation
             elif (directions[i - 1] == "r"):
                 if (directions[i] == "u"):
                     asset = turn4
                     turns.append(Turn(x, y, transformation, False, 4, asset))
+                    y -= transformation
                 elif (directions[i] == "d"):
                     asset = turn1
                     turns.append(Turn(x, y, transformation, True, 1, asset))
-    
+                    y += transformation
+
     return (path, turns)
 
 

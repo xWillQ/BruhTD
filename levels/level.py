@@ -4,8 +4,7 @@ from game_objects.tile import Tile
 from Map.map import loadMap
 
 bg_tile = pygame.transform.scale(pygame.image.load(os.path.join('game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/42.png')), (120, 120))
-
-lvl1 = ["r", "r", "u", "r", "r"]
+lvl1 = ["r", "r", "u", "r", "r", "d", "d", "r", "r", "r", "d", "d", "r", "r", "r"]
 
 class Level():
     def __init__(self, win, number):
@@ -20,7 +19,7 @@ class Level():
                 tile = Tile(self.win, bg_tile, x * 120, y * 120)
                 tile.draw()
 
-        path, turns = loadMap(lvl1, (0, 600), 120, 1)
+        path, turns = loadMap(lvl1, (0, 250), 200, 1)
 
         for i in range (0,len(path)):
             route = path[i]
