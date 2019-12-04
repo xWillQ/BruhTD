@@ -5,10 +5,11 @@ from Enemies.enemies import Enemy
 from GUI.main_menu import main_menu
 from Map.tower import Tower
 from Map.level import Level
-from GUI.button import button
+from GUI.button import Button
+from Map.level import Level
 
 
-def draw(condition, number):
+def draw(condition, number, wave_trigger):
     if condition <= 9:
 
         menu = main_menu(condition, win)
@@ -16,20 +17,23 @@ def draw(condition, number):
 
     if condition >= 10:
 
-        level = Level(win, number)
+        level = Level(win, number, pygame.mouse.get_pos(), wave_trigger)
         level.draw()
 
 
 pygame.init()
-win = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
+win = pygame.display.set_mode((1120, 1080))  # pygame.FULLSCREEN)
 condition = 0
 number = 0
 run = True
+wave_trigger = True
+death_button = Button(15, 325, 40, pygame.image.load(os.path.join('Assets/GUI/interface_game/skull.png')))
 
 while run:
 
-    pygame.time.delay(20)
-    print(pygame.mouse.get_pos())
+    pygame.time.delay(200)
+    
+    #print(pygame.mouse.get_pos())
     #print(condition)
     for event in pygame.event.get():
 
@@ -47,6 +51,9 @@ while run:
                 if mouse_pos[1] <= 350 and mouse_pos[0] >= 420 and mouse_pos[1] >= 250 and mouse_pos[0] <= 510:
                     number = 1
                     condition = 10
+            if condition == 10:
+                if death_button.isInside(mouse_pos[0], mouse_pos[1]) == True:
+                    wave_trigger = False
 
-    draw(condition, number)
+    draw(condition, number, wave_trigger)
     pygame.display.update()
