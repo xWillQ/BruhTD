@@ -6,6 +6,7 @@ from GUI.main_menu import main_menu
 from Map.tower import Tower
 from Map.level import Level
 from GUI.button import Button
+from GUI.button import isInside
 from Map.level import Level
 
 
@@ -27,7 +28,6 @@ condition = 0
 number = 0
 run = True
 wave_trigger = True
-death_button = Button(15, 325, 40, pygame.image.load(os.path.join('Assets/GUI/interface_game/skull.png')))
 
 while run:
 
@@ -52,7 +52,7 @@ while run:
                     number = 1
                     condition = 10
             if condition == 10:
-                if death_button.isInside(mouse_pos[0], mouse_pos[1]) == True:
+                if isInside(mouse_pos[0], mouse_pos[1], 15, 325, 40) == True:
                     wave_trigger = False
 
     draw(condition, number, wave_trigger)
