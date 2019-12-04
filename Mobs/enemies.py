@@ -1,14 +1,17 @@
 from math import sqrt
 import pygame
 
+enemyType = {"goblin": {"velocity": 10, "hp": 100, "assetsFolder": ""}}
+
 
 class Enemy():
-    def __init__(self, startX, startY, transformation, asset):
+    def __init__(self, startX, startY, transformation, asset, typeName):
         self.x = startX
         self.y = startY
-        self.velocity = 0
+        self.velocity = enemyType[typeName]["velocity"]
         self.direction = ""
-        self.hp = 100
+        self.distance = 0
+        self.hp = enemyType[typeName]["hp"]
         self.asset = pygame.transform.scale(asset, (transformation, transformation))
         self.shiftX = round(transformation / 2)
         self.shiftY = transformation
@@ -22,6 +25,7 @@ class Enemy():
             self.x -= self.velocity
         elif (self.direction == "r"):
             self.x += self.velocity
+        self.distance += self.velocity
 
     def turn(self, turn):
         d = sqrt((self.x - turn.circleX)**2 + (self.y - turn.circleY)**2)
@@ -93,6 +97,7 @@ class Enemy():
                     self.y = newY2
         self.x = round(self.x)
         self.y = round(self.y)
+        self.distance += self.velocity
         if (turn.clockwise):
             if (turn.section) == 1:
                 self.direction = "d"

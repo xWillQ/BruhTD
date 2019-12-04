@@ -1,6 +1,6 @@
 from math import sqrt
 
-towerType = {"archer": {"damage": 5, "cooldown": 10, "radius": 100}}
+towerType = {"archer": {"damage": 5, "cooldown": 10, "radius": 100, "assetFolder": ""}}
 
 
 class Tower():
@@ -9,8 +9,8 @@ class Tower():
         self.y = y
         self.damage = 0
         self.radius = 0
-        self.type = 0
         self.cooldown = 0
+        self.type = ""
 
     def isInside(self, x, y):
         return (sqrt((x - self.x)**2 + (y - self.y)**2) <= self.radius)
