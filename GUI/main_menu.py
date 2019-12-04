@@ -1,18 +1,18 @@
 import pygame
 import os
-from game_objects.tower import Tower
-from game_objects.enemies import Enemy
+from Map.tower import Tower
+from Enemies.enemies import Enemy
 from Map.map import Turn
-from game_objects.tile import Tile
+from Map.tile import Tile
 
-bg = pygame.transform.scale((pygame.image.load(os.path.join('game_assets/td-gui/PNG/menu/bg.png'))),(1920, 1080))
-playBTN = pygame.transform.scale((pygame.image.load(os.path.join('game_assets/td-gui/PNG/menu/button_play.png'))), (200, 200))
+bg = pygame.transform.scale((pygame.image.load(os.path.join('Assets/GUI/menu/bg.png'))),(1920, 1080))
+playBTN = pygame.transform.scale((pygame.image.load(os.path.join('Assets/GUI/menu/button_play.png'))), (200, 200))
 
-table = pygame.transform.scale((pygame.image.load(os.path.join('game_assets/td-gui/PNG/levels/table.png'))), (960, 540))
-empty_bt = pygame.transform.scale((pygame.image.load(os.path.join('game_assets/td-gui/PNG/levels/btton_empty.png'))),(100, 100))
-num1 = pygame.image.load(os.path.join('game_assets/td-gui/PNG/levels/num_1.png'))
-rope = pygame.image.load(os.path.join('game_assets/td-gui/PNG/settings/rope_big.png'))
-close = pygame.transform.scale(pygame.image.load(os.path.join('game_assets/td-gui/PNG/settings/button_close.png')),(60, 60))
+table = pygame.transform.scale((pygame.image.load(os.path.join('Assets/GUI/levels/table.png'))), (960, 540))
+empty_bt = pygame.transform.scale((pygame.image.load(os.path.join('Assets/GUI/levels/btton_empty.png'))),(100, 100))
+num1 = pygame.image.load(os.path.join('Assets/GUI/levels/num_1.png'))
+rope = pygame.image.load(os.path.join('Assets/GUI/settings/rope_big.png'))
+close = pygame.transform.scale(pygame.image.load(os.path.join('Assets/GUI/settings/button_close.png')),(60, 60))
 
 class main_menu:
 

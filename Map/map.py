@@ -5,12 +5,12 @@ import os
 
 def loadMap(directions, start, transformation, level):
 
-    horiz = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/8.png")), (transformation, transformation))
-    verti = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/6.png")), (transformation, transformation))
-    turn1 = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/1.png")), (transformation, transformation))
-    turn2 = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/2.png")), (transformation, transformation))
-    turn3 = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/3.png")), (transformation, transformation))
-    turn4 = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/td-tilesets1-2/version-for-the-program-Tiled/PNG/tail_1/4.png")), (transformation, transformation))
+    horiz = pygame.transform.scale(pygame.image.load(os.path.join("Assets/tiles/forest/8.png")), (transformation, transformation))
+    verti = pygame.transform.scale(pygame.image.load(os.path.join("Assets/tiles/forest/6.png")), (transformation, transformation))
+    turn1 = pygame.transform.scale(pygame.image.load(os.path.join("Assets/tiles/forest/1.png")), (transformation, transformation))
+    turn2 = pygame.transform.scale(pygame.image.load(os.path.join("Assets/tiles/forest/2.png")), (transformation, transformation))
+    turn3 = pygame.transform.scale(pygame.image.load(os.path.join("Assets/tiles/forest/3.png")), (transformation, transformation))
+    turn4 = pygame.transform.scale(pygame.image.load(os.path.join("Assets/tiles/forest/4.png")), (transformation, transformation))
 
     path = []
     turns = []

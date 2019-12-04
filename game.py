@@ -1,10 +1,12 @@
 import pygame
 import os
 from Map.map import Turn
-from game_objects.enemies import Enemy
-from main_menu.main_menu import main_menu
-from game_objects.tower import Tower
-from levels.level import Level
+from Enemies.enemies import Enemy
+from GUI.main_menu import main_menu
+from Map.tower import Tower
+from Map.level import Level
+from GUI.button import button
+
 
 def draw(condition, number):
     if condition <= 9:
@@ -16,7 +18,6 @@ def draw(condition, number):
 
         level = Level(win, number)
         level.draw()
-
 
 
 pygame.init()
