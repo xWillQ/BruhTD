@@ -19,85 +19,67 @@ def loadMap(directions, start, transformation, level):
 
     if (start[0] == 0):
         if (directions[0] == "r"):
-            asset = horiz
-            path.append(Path(x, y, transformation, asset))
+            path.append(Path(x, y, transformation, horiz))
             x += transformation
         elif (directions[0] == "u"):
-            asset = turn4
-            turns.append(Turn(x, y, transformation, False, 4, asset))
+            turns.append(Turn(x, y, transformation, False, 4, turn4))
             y -= transformation
         elif (directions[0] == "d"):
-            asset = turn1
-            turns.append(Turn(x, y, transformation, True, 1, asset))
+            turns.append(Turn(x, y, transformation, True, 1, turn1))
             y += transformation
     elif (start[1] == 0):
         if (directions[0] == "d"):
-            asset = verti
-            path.append(Path(x, y, transformation, asset))
+            path.append(Path(x, y, transformation, verti))
             y += transformation
         elif (directions[0] == "r"):
-            asset = turn3
-            turns.append(Turn(x, y, transformation, False, 3, asset))
+            turns.append(Turn(x, y, transformation, False, 3, turn3))
             x += transformation
         elif (directions[0] == "l"):
-            asset = turn4
-            turns.append(Turn(x, y, transformation, True, 4, asset))
+            turns.append(Turn(x, y, transformation, True, 4, turn4))
             x -= transformation
 
     for i in range(1, len(directions)):
         if (directions[i] == directions[i - 1]):
             if (directions[i] == "u"):
-                asset = verti
-                path.append(Path(x, y, transformation, asset))
+                path.append(Path(x, y, transformation, verti))
                 y -= transformation
             if (directions[i] == "d"):
-                asset = verti
-                path.append(Path(x, y, transformation, asset))
+                path.append(Path(x, y, transformation, verti))
                 y += transformation
             if (directions[i] == "l"):
-                asset = horiz
-                path.append(Path(x, y, transformation, asset))
+                path.append(Path(x, y, transformation, horiz))
                 x -= transformation
             if (directions[i] == "r"):
-                asset = horiz
-                path.append(Path(x, y, transformation, asset))
+                path.append(Path(x, y, transformation, horiz))
                 x += transformation
         else:
             if (directions[i - 1] == "u"):
                 if (directions[i] == "l"):
-                    asset = turn1
-                    turns.append(Turn(x, y, transformation, False, 1, asset))
+                    turns.append(Turn(x, y, transformation, False, 1, turn1))
                     x -= transformation
                 elif (directions[i] == "r"):
-                    asset = turn2
-                    turns.append(Turn(x, y, transformation, True, 2, asset))
+                    turns.append(Turn(x, y, transformation, True, 2, turn2))
                     x += transformation
             elif (directions[i - 1] == "d"):
                 if (directions[i] == "l"):
-                    asset = turn4
-                    turns.append(Turn(x, y, transformation, True, 4, asset))
+                    turns.append(Turn(x, y, transformation, True, 4, turn4))
                     x -= transformation
                 elif (directions[i] == "r"):
-                    asset = turn3
-                    turns.append(Turn(x, y, transformation, False, 3, asset))
+                    turns.append(Turn(x, y, transformation, False, 3, turn3))
                     x += transformation
             elif (directions[i - 1] == "l"):
                 if (directions[i] == "u"):
-                    asset = turn3
-                    turns.append(Turn(x, y, transformation, True, 3, asset))
+                    turns.append(Turn(x, y, transformation, True, 3, turn3))
                     y -= transformation
                 elif (directions[i] == "d"):
-                    asset = turn2
-                    turns.append(Turn(x, y, transformation, False, 2, asset))
+                    turns.append(Turn(x, y, transformation, False, 2, turn2))
                     y += transformation
             elif (directions[i - 1] == "r"):
                 if (directions[i] == "u"):
-                    asset = turn4
-                    turns.append(Turn(x, y, transformation, False, 4, asset))
+                    turns.append(Turn(x, y, transformation, False, 4, turn4))
                     y -= transformation
                 elif (directions[i] == "d"):
-                    asset = turn1
-                    turns.append(Turn(x, y, transformation, True, 1, asset))
+                    turns.append(Turn(x, y, transformation, True, 1, turn1))
                     y += transformation
 
     return (path, turns)
@@ -121,13 +103,13 @@ class Turn(Path):
         self.radius = round(transformation * 75 / 100)
         self.clockwise = clockwise
         self.section = section
-        if section == 1:
+        if (section == 1):
             self.circleX = x
             self.circleY = y + transformation
-        elif section == 2:
+        elif (section == 2):
             self.circleX = x + transformation
             self.circleY = y + transformation
-        elif section == 3:
+        elif (section == 3):
             self.circleX = x + transformation
             self.circleY = y
         else:
