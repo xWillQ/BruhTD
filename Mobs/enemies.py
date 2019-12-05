@@ -6,14 +6,16 @@ enemyType = {"goblin": {"velocity": 2, "hp": 100, "assetsFolder": ""}}
 
 
 class Enemy():
-    def __init__(self, startX, startY, transformation, asset, typeName):
+    def __init__(self, startX, startY, transformation, anim_array, typeName):
         self.x = startX
         self.y = startY
         self.velocity = enemyType[typeName]["velocity"]
         self.direction = ""
         self.distance = 0
         self.hp = enemyType[typeName]["hp"]
-        self.asset = pygame.transform.scale(pygame.image.load(os.path.join(asset)), (transformation, transformation))
+        self.asset = anim_array
+        self.anim_c = 0
+        #self.asset = pygame.transform.scale(pygame.image.load(os.path.join(asset)), (transformation, transformation))
         self.shiftX = round(transformation / 2)
         self.shiftY = transformation
 
@@ -119,4 +121,11 @@ class Enemy():
                 self.direction = "u"
 
     def draw(self, win):
-        win.blit(self.asset, (round(self.x - self.shiftX + 5), round(self.y - self.shiftY + 6)))
+        
+        print(self.anim_c)
+        if self.anim_c <= 18:
+            self.anim_c += 1
+            win.blit(pygame.transform.scale(pygame.image.load(os.path.join(self.asset[self.anim_c])), (self.shiftY, self.shiftY)), (round(self.x - self.shiftX + 5), round(self.y - self.shiftY + 6)))
+        else:
+            self.anim_c = 0
+            win.blit(pygame.transform.scale(pygame.image.load(os.path.join(self.asset[self.anim_c])), (self.shiftY, self.shiftY)), (round(self.x - self.shiftX + 5), round(self.y - self.shiftY + 6)))
