@@ -2,7 +2,7 @@ from math import sqrt
 import pygame
 import os
 
-enemyType = {"goblin": {"velocity": 2, "hp": 100, "assetsFolder": ""}}
+enemyType = {"goblin": {"velocity": 0.75, "hp": 100, "assetsFolder": ""}}
 
 
 class Enemy():
@@ -119,4 +119,4 @@ class Enemy():
                 self.direction = "u"
 
     def draw(self, win):
-        win.blit(self.asset, (round(self.x - self.shiftX + 5), round(self.y - self.shiftY + 6)))
+        win.blit(self.asset, (self.x - self.shiftX + 5, self.y - self.shiftY + 6))
