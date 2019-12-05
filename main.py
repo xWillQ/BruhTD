@@ -17,7 +17,8 @@ mobs = [
     enemies.Enemy(-241, 130, "r", 35, "scorpio"),
     enemies.Enemy(-302, 155, "r", 35, "scorpio")
 ]
-path, turns = map.loadMap("rrrddlldrrrrruurrrdddrr", (0, 90), 120, 1)
+turns = map.loadMap("rrrddlldrrrrruurrrdddrr", (0, 90), 120, "forest", 1280, 720)
+background = pygame.image.load("Map/temp.png")
 t1 = time()
 run = True
 while run:
@@ -29,14 +30,9 @@ while run:
     t2 = time()
     if (t2 - t1 >= 1 / 200):
         t1 = time()
-        win.fill((255, 255, 255))
+        win.blit(background, (0, 0))
         logicLoop(mobs, turns)
 
-        for i in range(0, len(path)):
-            path[i].draw(win)
-        for i in range(0, len(turns)):
-            turns[i].draw(win)
-            #pygame.draw.circle(win, (255, 0, 0), (turns[i].circleX, turns[i].circleY), turns[i].radius, 1)
         for i in range(0, len(mobs)):
             mobs[i].draw(win)
 
