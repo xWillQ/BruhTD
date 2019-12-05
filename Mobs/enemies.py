@@ -1,7 +1,8 @@
 from math import sqrt
 import pygame
+import os
 
-enemyType = {"goblin": {"velocity": 10, "hp": 100, "assetsFolder": ""}}
+enemyType = {"goblin": {"velocity": 2, "hp": 100, "assetsFolder": ""}}
 
 
 class Enemy():
@@ -12,7 +13,7 @@ class Enemy():
         self.direction = ""
         self.distance = 0
         self.hp = enemyType[typeName]["hp"]
-        self.asset = pygame.transform.scale(asset, (transformation, transformation))
+        self.asset = pygame.transform.scale(pygame.image.load(os.path.join(asset)), (transformation, transformation))
         self.shiftX = round(transformation / 2)
         self.shiftY = transformation
 
@@ -95,8 +96,8 @@ class Enemy():
                 else:
                     self.x = newX2
                     self.y = newY2
-        self.x = round(self.x)
-        self.y = round(self.y)
+        #self.x = round(self.x)
+        #self.y = round(self.y)
         self.distance += self.velocity
         if (turn.clockwise):
             if (turn.section) == 1:
@@ -118,4 +119,4 @@ class Enemy():
                 self.direction = "u"
 
     def draw(self, win):
-        win.blit(self.asset, ((self.x - self.shiftX), (self.y - self.shiftY)))
+        win.blit(self.asset, (round(self.x - self.shiftX + 5), round(self.y - self.shiftY + 6)))
