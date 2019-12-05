@@ -7,8 +7,16 @@ from logicLoop import logicLoop
 
 pygame.init()
 win = pygame.display.set_mode((1280, 720))
-mobs = [enemies.Enemy(0, 170, 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin")]
-mobs[0].direction = "r"
+mobs = [
+    enemies.Enemy(-2, 139, "r", 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin"),
+    enemies.Enemy(-78, 170, "r", 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin"),
+    enemies.Enemy(-102, 150, "r", 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin"),
+    enemies.Enemy(-130, 135, "r", 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin"),
+    enemies.Enemy(-160, 140, "r", 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin"),
+    enemies.Enemy(-196, 166, "r", 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin"),
+    enemies.Enemy(-241, 180, "r", 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin"),
+    enemies.Enemy(-302, 155, "r", 50, "Assets/Mobs/goblin/1_enemies_1_WALK_000.png", "goblin")
+]
 path, turns = map.loadMap("rrrddlldrrrrruurrrdddrr", (0, 100), 120, 1)
 t1 = time()
 run = True

@@ -2,7 +2,7 @@ def logicLoop(mobs, turns):
     for i in range(0, len(mobs)):
         turned = False
         for turn in turns:
-            if (turn.isInside(mobs[i].x, mobs[i].y)):
+            if (turn.isInside(mobs[i].x, mobs[i].y) and not turned):
                 mobs[i].turn(turn)
                 turned = True
         if (not turned):

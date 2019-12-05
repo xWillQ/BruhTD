@@ -2,20 +2,20 @@ from math import sqrt
 import pygame
 import os
 
-enemyType = {"goblin": {"velocity": 0.75, "hp": 100, "assetsFolder": ""}}
+enemyType = {"goblin": {"velocity": 0.75, "hp": 100, "assetsFolder": "", "shiftX": 11, "shiftY": 14}}
 
 
 class Enemy():
-    def __init__(self, startX, startY, transformation, asset, typeName):
+    def __init__(self, startX, startY, direction, transformation, asset, typeName):
         self.x = startX
         self.y = startY
         self.velocity = enemyType[typeName]["velocity"]
-        self.direction = ""
+        self.direction = direction
         self.distance = 0
         self.hp = enemyType[typeName]["hp"]
         self.asset = pygame.transform.scale(pygame.image.load(os.path.join(asset)), (transformation, transformation))
-        self.shiftX = round(transformation / 2)
-        self.shiftY = transformation
+        self.shiftX = round(-transformation / 2 + (transformation * enemyType[typeName]["shiftX"] / 100))
+        self.shiftY = round(-transformation + (transformation * enemyType[typeName]["shiftY"] / 100))
 
     def move(self):
         if (self.direction == "u"):
@@ -96,8 +96,6 @@ class Enemy():
                 else:
                     self.x = newX2
                     self.y = newY2
-        #self.x = round(self.x)
-        #self.y = round(self.y)
         self.distance += self.velocity
         if (turn.clockwise):
             if (turn.section) == 1:
@@ -119,4 +117,4 @@ class Enemy():
                 self.direction = "u"
 
     def draw(self, win):
-        win.blit(self.asset, (self.x - self.shiftX + 5, self.y - self.shiftY + 6))
+        win.blit(self.asset, (self.x + self.shiftX, self.y + self.shiftY))
