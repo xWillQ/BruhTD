@@ -1,14 +1,8 @@
 import pygame
 import os
-from Map.map import Turn
-from Mobs.enemies import Enemy
+from Map.level import Level
 from GUI.main_menu import main_menu
-from Map.tower import Tower
-from Map.level import Level
-from GUI.button import Button
 from GUI.button import isInside
-from Map.level import Level
-from Map.tile import Tile
 
 def draw(condition, number, wave_trigger):
     if condition <= 9:
@@ -54,6 +48,8 @@ while run:
             if condition == 10:
                 if isInside(mouse_pos[0] - 20, mouse_pos[1] - 20, 15, 325, 40) == True:
                     wave_trigger = False
+                #if number == 1:
+                    #if isInside(mouse_pos[0], mouse_pos[1], 
 
 
     draw(condition, number, wave_trigger)

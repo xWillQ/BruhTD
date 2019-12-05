@@ -5,8 +5,9 @@ from Map.map import loadMap
 from GUI.button import Button
 import Mobs.enemies as enemies
 import random
+from Map.tower import Tower as Tower
 
-death_button = Button(15, 325, 40, pygame.image.load(os.path.join('Assets/GUI/interface_game/skull.png')))
+death_button = Button(15, 325, 40, pygame.image.load(os.path.join('Assets/Assets_All/GUI/interface_game/skull.png')))
 lvl1 = ["r", "r", "u", "r", "r", "d", "d", "r", "r", "r", "d", "d", "r", "r", "r"]
 path, turns = loadMap(lvl1, (0, 250), 200, 1)
 
@@ -60,6 +61,8 @@ class Level():
         self.win.blit(bg, (0, 0))
         if self.number == 1:
 
+
+
             for i in range(0, len(self.path)):
                 self.path[i].draw(self.win)
 
@@ -87,3 +90,11 @@ class Level():
 
                 for i in range(0, len(mobs)):
                     mobs[i].draw(self.win)
+
+        tower = Tower(680, 300, 120)
+        tower.draw(self.win)
+        pygame.draw.circle(self.win, (0, 255, 255), (tower.x, tower.y), tower.radius, 1)
+
+        tower = Tower(980, 700, 120)
+        tower.draw(self.win)
+        pygame.draw.circle(self.win, (0, 255, 255), (tower.x, tower.y), tower.radius, 1)
