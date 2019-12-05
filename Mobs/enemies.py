@@ -2,11 +2,12 @@ from math import sqrt
 import pygame
 import os
 
-enemyType = {"goblin": {"velocity": 0.75, "hp": 100, "assetsFolder": "", "shiftX": 11, "shiftY": 14}}
+enemyType = {"scorpio": {"velocity": 0.75, "hp": 70, "shiftX": 6, "shiftY": 15},
+             "wizard": {"velocity": 0.5, "hp": 150, "shiftX": 6, "shiftY": 15}}
 
 
 class Enemy():
-    def __init__(self, startX, startY, direction, transformation, anim_array, typeName):
+    def __init__(self, startX, startY, direction, transformation, typeName):
         self.x = startX
         self.y = startY
         self.velocity = enemyType[typeName]["velocity"]
@@ -15,9 +16,11 @@ class Enemy():
         self.hp = enemyType[typeName]["hp"]
         self.shiftX = round(-transformation / 2 + (transformation * enemyType[typeName]["shiftX"] / 100))
         self.shiftY = round(-transformation + (transformation * enemyType[typeName]["shiftY"] / 100))
-        self.asset = anim_array
-        self.anim_c = 0
-        #self.asset = pygame.transform.scale(pygame.image.load(os.path.join(asset)), (transformation, transformation))
+        self.frame = 0
+        self.walkAssets = []
+        for i in range(0, 20):
+            asset = "Assets/Mobs/" + typeName + "/walk_" + (3 - len(str(i))) * "0" + str(i) + ".png"
+            self.walkAssets.append(pygame.transform.scale(pygame.image.load(os.path.join(asset)), (transformation, transformation)))
 
     def move(self):
         if (self.direction == "u"):
@@ -119,10 +122,7 @@ class Enemy():
                 self.direction = "u"
 
     def draw(self, win):
-        print(self.anim_c)
-        if self.anim_c <= 18:
-            self.anim_c += 1
-            win.blit(pygame.transform.scale(pygame.image.load(os.path.join(self.asset[self.anim_c])), (self.shiftY, self.shiftY)), (self.x - self.shiftX, self.y - self.shiftY))
-        else:
-            self.anim_c = 0
-            win.blit(pygame.transform.scale(pygame.image.load(os.path.join(self.asset[self.anim_c])), (self.shiftY, self.shiftY)), (self.x - self.shiftX, self.y - self.shiftY))
+        win.blit(self.walkAssets[self.frame], (self.x + self.shiftX, self.y + self.shiftY))
+        self.frame += 1
+        if (self.frame >= 19):
+            self.frame = 0
