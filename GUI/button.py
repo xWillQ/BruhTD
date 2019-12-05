@@ -2,6 +2,11 @@ from math import sqrt
 import pygame
 
 
+def isInside(x, y, xpos, ypos, radius):
+    radius = radius * 0.97 / 2
+    return (sqrt((x - xpos)**2 + (y - ypos)**2) + 2 <= radius)
+
+
 class Button():
     def __init__(self, x, y, transformation, asset):
         self.x = x

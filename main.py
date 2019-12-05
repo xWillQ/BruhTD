@@ -36,7 +36,7 @@ while run:
             path[i].draw(win)
         for i in range(0, len(turns)):
             turns[i].draw(win)
-            #pygame.draw.circle(win, (255, 0, 0), (turns[i].circleX, turns[i].circleY), turns[i].radius, 1)
+            pygame.draw.circle(win, (255, 0, 0), (turns[i].circleX, turns[i].circleY), turns[i].radius, 1)
         for i in range(0, len(mobs)):
             mobs[i].draw(win)
 
