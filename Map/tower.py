@@ -3,6 +3,7 @@ import pygame
 import os
 
 towerType = {"archer": {"damage": 5, "cooldown": 10, "radius": 100, "assetFolder": ""}}
+tower_place = pygame.transform.scale(pygame.image.load(os.path.join('Assets/Assets_All/tiles/forest/22.png')), (120, 120))
 
 
 class Tower():
@@ -12,7 +13,7 @@ class Tower():
         self.tr = transformation
         self.shiftX = transformation / 2
         self.shiftY = transformation / 2
-        self.damage = 0
+        self.damage = 50
         self.radius = 300
         self.cooldown = 0
         self.type = ""
@@ -23,8 +24,13 @@ class Tower():
 
     def attack(self, mob):
 
-        mob.hp = mob.hp - self.damage
-        self.cooldown = towerType[self.type]["cooldown"]
+        if self.cooldown == 0:
+            mob.hp = mob.hp - self.damage
+            self.cooldown = 30
+
+        if self.cooldown > 0:
+            self.cooldown -= 1
+        # self.cooldown = towerType[self.type]["cooldown"]
 
     def setType(self, typeName):
 

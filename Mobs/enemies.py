@@ -2,7 +2,7 @@ from math import sqrt
 import pygame
 import os
 
-enemyType = {"goblin": {"velocity": 2, "hp": 100, "assetsFolder": ""}}
+enemyType = {"goblin": {"velocity": 3, "hp": 100, "assetsFolder": ""}}
 
 
 class Enemy():
@@ -121,8 +121,7 @@ class Enemy():
                 self.direction = "u"
 
     def draw(self, win):
-        
-        print(self.anim_c)
+
         if self.anim_c <= 18:
             self.anim_c += 1
             win.blit(pygame.transform.scale(pygame.image.load(os.path.join(self.asset[self.anim_c])), (self.shiftY, self.shiftY)), (round(self.x - self.shiftX + 5), round(self.y - self.shiftY + 6)))
