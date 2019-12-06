@@ -16,6 +16,7 @@ class Enemy():
         self.shiftX = round(-transformation / 2 + (transformation * enemyType[typeName]["shiftX"] / 100))
         self.shiftY = round(-transformation + (transformation * enemyType[typeName]["shiftY"] / 100))
         self.frame = 0
+        self.transformation = transformation
         self.walkAssets = []
         for i in range(0, 20):
             asset = "Assets/Mobs/" + typeName + "/walk_" + (3 - len(str(i))) * "0" + str(i) + ".png"

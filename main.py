@@ -2,11 +2,13 @@ import pygame
 import Mobs.enemies as enemies
 import Map.map as map
 from time import time
-from logicLoop import logicLoop
+import functions
 
 
+width = 1280
+height = 720
 pygame.init()
-win = pygame.display.set_mode((1280, 720))
+win = pygame.display.set_mode((width, height))
 mobs = [
     enemies.Enemy(-2, 139, "r", 50, "wizard"),
     enemies.Enemy(-78, 170, "r", 35, "scorpio"),
@@ -17,10 +19,12 @@ mobs = [
     enemies.Enemy(-241, 130, "r", 35, "scorpio"),
     enemies.Enemy(-302, 155, "r", 35, "scorpio")
 ]
-turns = map.loadMap("rrrddlldrrrrruurrrdddrr", (0, 90), 120, "forest", 1280, 720)
+turns = map.loadMap("rrrddlldrrdruuurrrdddrr", (0, 90), 120, "forest", width, height)
 background = pygame.image.load("Map/temp.png")
 t1 = time()
 run = True
+win.blit(background, (0, 0))
+pygame.display.update()
 while run:
 
     for event in pygame.event.get():
@@ -28,12 +32,11 @@ while run:
             run = False
 
     t2 = time()
-    if (t2 - t1 >= 1 / 200):
+    if (t2 - t1 >= 1 / 60):
         t1 = time()
-        win.blit(background, (0, 0))
-        logicLoop(mobs, turns)
-
-        for i in range(0, len(mobs)):
-            mobs[i].draw(win)
-
-        pygame.display.flip()
+        functions.logicLoop(mobs, turns)
+        updates = functions.clear(mobs, win, background)
+        for mob in mobs:
+            mob.draw(win)
+        
+        pygame.display.update(updates)
