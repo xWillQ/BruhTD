@@ -3,7 +3,7 @@ import pygame
 import os
 
 towerType = {"archer": {"damage": 5, "cooldown": 10, "radius": 100, "assetFolder": ""}}
-tower_place = pygame.transform.scale(pygame.image.load(os.path.join('Assets/Assets_All/tiles/forest/22.png')), (120, 120))
+tower_place = pygame.transform.scale(pygame.image.load(os.path.join('Assets/tiles/forest/22.png')), (120, 120))
 
 
 class Tower():

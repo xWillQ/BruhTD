@@ -3,40 +3,63 @@ import Mobs.enemies as enemies
 import Map.map as map
 from time import time
 import functions
+import random
 
 
 width = 1280
 height = 720
 pygame.init()
 win = pygame.display.set_mode((width, height))
-mobs = [
-    enemies.Enemy(-2, 139, "r", 50, "wizard"),
-    enemies.Enemy(-78, 170, "r", 35, "scorpio"),
-    enemies.Enemy(-102, 150, "r", 35, "scorpio"),
-    enemies.Enemy(-130, 135, "r", 35, "scorpio"),
-    enemies.Enemy(-160, 140, "r", 35, "scorpio"),
-    enemies.Enemy(-196, 166, "r", 35, "scorpio"),
-    enemies.Enemy(-241, 130, "r", 35, "scorpio"),
-    enemies.Enemy(-302, 155, "r", 35, "scorpio")
-]
-turns = map.loadMap("rrrddlldrrdruuurrrdddrr", (0, 90), 120, "forest", width, height)
-background = pygame.image.load("Map/temp.png")
-t1 = time()
 run = True
+
+# ===================================   Инициализация переменных, необходимых для обработки уровня
+turns, background, start = map.loadMap("drrrddlldrrdruuurrrdddrrruuulluurrrrrr", (1, 0), 120, "forest", width, height)
+mobs = []  # Заполняется в ручную или рандомно
+t1 = time()
+mobCountdown = 0  # Обратный отсчёт до спавна моба
+# ================================================================================================
+
 win.blit(background, (0, 0))
 pygame.display.update()
 while run:
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
 
     t2 = time()
-    if (t2 - t1 >= 1 / 60):
+    if (t2 - t1 >= 1 / 200):
         t1 = time()
-        functions.logicLoop(mobs, turns)
-        updates = functions.clear(mobs, win, background)
+
+        # ===================================   Логика вывода
+        functions.logicLoop(mobs, turns)  # Перемещение мобов, позже сюда надо добавить получение урона и смэрт
+        updates = functions.clear(mobs, win, background)  # Очистка экрана от мобов
         for mob in mobs:
-            mob.draw(win)
-        
+            if ((mob.x + mob.shiftX >= width) or (mob.y + mob.shiftY >= height)):  # Удаление моба, если он за пределами экрана
+                mobs.remove(mob)
+            else:
+                mob.draw(win)
+
+        # ==================================   Спаун мобов
+        if (mobCountdown == 0):
+            t = ""
+            x = 0
+            y = 0
+            transform = 0
+            if (random.randint(0, 1) == 0):
+                t = "scorpio"
+                transform = 30
+            else:
+                t = "wizard"
+                transform = 60
+            if (start[2] == "x"):
+                x = random.randint(start[0], start[1])
+                y = -15
+            else:
+                x = -15
+                y = random.randint(start[0], start[1])
+            mobs.append(enemies.Enemy(x, y, "d", transform, t))
+            mobCountdown = 200
+        mobCountdown -= 1
+        # ================================================
+
         pygame.display.update(updates)

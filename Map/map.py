@@ -1,121 +1,113 @@
-from math import sqrt
+from math import sqrt, ceil
 import pygame
-from PIL import Image
 
 
 def loadMap(directions, start, transformation, level, width, height):
 
-    horiz = (Image.open("Assets/Tiles/" + level + "/6.png")).resize((transformation, transformation))
-    verti = (Image.open("Assets/Tiles/" + level + "/5.png")).resize((transformation, transformation))
-    turn1 = (Image.open("Assets/Tiles/" + level + "/1.png")).resize((transformation, transformation))
-    turn2 = (Image.open("Assets/Tiles/" + level + "/2.png")).resize((transformation, transformation))
-    turn3 = (Image.open("Assets/Tiles/" + level + "/3.png")).resize((transformation, transformation))
-    turn4 = (Image.open("Assets/Tiles/" + level + "/4.png")).resize((transformation, transformation))
+    horiz = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/6.png"), (transformation, transformation))
+    verti = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/5.png"), (transformation, transformation))
+    turn1 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/1.png"), (transformation, transformation))
+    turn2 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/2.png"), (transformation, transformation))
+    turn3 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/3.png"), (transformation, transformation))
+    turn4 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/4.png"), (transformation, transformation))
+    back = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/42.png"), (transformation, transformation))
 
-    mapIm = Image.new('RGB', (width, height))
+    background = pygame.Surface((width, height))
     turns = []
     x = start[0]
     y = start[1]
+    margin = 0.02  # Определяет на каком расстоянии от края дороги будут идти мобы, в процентах от размера дороги
 
-    for i in range(0, width // 256 + 1):
-        for j in range(0, height // 256 + 1):
-            mapIm.paste(Image.open("Assets/Tiles/" + level + "/42.png"), (i * 256, j * 256))
+    for i in range(0, ceil(width / transformation)):
+        for j in range(0, ceil(height / transformation)):
+            background.blit(back, (i * transformation, j * transformation))
 
     if (start[0] == 0):
+        start = (ceil(start[1] + transformation * (0.3085 + margin)), int(start[1] + transformation * (0.6992 - margin)), "y")
         if (directions[0] == "r"):
-            mapIm.paste(horiz, (x, y), horiz)
+            background.blit(horiz, (x, y))
             x += transformation
         elif (directions[0] == "u"):
-            mapIm.paste(turn4, (x, y), turn4)
+            background.blit(turn4, (x, y))
             turns.append(Turn(x, y, transformation, False, 4))
             y -= transformation
         elif (directions[0] == "d"):
-            mapIm.paste(turn1, (x, y), turn1)
+            background.blit(turn1, (x, y))
             turns.append(Turn(x, y, transformation, True, 1))
             y += transformation
     elif (start[1] == 0):
+        start = (ceil(start[0] + transformation * (0.3085 + margin)), int(start[0] + transformation * (0.6992 - margin)), "x")
         if (directions[0] == "d"):
-            mapIm.paste(verti, (x, y), verti)
+            background.blit(verti, (x, y))
             y += transformation
         elif (directions[0] == "r"):
-            mapIm.paste(turn3, (x, y), turn3)
+            background.blit(turn3, (x, y))
             turns.append(Turn(x, y, transformation, False, 3))
             x += transformation
         elif (directions[0] == "l"):
-            mapIm.paste(turn4, (x, y), turn4)
+            background.blit(turn4, (x, y))
             turns.append(Turn(x, y, transformation, True, 4))
             x -= transformation
 
     for i in range(1, len(directions)):
         if (directions[i] == directions[i - 1]):
             if (directions[i] == "u"):
-                mapIm.paste(verti, (x, y), verti)
+                background.blit(verti, (x, y))
                 y -= transformation
             if (directions[i] == "d"):
-                mapIm.paste(verti, (x, y), verti)
+                background.blit(verti, (x, y))
                 y += transformation
             if (directions[i] == "l"):
-                mapIm.paste(horiz, (x, y), horiz)
+                background.blit(horiz, (x, y))
                 x -= transformation
             if (directions[i] == "r"):
-                mapIm.paste(horiz, (x, y), horiz)
+                background.blit(horiz, (x, y))
                 x += transformation
         else:
             if (directions[i - 1] == "u"):
                 if (directions[i] == "l"):
-                    mapIm.paste(turn1, (x, y), turn1)
+                    background.blit(turn1, (x, y))
                     turns.append(Turn(x, y, transformation, False, 1))
                     x -= transformation
                 elif (directions[i] == "r"):
-                    mapIm.paste(turn2, (x, y), turn2)
+                    background.blit(turn2, (x, y))
                     turns.append(Turn(x, y, transformation, True, 2))
                     x += transformation
             elif (directions[i - 1] == "d"):
                 if (directions[i] == "l"):
-                    mapIm.paste(turn4, (x, y), turn4)
+                    background.blit(turn4, (x, y))
                     turns.append(Turn(x, y, transformation, True, 4))
                     x -= transformation
                 elif (directions[i] == "r"):
-                    mapIm.paste(turn3, (x, y), turn3)
+                    background.blit(turn3, (x, y))
                     turns.append(Turn(x, y, transformation, False, 3))
                     x += transformation
             elif (directions[i - 1] == "l"):
                 if (directions[i] == "u"):
-                    mapIm.paste(turn3, (x, y), turn3)
+                    background.blit(turn3, (x, y))
                     turns.append(Turn(x, y, transformation, True, 3))
                     y -= transformation
                 elif (directions[i] == "d"):
-                    mapIm.paste(turn2, (x, y), turn2)
+                    background.blit(turn2, (x, y))
                     turns.append(Turn(x, y, transformation, False, 2))
                     y += transformation
             elif (directions[i - 1] == "r"):
                 if (directions[i] == "u"):
-                    mapIm.paste(turn4, (x, y), turn4)
+                    background.blit(turn4, (x, y))
                     turns.append(Turn(x, y, transformation, False, 4))
                     y -= transformation
                 elif (directions[i] == "d"):
-                    mapIm.paste(turn1, (x, y), turn1)
+                    background.blit(turn1, (x, y))
                     turns.append(Turn(x, y, transformation, True, 1))
                     y += transformation
-    mapIm.save("Map/temp.png")
-    return turns
+
+    return (turns, background, start)
 
 
-class Path():
-    def __init__(self, x, y, transformation, asset):
-        self.x = x
-        self.y = y
-        self.asset = pygame.transform.scale(asset, (transformation, transformation))
-
-    def draw(self, win):
-        win.blit(self.asset, (self.x, self.y))
-
-
-class Turn(Path):
+class Turn():
     def __init__(self, x, y, transformation, clockwise, section):
         self.x = x
         self.y = y
-        #self.asset = pygame.transform.scale(asset, (transformation, transformation))
         self.radius = round(transformation * 75 / 100)
         self.clockwise = clockwise
         self.section = section
