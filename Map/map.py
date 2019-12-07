@@ -2,7 +2,7 @@ from math import sqrt, ceil
 import pygame
 
 
-def loadMap(directions, start, transformation, level, width, height):
+def loadLevel(directions, start, towers, transformation, level, width, height):
 
     horiz = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/6.png"), (transformation, transformation))
     verti = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/5.png"), (transformation, transformation))
@@ -11,9 +11,10 @@ def loadMap(directions, start, transformation, level, width, height):
     turn3 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/3.png"), (transformation, transformation))
     turn4 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/4.png"), (transformation, transformation))
     back = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/42.png"), (transformation, transformation))
+    towerPlace = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/22.png"), (transformation, transformation))
 
     background = pygame.Surface((width, height))
-    turns = []
+    turns = [Turn(-100, -100, 1, True, 1)]
     x = start[0]
     y = start[1]
     margin = 0.02  # Определяет на каком расстоянии от края дороги будут идти мобы, в процентах от размера дороги
@@ -24,29 +25,31 @@ def loadMap(directions, start, transformation, level, width, height):
 
     if (start[0] == 0):
         start = (ceil(start[1] + transformation * (0.3085 + margin)), int(start[1] + transformation * (0.6992 - margin)), "y")
+        initialDirection = "r"
         if (directions[0] == "r"):
             background.blit(horiz, (x, y))
             x += transformation
         elif (directions[0] == "u"):
             background.blit(turn4, (x, y))
-            turns.append(Turn(x, y, transformation, False, 4))
+            turns.append(Turn(x, y, ceil(transformation * 0.75), False, 4))
             y -= transformation
         elif (directions[0] == "d"):
             background.blit(turn1, (x, y))
-            turns.append(Turn(x, y, transformation, True, 1))
+            turns.append(Turn(x, y + transformation, ceil(transformation * 0.75), True, 1))
             y += transformation
     elif (start[1] == 0):
         start = (ceil(start[0] + transformation * (0.3085 + margin)), int(start[0] + transformation * (0.6992 - margin)), "x")
+        initialDirection = "d"
         if (directions[0] == "d"):
             background.blit(verti, (x, y))
             y += transformation
         elif (directions[0] == "r"):
             background.blit(turn3, (x, y))
-            turns.append(Turn(x, y, transformation, False, 3))
+            turns.append(Turn(x + transformation, y, ceil(transformation * 0.75), False, 3))
             x += transformation
         elif (directions[0] == "l"):
             background.blit(turn4, (x, y))
-            turns.append(Turn(x, y, transformation, True, 4))
+            turns.append(Turn(x, y, ceil(transformation * 0.75), True, 4))
             x -= transformation
 
     for i in range(1, len(directions)):
@@ -67,73 +70,102 @@ def loadMap(directions, start, transformation, level, width, height):
             if (directions[i - 1] == "u"):
                 if (directions[i] == "l"):
                     background.blit(turn1, (x, y))
-                    turns.append(Turn(x, y, transformation, False, 1))
+                    if ((turns[len(turns) - 1].x != x) or (turns[len(turns) - 1].y != y + transformation)):
+                        turns.append(Turn(x, y + transformation, ceil(transformation * 0.75), False, 1))
+                    else:
+                        turns[len(turns) - 1].section = turns[len(turns) - 1].section * 10 + 1
                     x -= transformation
                 elif (directions[i] == "r"):
                     background.blit(turn2, (x, y))
-                    turns.append(Turn(x, y, transformation, True, 2))
+                    if ((turns[len(turns) - 1].x != x + transformation) or (turns[len(turns) - 1].y != y + transformation)):
+                        turns.append(Turn(x + transformation, y + transformation, ceil(transformation * 0.75), True, 2))
+                    else:
+                        turns[len(turns) - 1].section = turns[len(turns) - 1].section * 10 + 2
                     x += transformation
             elif (directions[i - 1] == "d"):
                 if (directions[i] == "l"):
                     background.blit(turn4, (x, y))
-                    turns.append(Turn(x, y, transformation, True, 4))
+                    if ((turns[len(turns) - 1].x != x) or (turns[len(turns) - 1].y != y)):
+                        turns.append(Turn(x, y, ceil(transformation * 0.75), True, 4))
+                    else:
+                        turns[len(turns) - 1].section = turns[len(turns) - 1].section * 10 + 4
                     x -= transformation
                 elif (directions[i] == "r"):
                     background.blit(turn3, (x, y))
-                    turns.append(Turn(x, y, transformation, False, 3))
+                    if ((turns[len(turns) - 1].x != x + transformation) or (turns[len(turns) - 1].y != y)):
+                        turns.append(Turn(x + transformation, y, ceil(transformation * 0.75), False, 3))
+                    else:
+                        turns[len(turns) - 1].section = turns[len(turns) - 1].section * 10 + 3
                     x += transformation
             elif (directions[i - 1] == "l"):
                 if (directions[i] == "u"):
                     background.blit(turn3, (x, y))
-                    turns.append(Turn(x, y, transformation, True, 3))
+                    if ((turns[len(turns) - 1].x != x + transformation) or (turns[len(turns) - 1].y != y)):
+                        turns.append(Turn(x + transformation, y, ceil(transformation * 0.75), True, 3))
+                    else:
+                        turns[len(turns) - 1].section = turns[len(turns) - 1].section * 10 + 3
                     y -= transformation
                 elif (directions[i] == "d"):
                     background.blit(turn2, (x, y))
-                    turns.append(Turn(x, y, transformation, False, 2))
+                    if ((turns[len(turns) - 1].x != x + transformation) or (turns[len(turns) - 1].y != y + transformation)):
+                        turns.append(Turn(x + transformation, y + transformation, ceil(transformation * 0.75), False, 2))
+                    else:
+                        turns[len(turns) - 1].section = turns[len(turns) - 1].section * 10 + 2
                     y += transformation
             elif (directions[i - 1] == "r"):
                 if (directions[i] == "u"):
                     background.blit(turn4, (x, y))
-                    turns.append(Turn(x, y, transformation, False, 4))
+                    if ((turns[len(turns) - 1].x != x) or (turns[len(turns) - 1].y != y)):
+                        turns.append(Turn(x, y, ceil(transformation * 0.75), False, 4))
+                    else:
+                        turns[len(turns) - 1].section = turns[len(turns) - 1].section * 10 + 4
                     y -= transformation
                 elif (directions[i] == "d"):
                     background.blit(turn1, (x, y))
-                    turns.append(Turn(x, y, transformation, True, 1))
+                    if ((turns[len(turns) - 1].x != x) or (turns[len(turns) - 1].y != y + transformation)):
+                        turns.append(Turn(x, y + transformation, ceil(transformation * 0.75), True, 1))
+                    else:
+                        turns[len(turns) - 1].section = turns[len(turns) - 1].section * 10 + 1
                     y += transformation
 
-    return (turns, background, start)
+    turns.pop(0)
+
+    for tower in towers:
+        background.blit(towerPlace, (tower.x - int(transformation / 2), tower.y - int(transformation / 2)))
+
+    return (turns, background, start, initialDirection)
 
 
 class Turn():
-    def __init__(self, x, y, transformation, clockwise, section):
+    def __init__(self, x, y, radius, clockwise, section):
         self.x = x
         self.y = y
-        self.radius = round(transformation * 75 / 100)
+        self.radius = radius
         self.clockwise = clockwise
         self.section = section
-        if (section == 1):
-            self.circleX = x
-            self.circleY = y + transformation
-        elif (section == 2):
-            self.circleX = x + transformation
-            self.circleY = y + transformation
-        elif (section == 3):
-            self.circleX = x + transformation
-            self.circleY = y
-        else:
-            self.circleX = x
-            self.circleY = y
 
     def isInside(self, x, y):
-        if (sqrt((x - self.circleX)**2 + (y - self.circleY)**2) > self.radius):
+        if (sqrt((x - self.x)**2 + (y - self.y)**2) > self.radius):
             return False
-        if (self.section == 1 and (x >= self.circleX and y <= self.circleY)):
+
+        if (self.section % 10 == 1 and (x >= self.x and y <= self.y)):
             return True
-        if (self.section == 2 and (x <= self.circleX and y <= self.circleY)):
+        if (self.section % 10 == 2 and (x <= self.x and y <= self.y)):
             return True
-        if (self.section == 3 and (x <= self.circleX and y >= self.circleY)):
+        if (self.section % 10 == 3 and (x <= self.x and y >= self.y)):
             return True
-        if (self.section == 4 and (x >= self.circleX and y >= self.circleY)):
+        if (self.section % 10 == 4 and (x >= self.x and y >= self.y)):
             return True
 
+        if (self.section / 10 == 0):
+            return False
+
+        if (self.section // 10 == 1 and (x >= self.x and y <= self.y)):
+            return True
+        if (self.section // 10 == 2 and (x <= self.x and y <= self.y)):
+            return True
+        if (self.section // 10 == 3 and (x <= self.x and y >= self.y)):
+            return True
+        if (self.section // 10 == 4 and (x >= self.x and y >= self.y)):
+            return True
         return False

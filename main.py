@@ -4,6 +4,11 @@ import Map.map as map
 from time import time
 import functions
 import random
+from Map.tower import Tower
+
+
+def getY(obj):
+    return obj.y
 
 
 width = 1280
@@ -13,8 +18,9 @@ win = pygame.display.set_mode((width, height))
 run = True
 
 # ===================================   Инициализация переменных, необходимых для обработки уровня
-turns, background, start = map.loadMap("drrrddlldrrdruuurrrdddrrruuulluurrrrrr", (1, 0), 120, "forest", width, height)
-mobs = []  # Заполняется в ручную или рандомно
+towers = [Tower(200, 100, 120)]
+turns, background, start, initialDirection = map.loadLevel("drrrddlldrrdruuurrrdddrrruuulluurrrrrr", (10, 0), towers, 120, "forest", width, height)
+mobs = []  # Заполняется вручную или рандомно
 t1 = time()
 mobCountdown = 0  # Обратный отсчёт до спавна моба
 # ================================================================================================
@@ -33,7 +39,9 @@ while run:
         # ===================================   Логика вывода
         functions.logicLoop(mobs, turns)  # Перемещение мобов, позже сюда надо добавить получение урона и смэрт
         updates = functions.clear(mobs, win, background)  # Очистка экрана от мобов
-        for mob in mobs:
+        mobsSorted = mobs.copy()
+        mobsSorted.sort(key=getY)
+        for mob in mobsSorted:
             if ((mob.x + mob.shiftX >= width) or (mob.y + mob.shiftY >= height)):  # Удаление моба, если он за пределами экрана
                 mobs.remove(mob)
             else:
@@ -57,9 +65,10 @@ while run:
             else:
                 x = -15
                 y = random.randint(start[0], start[1])
-            mobs.append(enemies.Enemy(x, y, "d", transform, t))
+            mobs.append(enemies.Enemy(x, y, initialDirection, transform, t))
             mobCountdown = 200
         mobCountdown -= 1
         # ================================================
-
-        pygame.display.update(updates)
+        for turn in turns:
+            pygame.draw.circle(win, (255, 0, 0), (turn.x, turn.y), turn.radius, 1)
+        pygame.display.update()
