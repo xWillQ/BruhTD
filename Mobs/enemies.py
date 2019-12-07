@@ -1,8 +1,8 @@
 from math import sqrt
 import pygame
 
-enemyType = {"scorpio": {"velocity": 0.75, "hp": 70, "shiftX": 0.07, "shiftY": 0.14, "width": 192, "height": 226},
-             "wizard": {"velocity": 0.5, "hp": 150, "shiftX": 0.17, "shiftY": 0.13, "width": 388, "height": 338}}
+enemyType = {"scorpio": {"velocity": 0.75, "hp": 70, "shiftX": 0.07, "shiftY": 0.14},
+             "wizard": {"velocity": 0.5, "hp": 150, "shiftX": 0.17, "shiftY": 0.13}}
 
 
 class Enemy():
@@ -14,10 +14,10 @@ class Enemy():
         self.distance = 0
         self.hp = enemyType[typeName]["hp"]
 
-        self.width = round(transformation * enemyType[typeName]["width"])
-        self.height = round(transformation * enemyType[typeName]["height"])
-        self.shiftX = round(-self.width / 2 + (self.width * enemyType[typeName]["shiftX"]))
-        self.shiftY = round(-self.height + (self.height * enemyType[typeName]["shiftY"]))
+        assetExample = pygame.image.load("Assets/Mobs/" + typeName + "/walk_000.png")
+        self.width = round(transformation * assetExample.get_width())
+        self.height = round(transformation * assetExample.get_height())
+        self.shifts = (round(-self.width / 2 + (self.width * enemyType[typeName]["shiftX"])), round(-self.height + (self.height * enemyType[typeName]["shiftY"])))
         self.frame = 0
         self.walkAssets = []
         for i in range(0, 20):
@@ -124,7 +124,7 @@ class Enemy():
                 self.direction = "u"
 
     def draw(self, win):
-        win.blit(self.walkAssets[self.frame], (self.x + self.shiftX, self.y + self.shiftY))
+        win.blit(self.walkAssets[self.frame], (self.x + self.shifts[0], self.y + self.shifts[1]))
         self.frame += 1
         if (self.frame >= 19):
             self.frame = 0

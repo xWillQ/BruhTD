@@ -18,7 +18,7 @@ win = pygame.display.set_mode((width, height))
 run = True
 
 # ===================================   Инициализация переменных, необходимых для обработки уровня
-towers = []
+towers = [Tower(200, 100, 0.5), Tower(400, 150, 0.5)]
 turns, background, start, initialDirection = map.loadLevel("drrrdlldrrdruurrrddrruuur", (10, 0), towers, 0.5, "forest", width, height)
 mobs = []  # Заполняется вручную или рандомно
 t1 = time()
@@ -27,7 +27,8 @@ mobCountdown = 0  # Обратный отсчёт до спавна моба
 
 win.blit(background, (0, 0))
 pygame.display.update()
-#towers[0].setType("archer")
+towers[0].setType("archer")
+towers[1].setType("archer")
 while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -40,20 +41,21 @@ while run:
         # ===================================   Логика вывода
         functions.logicLoop(mobs, turns)  # Перемещение мобов, позже сюда надо добавить получение урона и смэрт
         updates = functions.clear(mobs, win, background)  # Очистка экрана от мобов
-        #mobsSorted = mobs.copy()
-        #mobsSorted.sort(key=getY)
-        for mob in mobs:
-            if ((mob.x + mob.shiftX >= width) or (mob.y + mob.shiftY >= height)):  # Удаление моба, если он за пределами экрана
+        updates += functions.clear(towers, win, background)
+        mobsSorted = mobs.copy()
+        mobsSorted.sort(key=getY)
+
+        for mob in mobsSorted:
+            if ((mob.x + mob.shifts[0] >= width) or (mob.y + mob.shifts[1] >= height)):  # Удаление моба, если он за пределами экрана
                 mobs.remove(mob)
             else:
                 mob.draw(win)
                 #pygame.draw.circle(win, (255, 0, 0), (round(mob.x), round(mob.y)), 1)
-
-        #for tower in towers:
-        #    tower.draw(win)
+        for tower in towers:
+            tower.draw(win)
 
         # ==================================   Спаун мобов
-        if (mobCountdown == 0):
+        if (mobCountdown == 0 and len(mobs) <= 30):
             t = ""
             x = 0
             y = 0
@@ -71,7 +73,7 @@ while run:
                 x = -15
                 y = random.randint(start[0], start[1])
             mobs.append(enemies.Enemy(x, y, initialDirection, transform, t))
-            mobCountdown = 100
+            mobCountdown = 50
         mobCountdown -= 1
         # ================================================
         #for turn in turns:
