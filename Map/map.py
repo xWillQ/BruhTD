@@ -4,6 +4,7 @@ import pygame
 
 def loadLevel(directions, start, towers, transformation, level, width, height):
 
+    transformation = round(transformation * 256)
     horiz = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/6.png"), (transformation, transformation))
     verti = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/5.png"), (transformation, transformation))
     turn1 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/1.png"), (transformation, transformation))
@@ -18,6 +19,7 @@ def loadLevel(directions, start, towers, transformation, level, width, height):
     x = start[0]
     y = start[1]
     margin = 0.02  # Определяет на каком расстоянии от края дороги будут идти мобы, в процентах от размера дороги
+    initialDirection = ""
 
     for i in range(0, ceil(width / transformation)):
         for j in range(0, ceil(height / transformation)):

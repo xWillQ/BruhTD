@@ -8,6 +8,7 @@ def logicLoop(mobs, turns):
             if (turn.isInside(mobs[i].x, mobs[i].y) and not turned):
                 mobs[i].turn(turn)
                 turned = True
+                break
         if (not turned):
             mobs[i].move()
 
@@ -21,9 +22,7 @@ def clear(entities, win, background):
     cleared = []
     for i in range(0, len(entities)):
         currX = entities[i].x + entities[i].shiftX
-        currX = currX
         currY = entities[i].y + entities[i].shiftY
-        currY = currY
-        cleared.append(pygame.Rect(int(currX), int(currY), entities[i].transformation * 1.2, entities[i].transformation * 1.2))
+        cleared.append(pygame.Rect(int(currX), int(currY), entities[i].width * 1.2, entities[i].height * 1.2))
         win.blit(background, (currX, currY), cleared[len(cleared) - 1])
     return cleared

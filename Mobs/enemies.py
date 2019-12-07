@@ -1,8 +1,8 @@
 from math import sqrt
 import pygame
 
-enemyType = {"scorpio": {"velocity": 0.75, "hp": 70, "shiftX": 6, "shiftY": 15},
-             "wizard": {"velocity": 0.5, "hp": 150, "shiftX": 6, "shiftY": 15}}
+enemyType = {"scorpio": {"velocity": 0.75, "hp": 70, "shiftX": 0.07, "shiftY": 0.14, "width": 192, "height": 226},
+             "wizard": {"velocity": 0.5, "hp": 150, "shiftX": 0.17, "shiftY": 0.13, "width": 388, "height": 338}}
 
 
 class Enemy():
@@ -13,14 +13,16 @@ class Enemy():
         self.direction = direction
         self.distance = 0
         self.hp = enemyType[typeName]["hp"]
-        self.shiftX = round(-transformation / 2 + (transformation * enemyType[typeName]["shiftX"] / 100))
-        self.shiftY = round(-transformation + (transformation * enemyType[typeName]["shiftY"] / 100))
+
+        self.width = round(transformation * enemyType[typeName]["width"])
+        self.height = round(transformation * enemyType[typeName]["height"])
+        self.shiftX = round(-self.width / 2 + (self.width * enemyType[typeName]["shiftX"]))
+        self.shiftY = round(-self.height + (self.height * enemyType[typeName]["shiftY"]))
         self.frame = 0
-        self.transformation = transformation
         self.walkAssets = []
         for i in range(0, 20):
             asset = "Assets/Mobs/" + typeName + "/walk_" + (3 - len(str(i))) * "0" + str(i) + ".png"
-            self.walkAssets.append(pygame.transform.scale(pygame.image.load(asset), (transformation, transformation)))
+            self.walkAssets.append(pygame.transform.scale(pygame.image.load(asset), (self.width, self.height)))
 
     def move(self):
         if (self.direction == "u"):
