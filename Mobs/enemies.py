@@ -1,28 +1,42 @@
 from math import sqrt
 import pygame
 
+
 enemyType = {"scorpio": {"velocity": 0.75, "hp": 70, "shiftX": 0.07, "shiftY": 0.14},
              "wizard": {"velocity": 0.5, "hp": 150, "shiftX": 0.17, "shiftY": 0.13}}
 
 
+def loadTypes(transformation):
+    for t in enemyType:
+        exampleAsset = pygame.image.load("Assets/Mobs/" + t + "/walk_000.png")
+        enemyType[t]["width"] = round(transformation * exampleAsset.get_width())
+        enemyType[t]["height"] = round(transformation * exampleAsset.get_height())
+        enemyType[t]["shiftX"] = round(-enemyType[t]["width"] / 2 + (enemyType[t]["width"] * enemyType[t]["shiftX"]))
+        enemyType[t]["shiftY"] = round(-enemyType[t]["height"] + (enemyType[t]["height"] * enemyType[t]["shiftY"]))
+        enemyType[t]["walking"] = []
+        for i in range(0, 20):
+            enemyType[t]["walking"].append(pygame.transform.scale(pygame.image.load("Assets/Mobs/" + t + "/walk_" + (3 - len(str(i))) * "0" + str(i) + ".png"), (enemyType[t]["width"], enemyType[t]["height"])))
+
+        enemyType[t]["dying"] = []
+        for i in range(0, 20):
+            enemyType[t]["dying"].append(pygame.transform.scale(pygame.image.load("Assets/Mobs/" + t + "/die_" + (3 - len(str(i))) * "0" + str(i) + ".png"), (enemyType[t]["width"], enemyType[t]["height"])))
+
+        enemyType[t]["hurt"] = []
+        for i in range(0, 20):
+            enemyType[t]["hurt"].append(pygame.transform.scale(pygame.image.load("Assets/Mobs/" + t + "/hurt_" + (3 - len(str(i))) * "0" + str(i) + ".png"), (enemyType[t]["width"], enemyType[t]["height"])))
+
+
 class Enemy():
-    def __init__(self, startX, startY, direction, transformation, typeName):
+    def __init__(self, startX, startY, direction, typeName):
         self.x = startX
         self.y = startY
         self.velocity = enemyType[typeName]["velocity"]
         self.direction = direction
         self.distance = 0
         self.hp = enemyType[typeName]["hp"]
-
-        assetExample = pygame.image.load("Assets/Mobs/" + typeName + "/walk_000.png")
-        self.width = round(transformation * assetExample.get_width())
-        self.height = round(transformation * assetExample.get_height())
-        self.shifts = (round(-self.width / 2 + (self.width * enemyType[typeName]["shiftX"])), round(-self.height + (self.height * enemyType[typeName]["shiftY"])))
+        self.state = "walking"
+        self.typeName = typeName
         self.frame = 0
-        self.walkAssets = []
-        for i in range(0, 20):
-            asset = "Assets/Mobs/" + typeName + "/walk_" + (3 - len(str(i))) * "0" + str(i) + ".png"
-            self.walkAssets.append(pygame.transform.scale(pygame.image.load(asset), (self.width, self.height)))
 
     def move(self):
         if (self.direction == "u"):
@@ -123,8 +137,45 @@ class Enemy():
             elif (turn.section % 10) == 4:
                 self.direction = "u"
 
-    def draw(self, win):
-        win.blit(self.walkAssets[self.frame], (self.x + self.shifts[0], self.y + self.shifts[1]))
-        self.frame += 1
-        if (self.frame >= 19):
+    def hurt(self, damage):
+        self.hp -= damage
+        if (self.hp <= 0):
+            self.die()
+            return
+        if (self.state != "hurt"):
+            self.state = "hurt"
+            self.velocity *= 0.75
             self.frame = 0
+
+    def die(self):
+        self.state = "dying"
+        self.velocity = 0
+        self.frame = 0
+
+    def updatePosition(self, turns):
+        if ((self.state == "walking") or (self.state == "hurt")):
+            for turn in turns:
+                if (turn.isInside(self.x, self.y)):
+                    self.turn(turn)
+                    return
+            self.move()
+
+    def draw(self, win):
+        win.blit(enemyType[self.typeName][self.state][self.frame // 2], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
+        self.frame += 1
+        if (self.frame >= 38):
+            if (self.state == "dying"):
+                #self.frame -= 1
+                self.state = "dead"
+                return
+            if (self.state == "hurt"):
+                self.state = "walking"
+                self.velocity = enemyType[self.typeName]["velocity"]
+            self.frame = 0
+
+    def clear(self, win, background):
+        currX = self.x + enemyType[self.typeName]["shiftX"]
+        currY = self.y + enemyType[self.typeName]["shiftY"]
+        cleared = pygame.Rect(int(currX), int(currY), enemyType[self.typeName]["width"] + 1, enemyType[self.typeName]["height"] + 1)
+        win.blit(background, (currX, currY), cleared)
+        return cleared

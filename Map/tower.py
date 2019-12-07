@@ -1,7 +1,7 @@
 from math import sqrt
 import pygame
 
-towerType = {"archer": {"damage": 5, "cooldown": 10, "radius": 100}}
+towerType = {"archer": {"damage": 10, "cooldown": 50, "radius": 160}}
 
 
 class Tower():
@@ -22,9 +22,9 @@ class Tower():
     def isInside(self, x, y):
         return (sqrt((x - self.x)**2 + (y - self.y)**2) <= self.radius)
 
-    def attack(self, mob):
-        mob.hp = mob.hp - self.damage
+    def attack(self):
         self.cooldown = towerType[self.type]["cooldown"]
+        self.frame = 1
 
     def setType(self, typeName):
         self.type = typeName
@@ -57,7 +57,11 @@ class Tower():
             self.assets[1].append(pygame.transform.scale(pygame.image.load("Assets/Towers/" + self.type + "/lvl" + str(self.level) + "_archer_" + str(i) + ".png"), (archerDimensions[0], archerDimensions[1])))
 
     def draw(self, win):
-        if (self.type != ""):
+        if (self.level != 0):
             win.blit(self.assets[2], (self.x + self.shifts["top"][0], self.y + self.shifts["top"][1]))
-            win.blit(self.assets[1][0], (self.x + self.shifts["archer"][0], self.y + self.shifts["archer"][1]))
+            win.blit(self.assets[1][self.frame // 3], (self.x + self.shifts["archer"][0], self.y + self.shifts["archer"][1]))
             win.blit(self.assets[0], (self.x + self.shifts["tower"][0], self.y + self.shifts["tower"][1]))
+            if (self.frame != 0):
+                self.frame += 1
+                if (self.frame >= 18):
+                    self.frame = 0

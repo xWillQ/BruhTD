@@ -1,21 +1,16 @@
 import pygame
 
 
-def logicLoop(mobs, turns):
-    for i in range(0, len(mobs)):
-        turned = False
-        for turn in turns:
-            if (turn.isInside(mobs[i].x, mobs[i].y) and not turned):
-                mobs[i].turn(turn)
-                turned = True
-                break
-        if (not turned):
-            mobs[i].move()
-
-        if ((i > 0) and (mobs[i - 1].distance > mobs[i].distance)):
-            t = mobs[i - 1]
-            mobs[i - 1] = mobs[i]
-            mobs[i] = t
+def logicLoop(mobs, towers):
+    for tower in towers:
+        if ((tower.level != 0) and (tower.cooldown == 0)):
+            for mob in mobs:
+                if (tower.isInside(mob.x, mob.y) and (mob.state != "dying")):
+                    tower.attack()
+                    mob.hurt(tower.damage)
+                    break
+        elif (tower.cooldown != 0):
+            tower.cooldown -= 1
 
 
 def clear(entities, win, background):
