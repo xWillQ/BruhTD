@@ -1,14 +1,14 @@
 import pygame
 import os
 
-bg = pygame.transform.scale((pygame.image.load(os.path.join('Assets/Assets_All/GUI/menu/bg.png'))), (1920, 1080))
-playBTN = pygame.transform.scale((pygame.image.load(os.path.join('Assets/Assets_All/GUI/menu/button_play.png'))), (200, 200))
+bg = pygame.transform.scale((pygame.image.load(os.path.join('Assets/GUI/menu/bg.png'))), (1920, 1080))
+playBTN = pygame.transform.scale((pygame.image.load(os.path.join('Assets/GUI/menu/button_play.png'))), (200, 200))
 
-table = pygame.transform.scale((pygame.image.load(os.path.join('Assets/Assets_All/GUI/levels/table.png'))), (1360, 740))
-empty_bt = pygame.transform.scale((pygame.image.load(os.path.join('Assets/Assets_All/GUI/levels/btton_empty.png'))), (100, 100))
-num1 = pygame.image.load(os.path.join('Assets/Assets_All/GUI/levels/num_1.png'))
-rope = pygame.image.load(os.path.join('Assets/Assets_All/GUI/settings/rope_big.png'))
-close = pygame.transform.scale(pygame.image.load(os.path.join('Assets/Assets_All/GUI/settings/button_close.png')), (80, 80))
+table = pygame.transform.scale((pygame.image.load(os.path.join('Assets/GUI/levels/table.png'))), (1360, 740))
+empty_bt = pygame.transform.scale((pygame.image.load(os.path.join('Assets/GUI/levels/btton_empty.png'))), (100, 100))
+num1 = pygame.image.load(os.path.join('Assets/GUI/levels/num_1.png'))
+rope = pygame.image.load(os.path.join('Assets/GUI/settings/rope_big.png'))
+close = pygame.transform.scale(pygame.image.load(os.path.join('Assets/GUI/settings/button_close.png')), (80, 80))
 
 
 class main_menu:
@@ -34,5 +34,3 @@ class main_menu:
             self.win.blit(rope, (450, -225))
             self.win.blit(rope, (1470, -225))
             self.win.blit(close, (1580, 150))
-
-        # if self.condition == 2:
