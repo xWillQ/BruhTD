@@ -14,9 +14,9 @@ towerType = {"archer": [{"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 
 
 def loadTypes(transformation, level):
     # TODO: подобрать все значения
-    coeficients = {"archer": {"forest":[{"finalHeight": [1.01, 1.07, 1.07, 1.07, 1.027, 1.01], "towerShiftY": 0.32, "archerShiftX": [0.32, 0.32, 0.32, 0.32, 0.32, 0.32], "archerShiftY": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08], "topShiftX": 0.05, "topShiftY": 0.127},     # noqa
-                                        {"finalHeight": [1.01, 1.07, 1.07, 1.07, 1.027, 1.01], "towerShiftY": 0.32, "archerShiftX": [0.32, 0.32, 0.32, 0.32, 0.32, 0.32], "archerShiftY": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08], "topShiftX": 0.05, "topShiftY": 0.131},
-                                        {"finalHeight": [1.01, 1.07, 1.07, 1.07, 1.027, 1.01], "towerShiftY": 0.32, "archerShiftX": [0.32, 0.32, 0.32, 0.32, 0.32, 0.32], "archerShiftY": [0.08, 0.08, 0.08, 0.08, 0.08, 0.08], "topShiftX": 0.101, "topShiftY": 0.125}],
+    coeficients = {"archer": {"forest":[{"finalHeight": [0.95, 1.01, 1.01, 1.01, 0.967, 0.95], "towerShiftY": 0.305, "archerShiftX": [0.32, 0.32, 0.32, 0.32, 0.32, 0.32], "archerShiftY": [0.003, 0.021, 0.021, 0.021, 0.0281, 0.0016], "topShiftX": 0.048, "topShiftY": 0.12},     # noqa
+                                        {"finalHeight": [0.95, 0.99, 0.99, 0.99, 0.94, 0.95], "towerShiftY": 0.302, "archerShiftX": [0.32, 0.32, 0.32, 0.32, 0.32, 0.32], "archerShiftY": [0.003, 0.021, 0.021, 0.021, 0.0281, 0.0016], "topShiftX": 0.05, "topShiftY": 0.128},
+                                        {"finalHeight": [0.93, 0.985, 0.985, 0.985, 0.947, 0.93], "towerShiftY": 0.29, "archerShiftX": [0.32, 0.32, 0.32, 0.32, 0.32, 0.32], "archerShiftY": [0.003, 0.021, 0.021, 0.021, 0.0281, 0.0016], "topShiftX": 0.101, "topShiftY": 0.107}],
                               "desert":[{"finalHeight": [1.2, 1.2, 1.2, 1.2, 1.2, 1.2], "towerShiftY": 0.32, "archerShiftX": [0.327, 0.327, 0.327, 0.327, 0.327, 0.327], "archerShiftY": [0.195, 0.195, 0.195, 0.195, 0.195, 0.195]},  # noqa
                                         {"finalHeight": [1.2, 1.2, 1.2, 1.2, 1.2, 1.2], "towerShiftY": 0.32, "archerShiftX": [0.327, 0.327, 0.327, 0.327, 0.327, 0.327], "archerShiftY": [0.195, 0.195, 0.195, 0.195, 0.195, 0.195]},
                                         {"finalHeight": [1.2, 1.2, 1.2, 1.2, 1.2, 1.2], "towerShiftY": 0.32, "archerShiftX": [0.327, 0.327, 0.327, 0.327, 0.327, 0.327], "archerShiftY": [0.195, 0.195, 0.195, 0.195, 0.195, 0.195]}],
