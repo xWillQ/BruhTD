@@ -165,7 +165,7 @@ class Enemy():
         self.frame += 1
         if (self.frame >= 38):
             if (self.state == "dying"):
-                #self.frame -= 1
+                # self.frame -= 1
                 self.state = "dead"
                 return
             if (self.state == "hurt"):

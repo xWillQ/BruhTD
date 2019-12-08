@@ -68,10 +68,10 @@ while run:
         t1 = time()
 
         # ===================================   Логика вывода
-        #updates = functions.clear(mobs, win, background)  # Очистка экрана от мобов
+        # updates = functions.clear(mobs, win, background)  # Очистка экрана от мобов
         updates = functions.clear(towers, win, background)
-        #mobsSorted = mobs.copy()
-        #mobsSorted.sort(key=getY)
+        # mobsSorted = mobs.copy()
+        # mobsSorted.sort(key=getY)
 
         for i in range(0, len(mobs)):
             updates.append(mobs[i].clear(win, background))
