@@ -71,7 +71,7 @@ def loadTypes(transformation, level):
         towerType["archer"][lvl]["height"] = towerType["archer"][lvl]["assets"]["tower"].get_height() + towerType["archer"][lvl]["assets"]["archer"][0].get_height()
         towerType["archer"][lvl]["clearShiftY"] = towerType["archer"][lvl]["archerShiftY"]
         if (lvl == 2):
-            towerType["archer"][lvl]["width"] = towerType["archer"][2]["assets"]["archer"][3].get_width() * 2.04
+            towerType["archer"][lvl]["width"] = towerType["archer"][2]["assets"]["archer"][3].get_width() * 2.07
             towerType["archer"][lvl]["clearShiftX"] = towerType["archer"][2]["archer2ShiftX"] - towerType["archer"][2]["assets"]["archer"][3].get_width()
         else:
             towerType["archer"][lvl]["width"] = towerType["archer"][lvl]["assets"]["tower"].get_width()
@@ -179,6 +179,14 @@ class Tower():
                 return True
         return False
 
+    def reduceCooldown(self):
+        """Уменьшает кулдаун на 1"""
+        if (self.cooldown != 0):
+            self.cooldown -= 1
+        if (self.typeName == "archer" and self.level == 3):
+            if (self.cooldown2 != 0):
+                self.cooldown2 -= 1
+
     def setType(self, typeName):
         """Устанавливает уровень на 1. Заполняет атрибуты башни согласно towerType"""
         self.typeName = typeName
@@ -222,4 +230,4 @@ class Tower():
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["towerShiftX"], self.y + towerType[self.typeName][self.level - 1]["towerShiftY"]))
         else:
             win.blit(towerType[self.typeName][self.level - 1]["asset"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
-        pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), 2)
+        # pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), self.radius, 1)
