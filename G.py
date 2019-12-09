@@ -1,6 +1,6 @@
 import pygame
 
-G_event = []
+event = []
 win = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 condition = 0
 level_number = 0

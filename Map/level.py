@@ -4,6 +4,7 @@ from Map.map import loadLevel
 from GUI.button import Button
 import Mobs.enemies as enemies
 from Map.tower import Tower as Tower
+import G
 
 towers = [Tower(680, 300, 120), Tower(1090, 400, 120)]
 
@@ -31,7 +32,7 @@ tower_place = pygame.transform.scale(pygame.image.load(os.path.join('Assets/tile
 def draw(self, win):
 
     win.blit(bg, (0, 0))
-    if globals.level_number == 1:
+    if G.level_number == 1:
 
-        if globals.wave_trigger is True:
+        if G.wave_trigger is True:
             death_button.draw(win)

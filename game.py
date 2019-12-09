@@ -2,21 +2,21 @@ import pygame
 from Map import level
 from GUI import main_menu
 from GUI.button import isInside
-import globals
+import G
 
 for event in pygame.event.get():
-    globals.G_event = event
+    G.event = event
 
 
 def draw():
 
-    if globals.condition <= 9:
+    if G.condition <= 9:
 
-        main_menu.draw(globals.win)
+        main_menu.draw(G.win)
 
-    if globals.condition >= 10:
+    if G.condition >= 10:
 
-        level.draw(globals.win)
+        level.draw(G.win)
 
 
 pygame.init()
@@ -27,20 +27,20 @@ while run:
     pygame.time.delay(10)
 
     # print(pygame.mouse.get_pos())
-    # print(globals.condition)
+    # print(G.condition)
     for event in pygame.event.get():
-        globals.G_event = event
+        G.event = event
         if event.type is pygame.QUIT:
             run = False
 
         if event.type is pygame.MOUSEBUTTONUP:
             mouse_pos = pygame.mouse.get_pos()
 
-            if globals.condition == 10:
+            if G.condition == 10:
                 if isInside(mouse_pos[0] - 20, mouse_pos[1] - 20, 15, 325, 40) is True:
-                    globals.wave_trigger = False
+                    G.wave_trigger = False
 
-        globals.G_event = event
+        G.event = event
 
     draw()
     pygame.display.update()
