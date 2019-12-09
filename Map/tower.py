@@ -4,9 +4,9 @@ import pygame
 towerType = {"archer": [{"damage": 10, "cooldown": 50, "radius": 160},  # TODO: подобрать значения shiftX и shiftY. В процентах от финального спрайта, чем больше, тем правее/ниже
                         {"damage": 10, "cooldown": 50, "radius": 160},
                         {"damage": 10, "cooldown": 50, "radius": 160}],
-             "magic": [{"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.05, "shiftY": 0.3},
-                       {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.05, "shiftY": 0.3},
-                       {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.05, "shiftY": 0.3}],
+             "magic": [{"damage": 10, "cooldown": 50, "radius": 160},
+                       {"damage": 10, "cooldown": 50, "radius": 160},
+                       {"damage": 10, "cooldown": 50, "radius": 160}],
              "support": [{"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19},
                          {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19},
                          {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19}]}
@@ -24,15 +24,15 @@ def loadTypes(transformation, level):
                                {"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},
                                {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.35, "archer2ShiftX": 0.80, "archer2ShiftY": -0.34}]}
     # TODO: подобрать все значения
-    magic = {"forest": [{"finalHeight": 0.8, "towerShiftY": 0.2, "topShiftX": 0.34, "topShiftY": 0.0},
-                        {"finalHeight": 0.8, "towerShiftY": 0.2, "topShiftX": 0.34, "topShiftY": 0.0},
-                        {"finalHeight": 0.8, "towerShiftY": 0.2, "topShiftX": 0.34, "topShiftY": 0.0}],
-             "desert": [{"finalHeight": 0.4, "towerShiftY": 0.11, "topShiftX": 0.36, "topShiftY": 0.0},
-                        {"finalHeight": 0.4, "towerShiftY": 0.11, "topShiftX": 0.36, "topShiftY": 0.0},
-                        {"finalHeight": 0.4, "towerShiftY": 0.11, "topShiftX": 0.36, "topShiftY": 0.0}],
-             "other":  [{"finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0},   # noqa
-                        {"finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0},
-                        {"finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0}]}
+    magic = {"forest": [{"shiftX": 0.03, "shiftY": 0.2, "finalHeight": 0.7, "towerShiftY": 0.2, "topShiftX": 0.34, "topShiftY": 0.0},
+                        {"shiftX": 0.03, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.33, "topShiftY": 0.0},
+                        {"shiftX": 0.025, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.34, "topShiftY": 0.0, "top2ShiftX": 0.01, "top2ShiftY": 0.137, "top3ShiftX": 0.64, "top3ShiftY": 0.137}],
+             "desert": [{"shiftX": 0.02, "shiftY": 0.215, "finalHeight": 0.39, "towerShiftY": 0.11, "topShiftX": 0.36, "topShiftY": 0.0},
+                        {"shiftX": 0.02, "shiftY": 0.185, "finalHeight": 0.7, "towerShiftY": 0.175, "topShiftX": 0.38, "topShiftY": 0.0},
+                        {"shiftX": 0.02, "shiftY": 0.17, "finalHeight": 0.7, "towerShiftY": 0.168, "topShiftX": 0.38, "topShiftY": 0.0}],
+             "other":  [{"shiftX": 0.02, "shiftY": 0.18, "finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0},   # noqa
+                        {"shiftX": 0.02, "shiftY": 0.16, "finalHeight": 0.8, "towerShiftY": 0.158, "topShiftX": 0.307, "topShiftY": 0.0},
+                        {"shiftX": 0.02, "shiftY": 0.14, "finalHeight": 0.8, "towerShiftY": 0.215, "topShiftX": 0.394, "topShiftY": 0.0, "top1ShiftX": 0.2, "top1ShiftY": 0.015, "top2ShiftX": 0.58, "top2ShiftY": 0.015, "top3ShiftX": 0.15, "top3ShiftY": 0.23, "top4ShiftX": 0.63, "top4ShiftY": 0.23}]}
     if (level != "forest" and level != "desert"):
         level = "other"
     for lvl in range(0, 3):
@@ -83,26 +83,41 @@ def loadTypes(transformation, level):
         width = int(tower.get_width() * transformation)
         height = int(tower.get_height() * transformation)
         tower = pygame.transform.scale(tower, (width, height))
-        top = True
 
         if (level != "other"):
             top = pygame.image.load("Assets/Towers/magic/" + level + "_tower_top.png")
             top = pygame.transform.scale(top, (int(top.get_width() * transformation), int(top.get_height() * transformation)))
-            if (level == "forest"):
-                height += int(top.get_height() * magic[level][lvl]["finalHeight"])
-            elif (level == "desert"):
-                height += int(top.get_height() * magic[level][lvl]["finalHeight"])
+            height += int(top.get_height() * magic[level][lvl]["finalHeight"])
+            towerType["magic"][lvl]["asset"] = pygame.Surface((width, height), pygame.SRCALPHA, 32).convert_alpha()
+            towerType["magic"][lvl]["asset"].blit(tower, (0, height * magic[level][lvl]["towerShiftY"]))
+            towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["topShiftX"], height * magic[level][lvl]["topShiftY"]))
+            if (level == "forest" and lvl == 2):
+                towerType["magic"][lvl]["asset"].blit(pygame.transform.rotate(top, 27), (width * magic[level][lvl]["top2ShiftX"], height * magic[level][lvl]["top2ShiftY"]))
+                towerType["magic"][lvl]["asset"].blit(pygame.transform.rotate(pygame.transform.flip(top, True, False), -27), (width * magic[level][lvl]["top3ShiftX"], height * magic[level][lvl]["top3ShiftY"]))
+
         else:
-            top = pygame.image.load("Assets/Towers/magic/other_tower_top_lvl1.png")
+            if (lvl != 2):
+                top = pygame.image.load("Assets/Towers/magic/other_tower_top_lvl1.png")
+            else:
+                top = pygame.image.load("Assets/Towers/magic/other_tower_top_lvl2-3.png")
             top = pygame.transform.scale(top, (int(top.get_width() * transformation), int(top.get_height() * transformation)))
             height += int(top.get_height() * magic[level][lvl]["finalHeight"])
+            towerType["magic"][lvl]["asset"] = pygame.Surface((width, height), pygame.SRCALPHA, 32).convert_alpha()
+            towerType["magic"][lvl]["asset"].blit(tower, (0, height * magic[level][lvl]["towerShiftY"]))
+            towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["topShiftX"], height * magic[level][lvl]["topShiftY"]))
+            if (lvl == 2):
+                towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["top1ShiftX"], height * magic[level][lvl]["top1ShiftY"]))
+                towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["top2ShiftX"], height * magic[level][lvl]["top2ShiftY"]))
+                towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["top3ShiftX"], height * magic[level][lvl]["top3ShiftY"]))
+                towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["top4ShiftX"], height * magic[level][lvl]["top4ShiftY"]))
 
-        towerType["magic"][lvl]["asset"] = pygame.Surface((width, height), pygame.SRCALPHA, 32).convert_alpha()
-        towerType["magic"][lvl]["asset"].blit(tower, (0, height * magic[level][lvl]["towerShiftY"]))
-        towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["topShiftX"], height * magic[level][lvl]["topShiftY"]))
+        towerType["magic"][lvl]["shiftX"] = int(-width / 2 + width * magic[level][lvl]["shiftX"])
+        towerType["magic"][lvl]["shiftY"] = int(-height + height * magic[level][lvl]["shiftY"])
 
-        towerType["magic"][lvl]["shiftX"] = int(-width / 2 + width * towerType["magic"][lvl]["shiftX"])
-        towerType["magic"][lvl]["shiftY"] = int(-height + height * towerType["magic"][lvl]["shiftY"])
+        towerType["magic"][lvl]["width"] = width
+        towerType["magic"][lvl]["height"] = height
+        towerType["magic"][lvl]["clearShiftX"] = magic[level][lvl]["shiftX"]
+        towerType["magic"][lvl]["clearShiftY"] = magic[level][lvl]["shiftY"]
 
         #  Support
 
@@ -115,6 +130,11 @@ def loadTypes(transformation, level):
         towerType["support"][lvl]["asset"].blit(tower, (0, 0))
         towerType["support"][lvl]["shiftX"] = int(-width / 2 + width * towerType["support"][lvl]["shiftX"])
         towerType["support"][lvl]["shiftY"] = int(-height + height * towerType["support"][lvl]["shiftY"])
+
+        towerType["support"][lvl]["width"] = width
+        towerType["support"][lvl]["height"] = height
+        towerType["support"][lvl]["clearShiftX"] = towerType["support"][lvl]["shiftX"]
+        towerType["support"][lvl]["clearShiftY"] = towerType["support"][lvl]["shiftY"]
 
 
 def clearAll(towers, win, background):
@@ -188,18 +208,18 @@ class Tower():
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["towerShiftX"], self.y + towerType[self.typeName][self.level - 1]["towerShiftY"]))
             win.blit(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame], (self.x + towerType[self.typeName][self.level - 1]["archerShiftX"], self.y + towerType[self.typeName][self.level - 1]["archerShiftY"]))
             if (self.frame != 0):
-                    self.frame += 1
-                    if (self.frame >= 6):
-                        self.frame = 0
+                self.frame += 1
+                if (self.frame >= 6):
+                    self.frame = 0
             if (self.level == 3):
-                    width = towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2].get_width()
-                    win.blit(pygame.transform.flip(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2], True, False), (self.x + towerType[self.typeName][self.level - 1]["archer2ShiftX"] - width, self.y + towerType[self.typeName][self.level - 1]["archer2ShiftY"]))
-                    if (self.frame2 != 0):
-                        self.frame2 += 1
-                        if (self.frame2 >= 6):
-                            self.frame2 = 0
+                width = towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2].get_width()
+                win.blit(pygame.transform.flip(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2], True, False), (self.x + towerType[self.typeName][self.level - 1]["archer2ShiftX"] - width, self.y + towerType[self.typeName][self.level - 1]["archer2ShiftY"]))
+                if (self.frame2 != 0):
+                    self.frame2 += 1
+                    if (self.frame2 >= 6):
+                        self.frame2 = 0
             if (level == "forest"):
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["towerShiftX"], self.y + towerType[self.typeName][self.level - 1]["towerShiftY"]))
         else:
             win.blit(towerType[self.typeName][self.level - 1]["asset"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
-        #pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), 2)
+        pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), 2)
