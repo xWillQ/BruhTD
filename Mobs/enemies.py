@@ -26,6 +26,32 @@ def loadTypes(transformation):
             enemyType[t]["hurt"].append(pygame.transform.scale(pygame.image.load("Assets/Mobs/" + t + "/hurt_" + (3 - len(str(i))) * "0" + str(i) + ".png"), (enemyType[t]["width"], enemyType[t]["height"])))
 
 
+def clearAll(mobs, win, background):
+    cleared = []
+    for mob in mobs:
+        currX = mob.x + enemyType[mob.typeName]["shiftX"]
+        currY = mob.y + enemyType[mob.typeName]["shiftY"]
+        cleared.append(pygame.Rect(int(currX), int(currY), enemyType[mob.typeName]["width"] + 1, enemyType[mob.typeName]["height"] + 1))
+        win.blit(background, (currX, currY), cleared[len(cleared) - 1])
+    return cleared
+
+
+def updatePositions(mobs, turns):
+    for i in range(0, len(mobs)):
+        if ((mobs[i].state == "walking") or (mobs[i].state == "hurt")):
+            turned = False
+            for turn in turns:
+                if (turn.isInside(mobs[i].x, mobs[i].y)):
+                    mobs[i].turn(turn)
+                    turned = True
+                    break
+            if (not turned):
+                mobs[i].move()
+
+        if ((i > 0) and (mobs[i - 1].y > mobs[i].y)):
+            mobs[i - 1], mobs[i] = (mobs[i], mobs[i - 1])
+
+
 class Enemy():
     def __init__(self, startX, startY, direction, typeName):
         self.x = startX
@@ -152,14 +178,6 @@ class Enemy():
         self.velocity = 0
         self.frame = 0
 
-    def updatePosition(self, turns):
-        if ((self.state == "walking") or (self.state == "hurt")):
-            for turn in turns:
-                if (turn.isInside(self.x, self.y)):
-                    self.turn(turn)
-                    return
-            self.move()
-
     def draw(self, win):
         win.blit(enemyType[self.typeName][self.state][self.frame // 2], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
         self.frame += 1
@@ -172,10 +190,3 @@ class Enemy():
                 self.state = "walking"
                 self.velocity = enemyType[self.typeName]["velocity"]
             self.frame = 0
-
-    def clear(self, win, background):
-        currX = self.x + enemyType[self.typeName]["shiftX"]
-        currY = self.y + enemyType[self.typeName]["shiftY"]
-        cleared = pygame.Rect(int(currX), int(currY), enemyType[self.typeName]["width"] + 1, enemyType[self.typeName]["height"] + 1)
-        win.blit(background, (currX, currY), cleared)
-        return cleared
