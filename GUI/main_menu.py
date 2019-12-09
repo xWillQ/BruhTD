@@ -40,3 +40,5 @@ def draw(win):
         win.blit(rope, (450, -225))
         win.blit(rope, (1470, -225))
         win.blit(close, (1580, 150))
+
+    G.event = G.event_N

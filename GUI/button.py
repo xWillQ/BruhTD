@@ -1,9 +1,11 @@
 from math import sqrt
 import pygame
+import G
 
 
 def isInside(x, y, xpos, ypos, radius):
     radius = radius * 0.97 / 2
+    pygame.draw.circle(G.win, (0, 55, 255), (xpos, ypos), round(radius), 1)
     return (sqrt((x - xpos)**2 + (y - ypos)**2) + 2 <= radius)
 
 

@@ -1,5 +1,10 @@
 from math import sqrt
 import pygame
+import G
+from GUI.button import isInside
+
+
+build_gui = pygame.transform.scale(pygame.image.load('Assets/Towers/archer/build_gui.png'), (180, 180))
 
 towerType = {"archer": [{"damage": 10, "cooldown": 50, "radius": 160},  # TODO: подобрать значения shiftX и shiftY. В процентах от финального спрайта, чем больше, тем правее/ниже
                         {"damage": 10, "cooldown": 50, "radius": 160},
@@ -132,6 +137,7 @@ class Tower():
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.gui_opened = False
         self.level = 0
 
     def isInside(self, x, y):
@@ -188,18 +194,32 @@ class Tower():
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["towerShiftX"], self.y + towerType[self.typeName][self.level - 1]["towerShiftY"]))
             win.blit(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame], (self.x + towerType[self.typeName][self.level - 1]["archerShiftX"], self.y + towerType[self.typeName][self.level - 1]["archerShiftY"]))
             if (self.frame != 0):
-                    self.frame += 1
-                    if (self.frame >= 6):
-                        self.frame = 0
+                self.frame += 1
+                if (self.frame >= 6):
+                    self.frame = 0
             if (self.level == 3):
-                    width = towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2].get_width()
-                    win.blit(pygame.transform.flip(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2], True, False), (self.x + towerType[self.typeName][self.level - 1]["archer2ShiftX"] - width, self.y + towerType[self.typeName][self.level - 1]["archer2ShiftY"]))
-                    if (self.frame2 != 0):
-                        self.frame2 += 1
-                        if (self.frame2 >= 6):
-                            self.frame2 = 0
+                width = towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2].get_width()
+                win.blit(pygame.transform.flip(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2], True, False), (self.x + towerType[self.typeName][self.level - 1]["archer2ShiftX"] - width, self.y + towerType[self.typeName][self.level - 1]["archer2ShiftY"]))
+                if (self.frame2 != 0):
+                    self.frame2 += 1
+                    if (self.frame2 >= 6):
+                        self.frame2 = 0
             if (level == "forest"):
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["towerShiftX"], self.y + towerType[self.typeName][self.level - 1]["towerShiftY"]))
         else:
             win.blit(towerType[self.typeName][self.level - 1]["asset"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
-        #pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), 2)
+        # pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), 2)
+
+    def draw_gui(tower):
+        # G.win.blit(
+        G.win.blit(build_gui, (tower.x - 90, tower.y - 90))
+
+    def gui_close(towers, exc):
+        for i in range(len(towers)):
+            if i != exc:
+                towers[i].gui_opened = False
+
+    def gui_type_change(tower, mouse_pos):
+        if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y - 40, 70):
+            tower.setType("archer")
+            tower.gui_opened = False
