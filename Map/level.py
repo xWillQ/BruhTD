@@ -2,15 +2,16 @@ import pygame
 import os
 from Map.map import loadLevel
 from GUI.button import Button
+from GUI.button import isInside
 import Mobs.enemies as enemies
 from Map.tower import Tower as Tower
 import G
 
-towers = [Tower(680, 300, 120), Tower(1090, 400, 120)]
+towers = [Tower(680, 300), Tower(1090, 400)]
 
 death_button = Button(15, 325, 40, pygame.image.load(os.path.join('Assets/GUI/interface_game/skull.png')))
-lvl1 = ["rrdurduurrrr"]
-turns, background, start, Idirection = loadLevel(lvl1, (0, 250), towers, 0.7, "forest", 1920, 1080)
+lvl1 = "rurddrruurrddrr"
+turns, background, start, Idirection = loadLevel(lvl1, (0, 250), towers, 0.75, "forest", 1920, 1080)
 
 scorpio_anim = [
     'Assets/Mobs/scorpio/walk_000.png', 'Assets/Mobs/scorpio/walk_001.png', 'Assets/Mobs/scorpio/walk_002.png', 'Assets/Mobs/scorpio/walk_003.png', 'Assets/Mobs/scorpio/walk_004.png',
@@ -24,15 +25,17 @@ Mobs = [
     enemies.Enemy(-100, 360, "r", "scorpio"),
     enemies.Enemy(-160, 360, "r", "scorpio"),
 ]
-
-bg = background
-tower_place = pygame.transform.scale(pygame.image.load(os.path.join('Assets/tiles/forest/22.png')), (180, 180))
+G.wave_trigger = False
 
 
-def draw(self, win):
+def draw(win):
 
-    win.blit(bg, (0, 0))
     if G.level_number == 1:
-
-        if G.wave_trigger is True:
+        win.blit(background, (0, 0))
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            mouse_pos = pygame.mouse.get_pos()
+            if G.condition == 10:
+                if isInside(mouse_pos[0] - 20, mouse_pos[1] - 20, 15, 325, 40) is True:
+                    G.wave_trigger = True
+        if G.wave_trigger is False:
             death_button.draw(win)

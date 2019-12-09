@@ -1,7 +1,6 @@
 import pygame
 from Map import level
 from GUI import main_menu
-from GUI.button import isInside
 import G
 
 for event in pygame.event.get():
@@ -24,7 +23,7 @@ run = True
 
 while run:
 
-    pygame.time.delay(10)
+    pygame.time.delay(50)
 
     # print(pygame.mouse.get_pos())
     # print(G.condition)
@@ -35,10 +34,6 @@ while run:
 
         if event.type is pygame.MOUSEBUTTONUP:
             mouse_pos = pygame.mouse.get_pos()
-
-            if G.condition == 10:
-                if isInside(mouse_pos[0] - 20, mouse_pos[1] - 20, 15, 325, 40) is True:
-                    G.wave_trigger = False
 
         G.event = event
 

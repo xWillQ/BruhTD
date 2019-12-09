@@ -29,9 +29,10 @@ def draw(win):
             mouse_pos = pygame.mouse.get_pos()
             if mouse_pos[1] <= 230 and mouse_pos[0] >= 1580 and mouse_pos[1] >= 150 and mouse_pos[0] <= 1640:
                 G.condition = 0
-                if mouse_pos[1] <= 350 and mouse_pos[0] >= 420 and mouse_pos[1] >= 250 and mouse_pos[0] <= 510:
-                    G.level_number = 1
-                    G.condition = 10
+            if mouse_pos[1] <= 350 and mouse_pos[0] >= 420 and mouse_pos[1] >= 250 and mouse_pos[0] <= 510:
+                G.level_number = 1
+                G.condition = 10
+
         win.blit(bg, (0, 0))
         win.blit(table, (300, 175))
         win.blit(empty_bt, (415, 250))
