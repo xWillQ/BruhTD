@@ -3,6 +3,9 @@ import pygame
 import G
 from GUI.button import isInside
 
+archer_icon = pygame.transform.scale(pygame.image.load('Assets/Towers/archer/lvl1_archer_icon.png'), (40, 40))
+support_icon = pygame.transform.scale(pygame.image.load('Assets/Towers/support/lvl1_support_icon.png'), (40, 40))
+magic_icon = pygame.transform.scale(pygame.image.load('Assets/Towers/magic/lvl1_magic_icon.png'), (40, 55))
 
 build_gui = pygame.transform.scale(pygame.image.load('Assets/Towers/archer/build_gui.png'), (180, 180))
 
@@ -126,10 +129,11 @@ def clearAll(towers, win, background):
     """Стирает все башни из массива towers с поверхности win, заменяя соответствующей частью изображения background"""
     cleared = []
     for tower in towers:
-        currX = tower.x + towerType[tower.typeName][tower.level - 1]["clearShiftX"]
-        currY = tower.y + towerType[tower.typeName][tower.level - 1]["clearShiftY"]
-        cleared.append(pygame.Rect(int(currX), int(currY), towerType[tower.typeName][tower.level - 1]["width"], towerType[tower.typeName][tower.level - 1]["height"]))
-        win.blit(background, (currX, currY), cleared[len(cleared) - 1])
+        if tower.level != 0:
+            currX = tower.x + towerType[tower.typeName][tower.level - 1]["clearShiftX"]
+            currY = tower.y + towerType[tower.typeName][tower.level - 1]["clearShiftY"]
+            cleared.append(pygame.Rect(int(currX), int(currY), towerType[tower.typeName][tower.level - 1]["width"], towerType[tower.typeName][tower.level - 1]["height"]))
+            win.blit(background, (currX, currY), cleared[len(cleared) - 1])
     return cleared
 
 
@@ -211,15 +215,38 @@ class Tower():
         # pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), 2)
 
     def draw_gui(tower):
-        # G.win.blit(
-        G.win.blit(build_gui, (tower.x - 90, tower.y - 90))
+
+        if tower.level == 0:
+            G.win.blit(build_gui, (tower.x - 90, tower.y - 90))
+
+            G.win.blit(archer_icon, (tower.x - 75, tower.y - 75))
+            G.win.blit(support_icon, (tower.x - 78, tower.y + 30))
+            G.win.blit(magic_icon, (tower.x + 37, tower.y - 83))
+
+        if tower.level != 0:
+            G.win.blit(build_gui, (tower.x - 90, tower.y - 90))
+
+    def gui_level_up(tower, mouse_pos):
+
+        if tower.level != 0:
+            if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y - 50, 70):
+                tower.upgrade()
 
     def gui_close(towers, exc):
+
         for i in range(len(towers)):
             if i != exc:
                 towers[i].gui_opened = False
 
     def gui_type_change(tower, mouse_pos):
-        if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y - 40, 70):
-            tower.setType("archer")
-            tower.gui_opened = False
+
+        if tower.level == 0:
+            if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y - 50, 70):
+                tower.setType("archer")
+                tower.gui_opened = False
+            if isInside(mouse_pos[0], mouse_pos[1], tower.x + 60, tower.y - 50, 70):
+                tower.setType("magic")
+                tower.gui_opened = False
+            if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y + 60, 70):
+                tower.setType("support")
+                tower.gui_opened = False

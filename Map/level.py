@@ -9,7 +9,7 @@ import Map.tower as tower
 # import level_func
 import G
 
-tower.loadTypes(0.75 * 0.8, 'forest')
+tower.loadTypes(1 * 0.8, 'forest')
 
 towers = [Tower(470, 300), Tower(865, 410), Tower(1250, 300), Tower(1600, 410), Tower(1650, 660), Tower(1650, 800)]
 
@@ -49,16 +49,18 @@ def draw(win):
             mouse_pos = pygame.mouse.get_pos()
             for i in range(len(towers)):
                 if isInside(mouse_pos[0], mouse_pos[1], towers[i].x, towers[i].y, 120):
-                    if towers[i].level == 0:
-                        towers[i].gui_opened = True
-                        Tower.gui_close(towers, i)
+                    towers[i].gui_opened = True
+                    Tower.gui_close(towers, i)
+
                 if towers[i].gui_opened:
+                    Tower.gui_level_up(towers[i], mouse_pos)
                     Tower.gui_type_change(towers[i], mouse_pos)
 
+        tower.clearAll(towers, G.win, background)
         for i in range(len(towers)):
             if towers[i].level != 0:
                 towers[i].draw(G.win, 'forest')
-            if towers[i].level == 0 and towers[i].gui_opened is True:
+            if towers[i].gui_opened is True:
                 Tower.draw_gui(towers[i])
 
     G.event = G.event_N
