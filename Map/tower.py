@@ -14,7 +14,7 @@ towerType = {"archer": [{"damage": 10, "cooldown": 50, "radius": 160},  # TODO: 
 
 def loadTypes(transformation, level):
     """Загружает текстуры соответствующие карте level, умножает каждую на коэффициент transformation"""
-    archerShifts = {"forest": [{"towerShiftX": 0.035, "towerShiftY": 0.22, "topShiftX": 0.07, "topShiftY": -0.76, "archerShiftX": 0.29, "archerShiftY": -0.85},
+    archerShifts = {"forest": [{"towerShiftX": 0.035, "towerShiftY": 0.22, "topShiftX": 0.06, "topShiftY": -0.76, "archerShiftX": 0.29, "archerShiftY": -0.85},
                                {"towerShiftX": 0.035, "towerShiftY": 0.22, "topShiftX": 0.07, "topShiftY": -0.73, "archerShiftX": 0.35, "archerShiftY": -0.85},
                                {"towerShiftX": 0.0, "towerShiftY": 0.2, "topShiftX": 0.14, "topShiftY": -0.73, "archerShiftX": 1.06, "archerShiftY": -0.79, "archer2ShiftX": 0.99, "archer2ShiftY": -0.79}],
                     "desert": [{"towerShiftX": 0.03, "towerShiftY": 0.2, "archerShiftX": 0.29, "archerShiftY": -0.45},
@@ -57,8 +57,8 @@ def loadTypes(transformation, level):
             top = pygame.image.load("Assets/Towers/archer/lvl" + str(lvl + 1) + "_" + level + "_top.png")
             top = pygame.transform.scale(top, (int(top.get_width() * transformation), int(top.get_height() * transformation)))
             towerType["archer"][lvl]["assets"]["top"] = top
-            towerType["archer"][lvl]["topShiftX"] = int(towerType["archer"][lvl]["towerShiftX"] + int(top.get_width() * transformation) * archerShifts["forest"][lvl]["topShiftX"])
-            towerType["archer"][lvl]["topShiftY"] = int(towerType["archer"][lvl]["towerShiftY"] + int(top.get_height() * transformation) * archerShifts["forest"][lvl]["topShiftY"])
+            towerType["archer"][lvl]["topShiftX"] = int(towerType["archer"][lvl]["towerShiftX"] + int(top.get_width()) * archerShifts["forest"][lvl]["topShiftX"])
+            towerType["archer"][lvl]["topShiftY"] = int(towerType["archer"][lvl]["towerShiftY"] + int(top.get_height()) * archerShifts["forest"][lvl]["topShiftY"])
 
         width = towerType["archer"][lvl]["assets"]["archer"][0].get_width()
         height = towerType["archer"][lvl]["assets"]["archer"][0].get_height()
