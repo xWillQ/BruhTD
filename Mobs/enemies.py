@@ -2,8 +2,8 @@ from math import sqrt
 import pygame
 
 
-enemyType = {"scorpio": {"velocity": 0.75, "hp": 70, "shiftX": 0.07, "shiftY": 0.14},
-             "wizard": {"velocity": 0.5, "hp": 150, "shiftX": 0.17, "shiftY": 0.13}}
+enemyType = {"scorpio": {"velocity": 1.5, "hp": 70, "shiftX": 0.07, "shiftY": 0.14},
+             "wizard": {"velocity": 1, "hp": 150, "shiftX": 0.17, "shiftY": 0.13}}
 
 
 def loadTypes(transformation):

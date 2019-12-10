@@ -42,7 +42,7 @@ towers[2].upgrade()
 pygame.display.update()
 x = 50
 y = 50
-for i in range(0, 50):
+for i in range(0, 10):
     t = ""
     transform = 0
     if (random.randint(0, 1) == 0):
@@ -64,7 +64,7 @@ while run:
             run = False
 
     t2 = time()
-    if (t2 - t1 >= 1 / 2000):
+    if (t2 - t1 >= 1 / 60):
         t1 = time()
 
         updates = tower.clearAll(towers, win, background)
@@ -91,6 +91,6 @@ while run:
                 mob.draw(win)
 
         for t in towers:
-            t.draw(win, "forest")
+            t.draw(win)
 
         pygame.display.update(updates)

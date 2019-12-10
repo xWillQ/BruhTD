@@ -5,14 +5,14 @@ import pygame
 def loadLevel(directions, start, towers, transformation, level, width, height):
 
     transformation = round(transformation * 256)
-    horiz = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/6.png"), (transformation, transformation))
-    verti = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/5.png"), (transformation, transformation))
-    turn1 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/1.png"), (transformation, transformation))
-    turn2 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/2.png"), (transformation, transformation))
-    turn3 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/3.png"), (transformation, transformation))
-    turn4 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/4.png"), (transformation, transformation))
-    back = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/42.png"), (transformation, transformation))
-    towerPlace = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/22.png"), (transformation, transformation))
+    horiz = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/horizontal.png"), (transformation, transformation))
+    verti = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/vertical.png"), (transformation, transformation))
+    turn1 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/turn1.png"), (transformation, transformation))
+    turn2 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/turn2.png"), (transformation, transformation))
+    turn3 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/turn3.png"), (transformation, transformation))
+    turn4 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/turn4.png"), (transformation, transformation))
+    back = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/background.png"), (transformation, transformation))
+    towerPlace = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/towerPlace.png"), (transformation, transformation))
 
     background = pygame.Surface((width, height))
     turns = [Turn(-100, -100, 1, True, 1)]
