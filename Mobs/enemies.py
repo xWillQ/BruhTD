@@ -36,8 +36,10 @@ def clearAll(mobs, win, background):
     return cleared
 
 
-def updatePositions(mobs, turns):
-    for i in range(0, len(mobs)):
+def updatePositions(mobs, turns, width, height):
+    length = len(mobs)
+    i = 0
+    while (i < length):
         if ((mobs[i].state == "walking") or (mobs[i].state == "hurt")):
             turned = False
             for turn in turns:
@@ -47,9 +49,12 @@ def updatePositions(mobs, turns):
                     break
             if (not turned):
                 mobs[i].move()
-
-        if ((i > 0) and (mobs[i - 1].y > mobs[i].y)):
+        if ((mobs[i].x + enemyType[mobs[i].typeName]["shiftX"] * 2 >= width) or (mobs[i].y + enemyType[mobs[i].typeName]["shiftX"] * 2 >= height)):
+            mobs.pop(i)
+            length -= 1
+        elif ((i > 0) and (mobs[i - 1].y > mobs[i].y)):
             mobs[i - 1], mobs[i] = (mobs[i], mobs[i - 1])
+        i += 1
 
 
 class Enemy():
@@ -182,11 +187,11 @@ class Enemy():
         win.blit(enemyType[self.typeName][self.state][self.frame // 2], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
         self.frame += 1
         if (self.frame >= 38):
-            if (self.state == "dying"):
-                # self.frame -= 1
-                self.state = "dead"
-                return
             if (self.state == "hurt"):
                 self.state = "walking"
                 self.velocity = enemyType[self.typeName]["velocity"]
+            elif (self.state == "dying"):
+                # self.frame -= 1
+                self.state = "dead"
+                return
             self.frame = 0

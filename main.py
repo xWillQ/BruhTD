@@ -2,13 +2,8 @@ import pygame
 import Mobs.enemies as enemies
 import Map.map as map
 from time import time
-import functions
 import random
-from Map.tower import Tower
-
-
-def getY(obj):
-    return obj.y
+import Map.tower as tower
 
 
 width = 1280
@@ -16,33 +11,38 @@ height = 720
 pygame.init()
 win = pygame.display.set_mode((width, height))
 run = True
+transformation = 0.5
 
+enemies.loadTypes(0.2)
+tower.loadTypes(0.7, "forest")
 towers = [
-    Tower(100, 280, 0.5),
-    Tower(100, 460, 0.5),
-    Tower(300, 280, 0.5),
-    Tower(300, 460, 0.5),
-    Tower(500, 280, 0.5),
-    Tower(500, 460, 0.5),
-    Tower(700, 280, 0.5),
-    Tower(700, 460, 0.5),
-    Tower(900, 280, 0.5),
-    Tower(900, 460, 0.5),
-    Tower(1100, 280, 0.5),
-    Tower(1100, 460, 0.5)
+    tower.Tower(100, 280),
+    tower.Tower(100, 460),
+    tower.Tower(300, 280),
+    tower.Tower(300, 460),
+    tower.Tower(500, 280),
+    tower.Tower(500, 460),
+    tower.Tower(700, 280),
+    tower.Tower(700, 460),
+    # Tower(900, 280),
+    # Tower(900, 460),
+    # Tower(1100, 280),
+    # Tower(1100, 460)
 ]
-turns, background, start, initialDirection = map.loadLevel("rrrrrrrrrrrrrrrrr", (0, 300), towers, 0.5, "forest", width, height)
+turns, background, start, initialDirection = map.loadLevel("rrrrrrdddldrrrrrrr", (0, 300), towers, transformation, "forest", width, height)
 mobs = []
 t1 = time()
 
 win.blit(background, (0, 0))
-for tower in towers:
-    tower.setType("archer")
+for t in towers:
+    t.setType("archer")
+towers[3].upgrade()
+towers[3].upgrade()
+towers[2].upgrade()
 pygame.display.update()
-enemies.loadTypes(0.20)
 x = 50
 y = 50
-for i in range(0, 100):
+for i in range(0, 50):
     t = ""
     transform = 0
     if (random.randint(0, 1) == 0):
@@ -64,32 +64,33 @@ while run:
             run = False
 
     t2 = time()
-    if (t2 - t1 >= 1 / 20000):
+    if (t2 - t1 >= 1 / 2000):
         t1 = time()
 
-        # ===================================   Логика вывода
-        # updates = functions.clear(mobs, win, background)  # Очистка экрана от мобов
-        updates = functions.clear(towers, win, background)
-        # mobsSorted = mobs.copy()
-        # mobsSorted.sort(key=getY)
+        updates = tower.clearAll(towers, win, background)
+        updates += enemies.clearAll(mobs, win, background)
 
-        for i in range(0, len(mobs)):
-            updates.append(mobs[i].clear(win, background))
-            mobs[i].updatePosition(turns)
-            if ((mobs[i].x + enemies.enemyType[mobs[i].typeName]["shiftX"] >= width) or (mobs[i].y + enemies.enemyType[mobs[i].typeName]["shiftX"] >= height)):
-                mobs.pop(i)
-            elif ((i > 0) and (mobs[i - 1].y > mobs[i].y)):
-                mobs[i - 1], mobs[i] = (mobs[i], mobs[i - 1])
+        enemies.updatePositions(mobs, turns, width, height)
 
-        functions.logicLoop(mobs, towers)
+        for t in towers:
+            if (t.level == 0):
+                continue
+            if (t.isReady()):
+                for m in mobs:
+                    if (t.isInside(m.x, m.y) and m.state != "dying" and m.state != "dead"):
+                        t.attack()
+                        m.hurt(t.damage)
+                        break
+            else:
+                t.reduceCooldown()
 
         for mob in mobs:
-            mob.draw(win)
             if (mob.state == "dead"):
-                updates.append(mob.clear(win, background))
                 mobs.remove(mob)
+            else:
+                mob.draw(win)
 
-        for tower in towers:
-            tower.draw(win)
+        for t in towers:
+            t.draw(win, "forest")
 
         pygame.display.update(updates)
