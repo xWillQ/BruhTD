@@ -3,7 +3,9 @@ import pygame
 
 
 enemyType = {"scorpio": {"velocity": 1.5, "hp": 70, "shiftX": 0.07, "shiftY": 0.14},
-             "wizard": {"velocity": 1, "hp": 150, "shiftX": 0.17, "shiftY": 0.13}}
+             "wizard": {"velocity": 1, "hp": 15000, "shiftX": 0.17, "shiftY": 0.13}}
+
+frameLength = 3
 
 
 def loadTypes(transformation):
@@ -175,7 +177,7 @@ class Enemy():
             return
         if (self.state != "hurt"):
             self.state = "hurt"
-            self.velocity *= 0.75
+            self.velocity *= 0.4    # Скорость при получении урона
             self.frame = 0
 
     def die(self):
@@ -184,14 +186,14 @@ class Enemy():
         self.frame = 0
 
     def draw(self, win):
-        win.blit(enemyType[self.typeName][self.state][self.frame // 2], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
+        win.blit(enemyType[self.typeName][self.state][self.frame // frameLength], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
         self.frame += 1
-        if (self.frame >= 38):
+        if (self.frame >= 19 * frameLength):
             if (self.state == "hurt"):
                 self.state = "walking"
                 self.velocity = enemyType[self.typeName]["velocity"]
             elif (self.state == "dying"):
-                #self.frame -= 1
-                self.state = "dead"
+                self.frame -= 1
+                #self.state = "dead"
                 return
             self.frame = 0
