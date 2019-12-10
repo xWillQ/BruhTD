@@ -1,99 +1,66 @@
 import pygame
 import os
-from Map.map import loadMap
+from Map.map import loadLevel
 from GUI.button import Button
+from GUI.button import isInside
 import Mobs.enemies as enemies
 from Map.tower import Tower as Tower
+import Map.tower as tower
+# import level_func
+import G
 
-death_button = Button(15, 325, 40, pygame.image.load(os.path.join('Assets/Assets_All/GUI/interface_game/skull.png')))
-lvl1 = ["r", "r", "u", "r", "r", "d", "d", "r", "r", "r", "d", "d", "r", "r", "r"]
-path, turns = loadMap(lvl1, (0, 250), 200, 1)
+tower.loadTypes(1 * 0.8, 'forest')
+
+towers = [Tower(470, 300), Tower(865, 410), Tower(1250, 300), Tower(1600, 410), Tower(1650, 660), Tower(1650, 800)]
+
+death_button = Button(15, 325, 40, pygame.image.load(os.path.join('Assets/GUI/interface_game/skull.png')))
+lvl1 = "rurrddrruurrddrrddllllllldd"
+turns, background, start, Idirection = loadLevel(lvl1, (0, 250), towers, 0.75, "forest", 1920, 1080)
 
 scorpio_anim = [
-    'Assets/mobs/1/1_enemies_1_walk_000.png', 'Assets/mobs/1/1_enemies_1_walk_001.png', 'Assets/mobs/1/1_enemies_1_walk_002.png', 'Assets/mobs/1/1_enemies_1_walk_003.png',
-    'Assets/mobs/1/1_enemies_1_walk_004.png', 'Assets/mobs/1/1_enemies_1_walk_005.png', 'Assets/mobs/1/1_enemies_1_walk_006.png', 'Assets/mobs/1/1_enemies_1_walk_007.png',
-    'Assets/mobs/1/1_enemies_1_walk_008.png', 'Assets/mobs/1/1_enemies_1_walk_009.png', 'Assets/mobs/1/1_enemies_1_walk_010.png', 'Assets/mobs/1/1_enemies_1_walk_011.png',
-    'Assets/mobs/1/1_enemies_1_walk_012.png', 'Assets/mobs/1/1_enemies_1_walk_013.png', 'Assets/mobs/1/1_enemies_1_walk_014.png', 'Assets/mobs/1/1_enemies_1_walk_015.png',
-    'Assets/mobs/1/1_enemies_1_walk_016.png', 'Assets/mobs/1/1_enemies_1_walk_017.png', 'Assets/mobs/1/1_enemies_1_walk_018.png', 'Assets/mobs/1/1_enemies_1_walk_018.png'
+    'Assets/Mobs/scorpio/walk_000.png', 'Assets/Mobs/scorpio/walk_001.png', 'Assets/Mobs/scorpio/walk_002.png', 'Assets/Mobs/scorpio/walk_003.png', 'Assets/Mobs/scorpio/walk_004.png',
+    'Assets/Mobs/scorpio/walk_005.png', 'Assets/Mobs/scorpio/walk_006.png', 'Assets/Mobs/scorpio/walk_007.png', 'Assets/Mobs/scorpio/walk_008.png', 'Assets/Mobs/scorpio/walk_009.png',
+    'Assets/Mobs/scorpio/walk_010.png', 'Assets/Mobs/scorpio/walk_011.png', 'Assets/Mobs/scorpio/walk_012.png', 'Assets/Mobs/scorpio/walk_013.png', 'Assets/Mobs/scorpio/walk_014.png',
+    'Assets/Mobs/scorpio/walk_015.png', 'Assets/Mobs/scorpio/walk_016.png', 'Assets/Mobs/scorpio/walk_017.png', 'Assets/Mobs/scorpio/walk_018.png', 'Assets/Mobs/scorpio/walk_018.png'
 ]
 
-mobs = [
-    enemies.Enemy(-40, 360, 60, scorpio_anim, "goblin"),
-    enemies.Enemy(-100, 360, 60, scorpio_anim, "goblin"),
-    enemies.Enemy(-160, 360, 60, scorpio_anim, "goblin"),
+Mobs = [
+    enemies.Enemy(-40, 360, "r", "scorpio"),
+    enemies.Enemy(-100, 360, "r", "scorpio"),
+    enemies.Enemy(-160, 360, "r", "scorpio"),
 ]
-for i in range(0, len(mobs)):
-    mobs[i].direction = "r"
-    mobs[i].anim_c += i * 2 + 3
-
-bg = pygame.transform.scale(pygame.image.load(os.path.join('Assets/bg_forest.png')), (1920, 1080))
-tower_place = pygame.transform.scale(pygame.image.load(os.path.join('Assets/Assets_All/tiles/forest/22.png')), (180, 180))
-tower = Tower(680, 300, 120)
-tower1 = Tower(1090, 400, 120)
+G.wave_trigger = False
 
 
-class Level():
-    def __init__(self, win, number, mpos, WT, path=path, turns=turns):
+def draw(win):
 
-        self.path = path
-        self.turns = turns
-        self.win = win
-        self.number = number
-        self.Mpos = mpos
-        self.wave_trigger = WT
+    if G.level_number == 1:
 
-    def draw(self, tower_placed, tower1_placed):
+        win.blit(background, (0, 0))
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            mouse_pos = pygame.mouse.get_pos()
+            if G.condition == 10:
+                if isInside(mouse_pos[0], mouse_pos[1], 15 + 20, 325 + 20, 50) is True:
+                    G.wave_trigger = True
+        if G.wave_trigger is False:
+            death_button.draw(win)
 
-        self.win.blit(bg, (0, 0))
-        if self.number == 1:
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            mouse_pos = pygame.mouse.get_pos()
+            for i in range(len(towers)):
+                if isInside(mouse_pos[0], mouse_pos[1], towers[i].x, towers[i].y, 120):
+                    towers[i].gui_opened = True
+                    Tower.gui_close(towers, i)
 
-            self.win.blit(tower_place, (585, 250))
-            self.win.blit(tower_place, (995, 350))
+                if towers[i].gui_opened:
+                    Tower.gui_level_up(towers[i], mouse_pos)
+                    Tower.gui_type_change(towers[i], mouse_pos)
 
-            for i in range(0, len(self.path)):
-                self.path[i].draw(self.win)
+        tower.clearAll(towers, G.win, background)
+        for i in range(len(towers)):
+            if towers[i].level != 0:
+                towers[i].draw(G.win, 'forest')
+            if towers[i].gui_opened is True:
+                Tower.draw_gui(towers[i])
 
-            for i in range(0, len(self.turns)):
-                self.turns[i].draw(self.win)
-
-            if self.wave_trigger is True:
-                death_button.draw(self.win)
-
-            if self.wave_trigger is False:
-                for i in range(0, len(mobs)):
-                    turned = False
-                    for turn in self.turns:
-                        if (turn.isInside(mobs[i].x, mobs[i].y)):
-                            mobs[i].turn(turn)
-                            turned = True
-                    if (not turned):
-                        mobs[i].move()
-
-                    if ((i > 0) and (mobs[i - 1].distance > mobs[i].distance)):
-                        t = mobs[i - 1]
-                        mobs[i - 1] = mobs[i]
-                        mobs[i] = t
-
-                    if i == len(mobs) - 1:
-                        if tower_placed is True:
-                            if tower.isInside(mobs[i].x, mobs[i].y) is True:
-                                tower.attack(mobs[i])
-                        if tower1_placed is True:
-                            if tower1.isInside(mobs[i].x, mobs[i].y) is True:
-                                tower1.attack(mobs[i])
-
-                    if mobs[i].hp < 0:
-                        mobs.pop(i)
-
-                    print(tower.cooldown)
-
-                for i in range(0, len(mobs)):
-                    if mobs[i].hp > 0:
-                        mobs[i].draw(self.win)
-
-        if tower_placed is True:
-            tower.draw(self.win)
-            pygame.draw.circle(self.win, (0, 255, 255), (tower.x, tower.y), tower.radius, 1)
-        if tower1_placed is True:
-            tower1.draw(self.win)
-            pygame.draw.circle(self.win, (0, 255, 255), (tower1.x, tower1.y), tower1.radius, 1)
+    G.event = G.event_N
