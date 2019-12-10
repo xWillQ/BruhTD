@@ -193,7 +193,7 @@ class Enemy():
                 self.state = "walking"
                 self.velocity = enemyType[self.typeName]["velocity"]
             elif (self.state == "dying"):
-                self.frame -= 1
-                #self.state = "dead"
+                #self.frame -= 1
+                self.state = "dead"
                 return
             self.frame = 0

@@ -21,7 +21,7 @@ towerType = {"archer": [{"damage": 10, "cooldown": 50, "radius": 160},
                          {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19}]}
 
 frameLength = 4
-magicStrikeLength = 20
+magicStrikeLength = 5
 
 
 def loadTypes(transformation, level):
@@ -150,6 +150,8 @@ def loadTypes(transformation, level):
         towerType["magic"][lvl]["height"] = height
         towerType["magic"][lvl]["clearShiftX"] = towerType["magic"][lvl]["shiftX"]
         towerType["magic"][lvl]["clearShiftY"] = towerType["magic"][lvl]["shiftY"]
+        towerType["magic"][lvl]["strikeWidth"] = towerType["magic"][lvl]["assets"]["strike"][0].get_width()
+        towerType["magic"][lvl]["strikeHeight"] = towerType["magic"][lvl]["assets"]["strike"][0].get_height()
 
         #  Support
 
@@ -173,11 +175,18 @@ def clearAll(towers, win, background):
     """Стирает все башни из массива towers с поверхности win, заменяя соответствующей частью изображения background"""
     cleared = []
     for tower in towers:
-        if tower.level != 0:
+        if (tower.level != 0):
             currX = tower.x + towerType[tower.typeName][tower.level - 1]["clearShiftX"]
             currY = tower.y + towerType[tower.typeName][tower.level - 1]["clearShiftY"]
             cleared.append(pygame.Rect(int(currX), int(currY), towerType[tower.typeName][tower.level - 1]["width"], towerType[tower.typeName][tower.level - 1]["height"]))
             win.blit(background, (currX, currY), cleared[len(cleared) - 1])
+            if (tower.typeName == "magic" and tower.attacking):
+                currX = tower.target[0]
+                currY = tower.target[1]
+                cleared.append(pygame.Rect(int(currX), int(currY), towerType[tower.typeName][tower.level - 1]["strikeWidth"], towerType[tower.typeName][tower.level - 1]["strikeHeight"]))
+                win.blit(background, (currX, currY), cleared[len(cleared) - 1])
+                if (tower.frame == 0):
+                    tower.attacking = False
     return cleared
 
 
@@ -203,6 +212,8 @@ class Tower():
         else:
             self.cooldown = towerType[self.typeName][self.level - 1]["cooldown"]
             self.frame = 1
+            if (self.typeName == "magic"):
+                self.attacking = True
         self.target = (mob.x + enemies.enemyType[mob.typeName]["shiftX"] * 0.2, mob.y + enemies.enemyType[mob.typeName]["shiftY"] * 1.5)
 
     def isReady(self):
@@ -231,6 +242,8 @@ class Tower():
         self.frame = 0
         self.cooldown = 0
         self.target = None
+        if (typeName == "magic"):
+            self.attacking = False
 
     def upgrade(self):
         """Увеличивает уровень на 1, но не выше 3. Обновляет атрибуты башни согласно towerType"""
@@ -266,12 +279,11 @@ class Tower():
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["towerShiftX"], self.y + towerType[self.typeName][self.level - 1]["towerShiftY"]))
         elif (self.typeName == "magic"):
             win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
-            if (self.target is not None):
+            if (self.attacking):
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["strike"][(self.frame - 1) // magicStrikeLength], (self.target[0], self.target[1]))
                 self.frame += 1
                 if (self.frame >= 2 * magicStrikeLength):
                     self.frame = 0
-                    self.target = None
         else:
             win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
         # pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), self.radius, 1)
