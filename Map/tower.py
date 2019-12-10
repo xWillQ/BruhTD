@@ -9,15 +9,17 @@ magic_icon = pygame.transform.scale(pygame.image.load('Assets/Towers/magic/lvl1_
 
 build_gui = pygame.transform.scale(pygame.image.load('Assets/Towers/archer/build_gui.png'), (180, 180))
 
-towerType = {"archer": [{"damage": 10, "cooldown": 50, "radius": 160},  # TODO: подобрать значения shiftX и shiftY. В процентах от финального спрайта, чем больше, тем правее/ниже
-                        {"damage": 10, "cooldown": 50, "radius": 160},
-                        {"damage": 10, "cooldown": 50, "radius": 160}],
-             "magic": [{"damage": 10, "cooldown": 50, "radius": 160},
-                       {"damage": 10, "cooldown": 50, "radius": 160},
-                       {"damage": 10, "cooldown": 50, "radius": 160}],
-             "support": [{"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19},
-                         {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19},
-                         {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19}]}
+towerType = {"archer": [{"damage": 5, "cooldown": 30, "radius": 200, "cost": 70},  # TODO: подобрать значения shiftX и shiftY. В процентах от финального спрайта, чем больше, тем правее/ниже
+                        {"damage": 10, "cooldown": 30, "radius": 240, "cost": 110},
+                        {"damage": 7, "cooldown": 20, "radius": 280, "cost": 150}],
+
+             "magic": [{"damage": 15, "cooldown": 50, "radius": 160, "cost": 100},
+                       {"damage": 20, "cooldown": 50, "radius": 200, "cost": 160},
+                       {"damage": 25, "cooldown": 45, "radius": 240, "cost": 220}],
+
+             "support": [{"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19, "cost": 70},
+                         {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19, "cost": 110},
+                         {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19, "cost": 150}]}
 
 
 def loadTypes(transformation, level):
@@ -38,10 +40,10 @@ def loadTypes(transformation, level):
              "sand": [{"shiftX": 0.02, "shiftY": 0.215, "finalHeight": 0.39, "towerShiftY": 0.11, "topShiftX": 0.36, "topShiftY": 0.0},
                         {"shiftX": 0.02, "shiftY": 0.185, "finalHeight": 0.7, "towerShiftY": 0.175, "topShiftX": 0.38, "topShiftY": 0.0},
                         {"shiftX": 0.02, "shiftY": 0.17, "finalHeight": 0.7, "towerShiftY": 0.168, "topShiftX": 0.38, "topShiftY": 0.0}],
-             "fire":   [{"shiftX": 0.0, "shiftY": 0.18, "finalHeight": 0.65, "towerShiftY": 0.10, "topShiftX": 0.35, "topShiftY": 0.0},
+             "fire": [{"shiftX": 0.0, "shiftY": 0.18, "finalHeight": 0.65, "towerShiftY": 0.10, "topShiftX": 0.35, "topShiftY": 0.0},
                         {"shiftX": 0.02, "shiftY": 0.14, "finalHeight": 1, "towerShiftY": 0.1, "topShiftX": 0.35, "topShiftY": 0.0},
                         {"shiftX": 0.02, "shiftY": 0.12, "finalHeight": 0.1, "towerShiftY": 0.01, "topShiftX": 0.285, "topShiftY": 0.0}],
-             "stone":  [{"shiftX": 0.02, "shiftY": 0.18, "finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0},   # noqa
+             "stone": [{"shiftX": 0.02, "shiftY": 0.18, "finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0},   # noqa
                         {"shiftX": 0.02, "shiftY": 0.16, "finalHeight": 0.8, "towerShiftY": 0.158, "topShiftX": 0.307, "topShiftY": 0.0},
                         {"shiftX": 0.02, "shiftY": 0.14, "finalHeight": 0.8, "towerShiftY": 0.215, "topShiftX": 0.394, "topShiftY": 0.0, "top1ShiftX": 0.2, "top1ShiftY": 0.015, "top2ShiftX": 0.58, "top2ShiftY": 0.015, "top3ShiftX": 0.15, "top3ShiftY": 0.23, "top4ShiftX": 0.63, "top4ShiftY": 0.23}]}
     if (level == "vulkan"):
@@ -207,27 +209,36 @@ class Tower():
             if (self.cooldown2 != 0):
                 self.cooldown2 -= 1
 
-    def setType(self, typeName):
+    def setType(self, player, typeName):
         """Устанавливает уровень на 1. Заполняет атрибуты башни согласно towerType"""
-        self.typeName = typeName
-        self.level = 1
-        self.damage = towerType[self.typeName][self.level - 1]["damage"]
-        self.radius = towerType[self.typeName][self.level - 1]["radius"]
-        self.frame = 0
-        self.cooldown = 0
+        if player.gold >= towerType[typeName][0]["cost"]:
+            self.typeName = typeName
+            self.cost = towerType[self.typeName][0]["cost"]
+            self.level = 1
+            self.damage = towerType[self.typeName][self.level - 1]["damage"]
+            self.radius = towerType[self.typeName][self.level - 1]["radius"]
+            self.frame = 0
+            self.cooldown = 0
+            player.gold -= self.cost
 
-    def upgrade(self):
+    def upgrade(self, player):
         """Увеличивает уровень на 1, но не выше 3. Обновляет атрибуты башни согласно towerType"""
         if (self.level == 3):
             return
-        self.level += 1
-        self.damage = towerType[self.typeName][self.level - 1]["damage"]
-        self.radius = towerType[self.typeName][self.level - 1]["radius"]
-        if (self.typeName == "archer" and self.level == 3):
-            self.frame2 = 0
-            self.cooldown2 = 0
+        elif player.gold >= towerType[self.typeName][self.level]["cost"]:
+            if (self.level == 3):
+                return
+            self.level += 1
+            self.damage = towerType[self.typeName][self.level - 1]["damage"]
+            self.radius = towerType[self.typeName][self.level - 1]["radius"]
+            if (self.typeName == "archer" and self.level == 3):
+                self.frame2 = 0
+                self.cooldown2 = 0
 
-    def draw(self, win,):
+            self.cost = towerType[self.typeName][self.level - 1]["cost"]
+            player.gold -= self.cost
+
+    def draw(self, win):
         """Выводит башню на поверхность win и переходит на следующий кадр"""
         if (self.typeName == "archer"):
             if (towerType["archer"][self.level - 1]["top"]):
@@ -264,11 +275,12 @@ class Tower():
         if tower.level != 0:
             G.win.blit(build_gui, (tower.x - 90, tower.y - 90))
 
-    def gui_level_up(tower, mouse_pos):
+    def gui_level_up(tower, player, mouse_pos):
 
         if tower.level != 0:
             if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y - 50, 70):
-                tower.upgrade()
+                tower.upgrade(player)
+                tower.gui_opened = False
 
     def gui_close(towers, exc):
 
@@ -276,15 +288,16 @@ class Tower():
             if i != exc:
                 towers[i].gui_opened = False
 
-    def gui_type_change(tower, mouse_pos):
+    def gui_type_change(tower, player, mouse_pos):
 
         if tower.level == 0:
+
             if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y - 50, 70):
-                tower.setType("archer")
+                tower.setType(player, "archer")
                 tower.gui_opened = False
             if isInside(mouse_pos[0], mouse_pos[1], tower.x + 60, tower.y - 50, 70):
-                tower.setType("magic")
+                tower.setType(player, "magic")
                 tower.gui_opened = False
             if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y + 60, 70):
-                tower.setType("support")
+                tower.setType(player, "support")
                 tower.gui_opened = False

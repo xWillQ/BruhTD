@@ -3,10 +3,10 @@ import pygame
 import G
 
 
-def isInside(x, y, xpos, ypos, radius):
-    radius = radius * 0.97 / 2
-    pygame.draw.circle(G.win, (0, 55, 255), (xpos, ypos), round(radius), 1)
-    return (sqrt((x - xpos)**2 + (y - ypos)**2) + 2 <= radius)
+def isInside(MPx, MPy, butt_x, butt_y, butt_radius):
+    butt_radius = butt_radius * 0.97 / 2
+    pygame.draw.circle(G.win, (0, 55, 255), (butt_x, butt_y), round(butt_radius), 1)
+    return (sqrt((MPx - butt_x)**2 + (MPy - butt_y)**2) + 2 <= butt_radius)
 
 
 class Button():
