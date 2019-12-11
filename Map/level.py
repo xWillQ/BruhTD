@@ -10,7 +10,7 @@ import random
 import G
 from GUI.player import Player as player
 
-player = player(0, 1000)
+player = player(20, 1000)
 player.alive = True
 
 pygame.font.init()
@@ -73,10 +73,10 @@ def draw():
                 if towers[i].level == 0:
                     continue
                 if towers[i].isReady():
-                    for k in range(len(mobs)):
-                        if (towers[i].isInside(mobs[k].x, mobs[k].y) and mobs[k].state != "dying" and mobs[k].state != "dead"):
-                            towers[i].attack()
-                            mobs[k].hurt(towers[i].damage)
+                    for j in range(len(mobs)):
+                        if (towers[i].isInside(mobs[j].x, mobs[j].y) and mobs[j].state != "dying" and mobs[j].state != "dead"):
+                            towers[i].attack(mobs[j])
+                            mobs[j].hurt(towers[i].damage)
                             break
                 else:
                     towers[i].reduceCooldown()

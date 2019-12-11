@@ -24,7 +24,7 @@ while run:
             run = False
 
     t2 = time()
-    if (t2 - t1 >= 1 / 144):
+    if (t2 - t1 >= 1 / 60):
         t1 = time()
 
         if G.condition <= 9:
