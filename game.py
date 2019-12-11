@@ -1,5 +1,6 @@
 import pygame
-from Map import level
+from Map import level1
+# from Map import level2
 from GUI import main_menu
 import G
 from time import time
@@ -31,6 +32,9 @@ while run:
             main_menu.draw()
 
         if G.condition >= 10:
-            level.draw()
+            if G.level_number == 1:
+                level1.draw()
+            # if G.level_number == 2:
+                # level2.draw()
 
     pygame.display.update()

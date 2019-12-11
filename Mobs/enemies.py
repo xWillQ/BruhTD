@@ -3,7 +3,7 @@ import pygame
 
 
 enemyType = {"scorpio": {"velocity": 1.5, "hp": 70, "shiftX": 0.07, "shiftY": 0.14, "reward": 3},
-             "wizard": {"velocity": 1, "hp": 150, "shiftX": 0.17, "shiftY": 0.13, "reward": 5}}
+             "wizard": {"velocity": 1.0, "hp": 150, "shiftX": 0.17, "shiftY": 0.13, "reward": 5}}
 frameLength = 1
 
 

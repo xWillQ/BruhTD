@@ -1,6 +1,8 @@
 import pygame
 import G
 from GUI.button import isInside
+from GUI.player import Player as player
+
 
 bg = pygame.transform.scale(pygame.image.load('Assets/GUI/menu/bg.png'), (1920, 1080))
 playBTN = pygame.transform.scale(pygame.image.load('Assets/GUI/menu/button_play.png'), (200, 200))
@@ -53,9 +55,9 @@ def draw():
         G.win.blit(kek, (0, 0))
         if G.event.type is pygame.MOUSEBUTTONUP:
             mouse_pos = pygame.mouse.get_pos()
-            if isInside(mouse_pos[0], mouse_pos[1], 1500, 780, 120):
-                G.condition = 10
-                G.level_number = 1
+            if isInside(mouse_pos[0], mouse_pos[1], 1087, 868, 150):
+                G.condition = 1
+                G.level_number = 0
 
         print(mouse_pos)
 
@@ -63,12 +65,15 @@ def draw():
 
         mouse_pos = pygame.mouse.get_pos()
 
-        if G.event.type is pygame.MOUSEBUTTONUP:
-            mouse_pos = pygame.mouse.get_pos()
-
         print(mouse_pos)
         G.win.blit(bg, (0, 0))
         G.win.blit(dark, (0, 0))
         G.win.blit(kekW, (0, 0))
+
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            mouse_pos = pygame.mouse.get_pos()
+            if isInside(mouse_pos[0], mouse_pos[1], 820, 868, 150):
+                G.condition = 1
+                G.level_number = 0
 
     G.event = G.event_N

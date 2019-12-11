@@ -346,7 +346,6 @@ class Tower():
                     G.win.blit(lable, (tower.x - 85, tower.y - 110))
                     G.win.blit(archer_tower_cost, (tower.x - 80, tower.y - 110))
 
-
                 if tower.typeName == "support":
                     G.win.blit(support_icon, (tower.x - 100, tower.y + 20))
                     G.win.blit(lable, (tower.x - 85, tower.y))
