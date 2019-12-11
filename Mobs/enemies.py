@@ -2,8 +2,8 @@ from math import sqrt
 import pygame
 
 
-enemyType = {"scorpio": {"velocity": 1.5, "hp": 70, "shiftX": 0.07, "shiftY": 0.14},
-             "wizard": {"velocity": 1, "hp": 15000, "shiftX": 0.17, "shiftY": 0.13}}
+enemyType = {"scorpio": {"velocity": 1.5, "hp": 70, "shiftX": 0.07, "shiftY": 0.14, "reward": 3},
+             "wizard": {"velocity": 1, "hp": 150, "shiftX": 0.17, "shiftY": 0.13, "reward": 5}}
 
 frameLength = 3
 
@@ -38,7 +38,7 @@ def clearAll(mobs, win, background):
     return cleared
 
 
-def updatePositions(mobs, turns, width, height):
+def updatePositions(mobs, turns, width, height, player):
     length = len(mobs)
     i = 0
     while (i < length):
@@ -53,6 +53,7 @@ def updatePositions(mobs, turns, width, height):
                 mobs[i].move()
         if ((mobs[i].x + enemyType[mobs[i].typeName]["shiftX"] * 2 >= width) or (mobs[i].y + enemyType[mobs[i].typeName]["shiftX"] * 2 >= height)):
             mobs.pop(i)
+            player.hp -= 1
             length -= 1
         elif ((i > 0) and (mobs[i - 1].y > mobs[i].y)):
             mobs[i - 1], mobs[i] = (mobs[i], mobs[i - 1])
@@ -70,6 +71,7 @@ class Enemy():
         self.state = "walking"
         self.typeName = typeName
         self.frame = 0
+        self.reward = enemyType[typeName]["reward"]
 
     def move(self):
         if (self.direction == "u"):
@@ -193,7 +195,7 @@ class Enemy():
                 self.state = "walking"
                 self.velocity = enemyType[self.typeName]["velocity"]
             elif (self.state == "dying"):
-                #self.frame -= 1
+                # self.frame -= 1
                 self.state = "dead"
                 return
             self.frame = 0
