@@ -10,7 +10,7 @@ import random
 import G
 from GUI.player import Player as player
 
-player = player(0, 1000)
+player = player(20, 1000)
 player.alive = True
 
 pygame.font.init()
