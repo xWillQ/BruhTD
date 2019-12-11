@@ -62,8 +62,7 @@ while run:
     t2 = time()
     if (t2 - t1 >= 1 / 60000):
         t1 = time()
-
-        #win.blit(background, (0, 0))
+        # win.blit(background, (0, 0))
         updates = tower.clearAll(towers, win, background)
         updates += enemies.clearAll(mobs, win, background)
 

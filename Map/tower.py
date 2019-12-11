@@ -246,6 +246,9 @@ class Tower():
             self.radius = towerType[self.typeName][self.level - 1]["radius"]
             self.frame = 0
             self.cooldown = 0
+            self.target = None
+            if (typeName == "magic"):
+                self.attacking = False
             player.gold -= self.cost
 
     def upgrade(self, player):
