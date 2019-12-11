@@ -246,6 +246,7 @@ class Tower():
         """Устанавливает уровень на 1. Заполняет атрибуты башни согласно towerType"""
         if player.gold >= towerType[typeName][0]["cost"]:
             self.typeName = typeName
+            self.cost = towerType[self.typeName][0]["cost"]
             self.level = 1
             self.damage = towerType[self.typeName][self.level - 1]["damage"]
             self.radius = towerType[self.typeName][self.level - 1]["radius"]
@@ -300,7 +301,7 @@ class Tower():
                 if (self.frame >= 2 * magicStrikeLength):
                     self.frame = 0
         else:
-            win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
+            win.blit(towerType[self.typeName][self.level - 1]["asset"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
         # pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), self.radius, 1)
 
     def draw_gui(tower):
@@ -342,7 +343,6 @@ class Tower():
                     G.win.blit(archer_icon, (tower.x - 100, tower.y - 90))
                     G.win.blit(lable, (tower.x - 85, tower.y - 110))
                     G.win.blit(archer_tower_cost, (tower.x - 80, tower.y - 110))
-
 
                 if tower.typeName == "support":
                     G.win.blit(support_icon, (tower.x - 100, tower.y + 20))

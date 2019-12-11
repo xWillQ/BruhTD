@@ -72,6 +72,7 @@ class Enemy():
         self.typeName = typeName
         self.frame = 0
         self.reward = enemyType[typeName]["reward"]
+        self.flipped = False
 
     def move(self):
         if (self.direction == "u"):
@@ -158,17 +159,21 @@ class Enemy():
                 self.direction = "d"
             elif (turn.section % 10) == 2:
                 self.direction = "r"
+                self.flipped = False
             elif (turn.section % 10) == 3:
                 self.direction = "u"
             elif (turn.section % 10) == 4:
                 self.direction = "l"
+                self.flipped = True
         else:
             if (turn.section % 10) == 1:
                 self.direction = "l"
+                self.flipped = True
             elif (turn.section % 10) == 2:
                 self.direction = "d"
             elif (turn.section % 10) == 3:
                 self.direction = "r"
+                self.flipped = False
             elif (turn.section % 10) == 4:
                 self.direction = "u"
 
@@ -188,7 +193,10 @@ class Enemy():
         self.frame = 0
 
     def draw(self, win):
-        win.blit(enemyType[self.typeName][self.state][self.frame // frameLength], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
+        if (self.flipped):
+            win.blit(pygame.transform.flip(enemyType[self.typeName][self.state][self.frame // frameLength], True, False), (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
+        else:
+            win.blit(enemyType[self.typeName][self.state][self.frame // frameLength], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
         self.frame += 1
         if (self.frame >= 19 * frameLength):
             if (self.state == "hurt"):
