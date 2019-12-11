@@ -177,7 +177,7 @@ class Enemy():
             return
         if (self.state != "hurt"):
             self.state = "hurt"
-            self.velocity *= 0.75
+            self.velocity *= 0.4    # Скорость при получении урона
             self.frame = 0
 
     def die(self):
@@ -186,9 +186,9 @@ class Enemy():
         self.frame = 0
 
     def draw(self, win):
-        win.blit(enemyType[self.typeName][self.state][self.frame // 2], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
+        win.blit(enemyType[self.typeName][self.state][self.frame // frameLength], (self.x + enemyType[self.typeName]["shiftX"], self.y + enemyType[self.typeName]["shiftY"]))
         self.frame += 1
-        if (self.frame >= 38):
+        if (self.frame >= 19 * frameLength):
             if (self.state == "hurt"):
                 self.state = "walking"
                 self.velocity = enemyType[self.typeName]["velocity"]

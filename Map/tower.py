@@ -2,6 +2,7 @@ from math import sqrt
 import pygame
 import G
 from GUI.button import isInside
+import Mobs.enemies as enemies
 
 archer_icon = pygame.transform.scale(pygame.image.load('Assets/Towers/archer/lvl1_archer_icon.png'), (40, 40))
 support_icon = pygame.transform.scale(pygame.image.load('Assets/Towers/support/lvl1_support_icon.png'), (40, 40))
@@ -22,21 +23,24 @@ towerType = {"archer": [{"damage": 5, "cooldown": 30, "radius": 200, "cost": 70}
                          {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19, "cost": 150}]}
 
 
+frameLength = 4
+magicStrikeLength = 5
+
+
 def loadTypes(transformation, level):
     """Загружает текстуры соответствующие карте level, умножает каждую на коэффициент transformation"""
     archerShifts = {"leaf": [{"towerShiftX": 0.035, "towerShiftY": 0.22, "topShiftX": 0.06, "topShiftY": -0.76, "archerShiftX": 0.29, "archerShiftY": -0.85},
-                               {"towerShiftX": 0.035, "towerShiftY": 0.22, "topShiftX": 0.07, "topShiftY": -0.73, "archerShiftX": 0.35, "archerShiftY": -0.85},
-                               {"towerShiftX": 0.0, "towerShiftY": 0.2, "topShiftX": 0.14, "topShiftY": -0.73, "archerShiftX": 1.06, "archerShiftY": -0.79, "archer2ShiftX": 0.99, "archer2ShiftY": -0.79}],
+                             {"towerShiftX": 0.035, "towerShiftY": 0.22, "topShiftX": 0.07, "topShiftY": -0.73, "archerShiftX": 0.35, "archerShiftY": -0.85},
+                             {"towerShiftX": 0.0, "towerShiftY": 0.2, "topShiftX": 0.14, "topShiftY": -0.73, "archerShiftX": 1.06, "archerShiftY": -0.79, "archer2ShiftX": 0.99, "archer2ShiftY": -0.79}],
                     "sand": [{"towerShiftX": 0.03, "towerShiftY": 0.2, "archerShiftX": 0.29, "archerShiftY": -0.45},
-                               {"towerShiftX": 0.03, "towerShiftY": 0.2, "archerShiftX": 0.39, "archerShiftY": -0.45},
-                               {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.47, "archer2ShiftX": 0.80, "archer2ShiftY": -0.47}],
-                    "stone":  [{"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},   # noqa
-                               {"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},
-                               {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.35, "archer2ShiftX": 0.80, "archer2ShiftY": -0.34}]}
-    # TODO: подобрать все значения
+                             {"towerShiftX": 0.03, "towerShiftY": 0.2, "archerShiftX": 0.39, "archerShiftY": -0.45},
+                             {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.47, "archer2ShiftX": 0.80, "archer2ShiftY": -0.47}],
+                    "stone": [{"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},
+                              {"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},
+                              {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.35, "archer2ShiftX": 0.80, "archer2ShiftY": -0.34}]}
     magic = {"leaf": [{"shiftX": 0.03, "shiftY": 0.2, "finalHeight": 0.7, "towerShiftY": 0.2, "topShiftX": 0.34, "topShiftY": 0.0},
-                        {"shiftX": 0.03, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.33, "topShiftY": 0.0},
-                        {"shiftX": 0.025, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.34, "topShiftY": 0.0, "top2ShiftX": 0.01, "top2ShiftY": 0.137, "top3ShiftX": 0.64, "top3ShiftY": 0.137}],
+                      {"shiftX": 0.03, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.33, "topShiftY": 0.0},
+                      {"shiftX": 0.025, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.34, "topShiftY": 0.0, "top2ShiftX": 0.01, "top2ShiftY": 0.137, "top3ShiftX": 0.64, "top3ShiftY": 0.137}],
              "sand": [{"shiftX": 0.02, "shiftY": 0.215, "finalHeight": 0.39, "towerShiftY": 0.11, "topShiftX": 0.36, "topShiftY": 0.0},
                         {"shiftX": 0.02, "shiftY": 0.185, "finalHeight": 0.7, "towerShiftY": 0.175, "topShiftX": 0.38, "topShiftY": 0.0},
                         {"shiftX": 0.02, "shiftY": 0.17, "finalHeight": 0.7, "towerShiftY": 0.168, "topShiftX": 0.38, "topShiftY": 0.0}],
@@ -55,7 +59,9 @@ def loadTypes(transformation, level):
     if (level == "snow"):
         level = "stone"
     for lvl in range(0, 3):
+
         #  Archer
+
         towerType["archer"][lvl]["top"] = False
         towerType["archer"][lvl]["assets"] = {}
         tower = pygame.image.load("Assets/Towers/Archer/lvl" + str(lvl + 1) + "_" + level + "_tower.png")
@@ -103,17 +109,18 @@ def loadTypes(transformation, level):
         width = int(tower.get_width() * transformation)
         height = int(tower.get_height() * transformation)
         tower = pygame.transform.scale(tower, (width, height))
+        towerType["magic"][lvl]["assets"] = {}
 
         if (level != "stone" and level != "fire"):
             top = pygame.image.load("Assets/Towers/magic/" + level + "_tower_top.png")
             top = pygame.transform.scale(top, (int(top.get_width() * transformation), int(top.get_height() * transformation)))
             height += int(top.get_height() * magic[level][lvl]["finalHeight"])
-            towerType["magic"][lvl]["asset"] = pygame.Surface((width, height), pygame.SRCALPHA, 32).convert_alpha()
-            towerType["magic"][lvl]["asset"].blit(tower, (0, height * magic[level][lvl]["towerShiftY"]))
-            towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["topShiftX"], height * magic[level][lvl]["topShiftY"]))
+            towerType["magic"][lvl]["assets"]["tower"] = pygame.Surface((width, height), pygame.SRCALPHA, 32).convert_alpha()
+            towerType["magic"][lvl]["assets"]["tower"].blit(tower, (0, height * magic[level][lvl]["towerShiftY"]))
+            towerType["magic"][lvl]["assets"]["tower"].blit(top, (width * magic[level][lvl]["topShiftX"], height * magic[level][lvl]["topShiftY"]))
             if (level == "leaf" and lvl == 2):
-                towerType["magic"][lvl]["asset"].blit(pygame.transform.rotate(top, 27), (width * magic[level][lvl]["top2ShiftX"], height * magic[level][lvl]["top2ShiftY"]))
-                towerType["magic"][lvl]["asset"].blit(pygame.transform.rotate(pygame.transform.flip(top, True, False), -27), (width * magic[level][lvl]["top3ShiftX"], height * magic[level][lvl]["top3ShiftY"]))
+                towerType["magic"][lvl]["assets"]["tower"].blit(pygame.transform.rotate(top, 27), (width * magic[level][lvl]["top2ShiftX"], height * magic[level][lvl]["top2ShiftY"]))
+                towerType["magic"][lvl]["assets"]["tower"].blit(pygame.transform.rotate(pygame.transform.flip(top, True, False), -27), (width * magic[level][lvl]["top3ShiftX"], height * magic[level][lvl]["top3ShiftY"]))
 
         else:
             if (lvl != 2):
@@ -122,22 +129,32 @@ def loadTypes(transformation, level):
                 top = pygame.image.load("Assets/Towers/magic/" + level + "_tower_top_lvl3.png")
             top = pygame.transform.scale(top, (int(top.get_width() * transformation), int(top.get_height() * transformation)))
             height += int(top.get_height() * magic[level][lvl]["finalHeight"])
-            towerType["magic"][lvl]["asset"] = pygame.Surface((width, height), pygame.SRCALPHA, 32).convert_alpha()
-            towerType["magic"][lvl]["asset"].blit(tower, (0, height * magic[level][lvl]["towerShiftY"]))
-            towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["topShiftX"], height * magic[level][lvl]["topShiftY"]))
+            towerType["magic"][lvl]["assets"]["tower"] = pygame.Surface((width, height), pygame.SRCALPHA, 32).convert_alpha()
+            towerType["magic"][lvl]["assets"]["tower"].blit(tower, (0, height * magic[level][lvl]["towerShiftY"]))
+            towerType["magic"][lvl]["assets"]["tower"].blit(top, (width * magic[level][lvl]["topShiftX"], height * magic[level][lvl]["topShiftY"]))
             if (lvl == 2 and level == "stone"):
-                towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["top1ShiftX"], height * magic[level][lvl]["top1ShiftY"]))
-                towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["top2ShiftX"], height * magic[level][lvl]["top2ShiftY"]))
-                towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["top3ShiftX"], height * magic[level][lvl]["top3ShiftY"]))
-                towerType["magic"][lvl]["asset"].blit(top, (width * magic[level][lvl]["top4ShiftX"], height * magic[level][lvl]["top4ShiftY"]))
+                towerType["magic"][lvl]["assets"]["tower"].blit(top, (width * magic[level][lvl]["top1ShiftX"], height * magic[level][lvl]["top1ShiftY"]))
+                towerType["magic"][lvl]["assets"]["tower"].blit(top, (width * magic[level][lvl]["top2ShiftX"], height * magic[level][lvl]["top2ShiftY"]))
+                towerType["magic"][lvl]["assets"]["tower"].blit(top, (width * magic[level][lvl]["top3ShiftX"], height * magic[level][lvl]["top3ShiftY"]))
+                towerType["magic"][lvl]["assets"]["tower"].blit(top, (width * magic[level][lvl]["top4ShiftX"], height * magic[level][lvl]["top4ShiftY"]))
+
+        towerType["magic"][lvl]["assets"]["strike"] = []
+        strike = pygame.image.load("Assets/Towers/magic/" + level + "_strike_1.png")
+        strike = pygame.transform.scale(strike, (int(strike.get_width() * transformation), int(strike.get_height() * transformation)))
+        towerType["magic"][lvl]["assets"]["strike"].append(strike)
+        strike = pygame.image.load("Assets/Towers/magic/" + level + "_strike_2.png")
+        strike = pygame.transform.scale(strike, (int(strike.get_width() * transformation), int(strike.get_height() * transformation)))
+        towerType["magic"][lvl]["assets"]["strike"].append(strike)
 
         towerType["magic"][lvl]["shiftX"] = int(-width / 2 + width * magic[level][lvl]["shiftX"])
         towerType["magic"][lvl]["shiftY"] = int(-height + height * magic[level][lvl]["shiftY"])
 
         towerType["magic"][lvl]["width"] = width
         towerType["magic"][lvl]["height"] = height
-        towerType["magic"][lvl]["clearShiftX"] = magic[level][lvl]["shiftX"]
-        towerType["magic"][lvl]["clearShiftY"] = magic[level][lvl]["shiftY"]
+        towerType["magic"][lvl]["clearShiftX"] = towerType["magic"][lvl]["shiftX"]
+        towerType["magic"][lvl]["clearShiftY"] = towerType["magic"][lvl]["shiftY"]
+        towerType["magic"][lvl]["strikeWidth"] = towerType["magic"][lvl]["assets"]["strike"][0].get_width()
+        towerType["magic"][lvl]["strikeHeight"] = towerType["magic"][lvl]["assets"]["strike"][0].get_height()
 
         #  Support
 
@@ -161,11 +178,18 @@ def clearAll(towers, win, background):
     """Стирает все башни из массива towers с поверхности win, заменяя соответствующей частью изображения background"""
     cleared = []
     for tower in towers:
-        if tower.level != 0:
+        if (tower.level != 0):
             currX = tower.x + towerType[tower.typeName][tower.level - 1]["clearShiftX"]
             currY = tower.y + towerType[tower.typeName][tower.level - 1]["clearShiftY"]
             cleared.append(pygame.Rect(int(currX), int(currY), towerType[tower.typeName][tower.level - 1]["width"], towerType[tower.typeName][tower.level - 1]["height"]))
             win.blit(background, (currX, currY), cleared[len(cleared) - 1])
+            if (tower.typeName == "magic" and tower.attacking):
+                currX = tower.target[0]
+                currY = tower.target[1]
+                cleared.append(pygame.Rect(int(currX), int(currY), towerType[tower.typeName][tower.level - 1]["strikeWidth"], towerType[tower.typeName][tower.level - 1]["strikeHeight"]))
+                win.blit(background, (currX, currY), cleared[len(cleared) - 1])
+                if (tower.frame == 0):
+                    tower.attacking = False
     return cleared
 
 
@@ -179,7 +203,7 @@ class Tower():
     def isInside(self, x, y):
         return (sqrt((x - self.x)**2 + (y - self.y)**2) <= self.radius)
 
-    def attack(self):
+    def attack(self, mob):
         """Устанавливает кулдаун и начинает анимацию атаки"""
         if (self.typeName == "archer" and self.level == 3):
             if (self.cooldown == 0):
@@ -191,6 +215,9 @@ class Tower():
         else:
             self.cooldown = towerType[self.typeName][self.level - 1]["cooldown"]
             self.frame = 1
+            if (self.typeName == "magic"):
+                self.attacking = True
+        self.target = (mob.x + enemies.enemyType[mob.typeName]["shiftX"] * 0.2, mob.y + enemies.enemyType[mob.typeName]["shiftY"] * 1.5)
 
     def isReady(self):
         """Возвращает True, если башня может стрелять"""
@@ -245,23 +272,30 @@ class Tower():
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["top"], (self.x + towerType[self.typeName][self.level - 1]["topShiftX"], self.y + towerType[self.typeName][self.level - 1]["topShiftY"]))
             else:
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["towerShiftX"], self.y + towerType[self.typeName][self.level - 1]["towerShiftY"]))
-            win.blit(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame // 2], (self.x + towerType[self.typeName][self.level - 1]["archerShiftX"], self.y + towerType[self.typeName][self.level - 1]["archerShiftY"]))
+            win.blit(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame // frameLength], (self.x + towerType[self.typeName][self.level - 1]["archerShiftX"], self.y + towerType[self.typeName][self.level - 1]["archerShiftY"]))
             if (self.frame != 0):
                 self.frame += 1
-                if (self.frame >= 12):
+                if (self.frame >= 6 * frameLength):
                     self.frame = 0
             if (self.level == 3):
-                width = towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2 // 2].get_width()
-                win.blit(pygame.transform.flip(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2 // 2], True, False), (self.x + towerType[self.typeName][self.level - 1]["archer2ShiftX"] - width, self.y + towerType[self.typeName][self.level - 1]["archer2ShiftY"]))
+                width = towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2 // frameLength].get_width()
+                win.blit(pygame.transform.flip(towerType[self.typeName][self.level - 1]["assets"]["archer"][self.frame2 // frameLength], True, False), (self.x + towerType[self.typeName][self.level - 1]["archer2ShiftX"] - width, self.y + towerType[self.typeName][self.level - 1]["archer2ShiftY"]))
                 if (self.frame2 != 0):
                     self.frame2 += 1
-                    if (self.frame2 >= 12):
+                    if (self.frame2 >= 6 * frameLength):
                         self.frame2 = 0
             if (towerType["archer"][self.level - 1]["top"]):
                 win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["towerShiftX"], self.y + towerType[self.typeName][self.level - 1]["towerShiftY"]))
+        elif (self.typeName == "magic"):
+            win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
+            if (self.attacking):
+                win.blit(towerType[self.typeName][self.level - 1]["assets"]["strike"][(self.frame - 1) // magicStrikeLength], (self.target[0], self.target[1]))
+                self.frame += 1
+                if (self.frame >= 2 * magicStrikeLength):
+                    self.frame = 0
         else:
-            win.blit(towerType[self.typeName][self.level - 1]["asset"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
-        # pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), 2)
+            win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
+        # pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), self.radius, 1)
 
     def draw_gui(tower):
 
