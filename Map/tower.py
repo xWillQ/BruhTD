@@ -16,7 +16,7 @@ magic_icon = pygame.transform.scale(pygame.image.load('Assets/GUI/upgrade/magic_
 build_gui = pygame.transform.scale(pygame.image.load('Assets/Towers/archer/build_gui.png'), (180, 180))
 lable = pygame.transform.scale(pygame.image.load('Assets/GUI/upgrade/window_1.png'), (47, 28))
 
-towerType = {"archer": [{"damage": 5, "cooldown": 30, "radius": 200, "cost": 70},  # TODO: подобрать значения shiftX и shiftY. В процентах от финального спрайта, чем больше, тем правее/ниже
+towerType = {"archer": [{"damage": 5, "cooldown": 30, "radius": 200, "cost": 70},
                         {"damage": 10, "cooldown": 30, "radius": 240, "cost": 110},
                         {"damage": 7, "cooldown": 20, "radius": 280, "cost": 150}],
 
@@ -48,14 +48,14 @@ def loadTypes(transformation, level):
                       {"shiftX": 0.03, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.33, "topShiftY": 0.0},
                       {"shiftX": 0.025, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.34, "topShiftY": 0.0, "top2ShiftX": 0.01, "top2ShiftY": 0.137, "top3ShiftX": 0.64, "top3ShiftY": 0.137}],
              "sand": [{"shiftX": 0.02, "shiftY": 0.215, "finalHeight": 0.39, "towerShiftY": 0.11, "topShiftX": 0.36, "topShiftY": 0.0},
-                        {"shiftX": 0.02, "shiftY": 0.185, "finalHeight": 0.7, "towerShiftY": 0.175, "topShiftX": 0.38, "topShiftY": 0.0},
-                        {"shiftX": 0.02, "shiftY": 0.17, "finalHeight": 0.7, "towerShiftY": 0.168, "topShiftX": 0.38, "topShiftY": 0.0}],
+                      {"shiftX": 0.02, "shiftY": 0.185, "finalHeight": 0.7, "towerShiftY": 0.175, "topShiftX": 0.38, "topShiftY": 0.0},
+                      {"shiftX": 0.02, "shiftY": 0.17, "finalHeight": 0.7, "towerShiftY": 0.168, "topShiftX": 0.38, "topShiftY": 0.0}],
              "fire": [{"shiftX": 0.0, "shiftY": 0.18, "finalHeight": 0.65, "towerShiftY": 0.10, "topShiftX": 0.35, "topShiftY": 0.0},
-                        {"shiftX": 0.02, "shiftY": 0.14, "finalHeight": 1, "towerShiftY": 0.1, "topShiftX": 0.35, "topShiftY": 0.0},
-                        {"shiftX": 0.02, "shiftY": 0.12, "finalHeight": 0.1, "towerShiftY": 0.01, "topShiftX": 0.285, "topShiftY": 0.0}],
-             "stone": [{"shiftX": 0.02, "shiftY": 0.18, "finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0},   # noqa
-                        {"shiftX": 0.02, "shiftY": 0.16, "finalHeight": 0.8, "towerShiftY": 0.158, "topShiftX": 0.307, "topShiftY": 0.0},
-                        {"shiftX": 0.02, "shiftY": 0.14, "finalHeight": 0.8, "towerShiftY": 0.215, "topShiftX": 0.394, "topShiftY": 0.0, "top1ShiftX": 0.2, "top1ShiftY": 0.015, "top2ShiftX": 0.58, "top2ShiftY": 0.015, "top3ShiftX": 0.15, "top3ShiftY": 0.23, "top4ShiftX": 0.63, "top4ShiftY": 0.23}]}
+                      {"shiftX": 0.02, "shiftY": 0.14, "finalHeight": 1, "towerShiftY": 0.1, "topShiftX": 0.35, "topShiftY": 0.0},
+                      {"shiftX": 0.02, "shiftY": 0.12, "finalHeight": 0.1, "towerShiftY": 0.01, "topShiftX": 0.285, "topShiftY": 0.0}],
+             "stone": [{"shiftX": 0.02, "shiftY": 0.18, "finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0},
+                       {"shiftX": 0.02, "shiftY": 0.16, "finalHeight": 0.8, "towerShiftY": 0.158, "topShiftX": 0.307, "topShiftY": 0.0},
+                       {"shiftX": 0.02, "shiftY": 0.14, "finalHeight": 0.8, "towerShiftY": 0.215, "topShiftX": 0.394, "topShiftY": 0.0, "top1ShiftX": 0.2, "top1ShiftY": 0.015, "top2ShiftX": 0.58, "top2ShiftY": 0.015, "top3ShiftX": 0.15, "top3ShiftY": 0.23, "top4ShiftX": 0.63, "top4ShiftY": 0.23}]}
     if (level == "vulkan"):
         level = "fire"
     if (level == "forest"):
@@ -246,7 +246,6 @@ class Tower():
         """Устанавливает уровень на 1. Заполняет атрибуты башни согласно towerType"""
         if player.gold >= towerType[typeName][0]["cost"]:
             self.typeName = typeName
-            self.cost = towerType[self.typeName][0]["cost"]
             self.level = 1
             self.damage = towerType[self.typeName][self.level - 1]["damage"]
             self.radius = towerType[self.typeName][self.level - 1]["radius"]
@@ -255,6 +254,7 @@ class Tower():
             self.target = None
             if (typeName == "magic"):
                 self.attacking = False
+            self.cost = towerType[self.typeName][0]["cost"]
             player.gold -= self.cost
 
     def upgrade(self, player):
@@ -262,8 +262,6 @@ class Tower():
         if (self.level == 3):
             return
         elif player.gold >= towerType[self.typeName][self.level]["cost"]:
-            if (self.level == 3):
-                return
             self.level += 1
             self.damage = towerType[self.typeName][self.level - 1]["damage"]
             self.radius = towerType[self.typeName][self.level - 1]["radius"]
