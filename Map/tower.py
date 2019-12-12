@@ -301,7 +301,7 @@ class Tower():
                 if (self.frame >= 2 * magicStrikeLength):
                     self.frame = 0
         else:
-            win.blit(towerType[self.typeName][self.level - 1]["assets"]["tower"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
+            win.blit(towerType[self.typeName][self.level - 1]["asset"], (self.x + towerType[self.typeName][self.level - 1]["shiftX"], self.y + towerType[self.typeName][self.level - 1]["shiftY"]))
         # pygame.draw.circle(win, (255, 0, 0), (round(self.x), round(self.y)), self.radius, 1)
 
     def draw_gui(tower):

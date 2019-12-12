@@ -1,5 +1,4 @@
 import pygame
-import os
 from Map.map import loadLevel
 from GUI.button import Button
 from GUI.button import isInside
@@ -9,19 +8,16 @@ import Map.tower as tower
 import random
 import G
 from GUI.player import Player
-# from Map.spell import Spell as Spell
 
-death_button = Button(15, 325, 40, pygame.image.load(os.path.join('Assets/GUI/interface_game/skull.png')))
+lvl1 = "rurrddrruurrddrrddllllllldd"
 pygame.font.init()
 font = pygame.font.Font('bruh_font.otf', 32)
-
 player = Player(10, 1000)
 player.alive = True
-
 tower.loadTypes(1 * 0.8, 'forest')
 towers = [Tower(470, 300), Tower(865, 410), Tower(1250, 300), Tower(1600, 410), Tower(1650, 660), Tower(1650, 800)]
-lvl1 = "rurrddrruurrddrrddllllllldd"
 turns, background, start, Idirection = loadLevel(lvl1, (0, 250), towers, 0.75, "forest", 1920, 1080)
+death_button = Button(15, 325, 40, pygame.image.load('Assets/GUI/interface_game/skull.png'))
 
 enemies.loadTypes(0.2)
 x = 50
@@ -40,18 +36,18 @@ for i in range(0, 20):
         x -= 80
         y = random.randint(start[0], start[1])
     mobs.append(enemies.Enemy(x, y, Idirection, t))
-    mobs[len(mobs) - 1].distance = x
+    mobs[len(mobs) - 1].distance = x  # mobs
 
 
 def draw():
+
+    G.win.blit(background, (0, 0))
 
     playerHealth = font.render(str(player.hp), True, (255, 0, 0), 0)
     playerGold = font.render(str(player.gold), True, (255, 255, 0), 0)
 
     updates = tower.clearAll(towers, G.win, background)
     updates += enemies.clearAll(mobs, G.win, background)
-
-    G.win.blit(background, (0, 0))
 
     if G.event.type is pygame.MOUSEBUTTONUP and G.wave_trigger is False:
         mouse_pos = pygame.mouse.get_pos()

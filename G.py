@@ -10,3 +10,4 @@ level_number = 0
 wave_trigger = False
 kraken_released = 11
 mob_wave = 0
+k = 0
