@@ -33,7 +33,7 @@ while run:
 
         if G.condition >= 10:
             if G.level_number != 0 and G.online is False:
-                turns, background, start, Idirection, mobs, player, towers = level_init(G.level_number)
+                turns, background, start, Idirection, mobs, player, towers, deco_bg = level_init(G.level_number)
                 G.online = True
             level.draw(turns, background, start, Idirection, mobs, player, towers)
 

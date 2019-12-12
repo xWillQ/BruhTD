@@ -64,7 +64,7 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
 
     for i in range(len(towers)):
         if towers[i].level != 0:
-            pygame.draw.circle(G.win, (0, 55, 255), (towers[i].x, towers[i].y), round(towers[i].radius), 1)
+            # pygame.draw.circle(G.win, (0, 55, 255), (towers[i].x, towers[i].y), round(towers[i].radius), 1)
             towers[i].draw(G.win)
         if towers[i].gui_opened is True:
             Tower.draw_gui(towers[i])

@@ -2,7 +2,7 @@ from math import sqrt, ceil
 import pygame
 
 
-def loadLevel(directions, start, towers, transformation, level, width, height):
+def loadLevel(directions, start, towers, transformation, level, width, height, deco_bg):
 
     transformation = round(transformation * 256)
     horiz = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/horizontal.png"), (transformation, transformation))
@@ -134,6 +134,8 @@ def loadLevel(directions, start, towers, transformation, level, width, height):
 
     for tower in towers:
         background.blit(towerPlace, (tower.x - int(transformation / 2), tower.y - int(transformation / 2)))
+
+    background.blit(deco_bg, (0, 0))
 
     return (turns, background, start, initialDirection)
 

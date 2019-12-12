@@ -4,9 +4,12 @@ import random
 from Map.map import loadLevel
 from Map.tower import Tower as Tower
 import Map.tower as tower
+import pygame
 
 
 def level_init(level_num):
+
+    deco_bg = pygame.image.load("Assets/level_decos/level_" + str(level_num) + ".png")
 
     level = open("Map/level.txt", "r")
     level_num -= 1
@@ -28,7 +31,7 @@ def level_init(level_num):
 
     player = Player(int(player_hp), int(player_gold))
     tower.loadTypes(1 * 0.8, level_theme)
-    turns, background, start, Idirection = loadLevel(level_map, (0, 250), towers, 0.75, level_theme, 1920, 1080)
+    turns, background, start, Idirection = loadLevel(level_map, (0, 250), towers, 0.75, level_theme, 1920, 1080, deco_bg)
     enemies.loadTypes(0.2)
     x = 50
     y = 50
@@ -48,4 +51,4 @@ def level_init(level_num):
         mobs.append(enemies.Enemy(x, y, Idirection, t))
         mobs[len(mobs) - 1].distance = x
 
-    return turns, background, start, Idirection, mobs, player, towers
+    return turns, background, start, Idirection, mobs, player, towers, deco_bg
