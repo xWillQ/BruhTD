@@ -1,11 +1,11 @@
 rurrddrruurrddrrddllllllldd
+20
+500
+forest
+rrrrurrrdddrrrrurrddd
 10
 1000
-forest
-rurrddrruurrddrrddllllllldd
-10
-1000
-forest
+snow
 rurrddrruurrddrrddllllllldd
 10
 1000

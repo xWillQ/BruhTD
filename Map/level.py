@@ -94,12 +94,11 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
     if player.casting is True:
         if G.event.type is pygame.MOUSEBUTTONUP:
             player.spell(mouse_pos, mobs, player)
-            updates += player.spell(mouse_pos, mobs, player)
 
     G.win.blit(playerHealth, (25, 970))
     G.win.blit(playerGold, (25, 1010))
     G.win.blit(playerMana, (25, 910))
 
+    print(mouse_pos)
     pygame.display.update(updates)
-    print(player.casting)
     G.event = G.event_N
