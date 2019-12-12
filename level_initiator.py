@@ -5,6 +5,7 @@ from Map.map import loadLevel
 from Map.tower import Tower as Tower
 import Map.tower as tower
 import pygame
+import G
 
 
 def level_init(level_num):
@@ -51,4 +52,5 @@ def level_init(level_num):
         mobs.append(enemies.Enemy(x, y, Idirection, t))
         mobs[len(mobs) - 1].distance = x
 
+    G.win.blit(background, (0, 0))
     return turns, background, start, Idirection, mobs, player, towers, deco_bg

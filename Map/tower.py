@@ -6,7 +6,7 @@ import Mobs.enemies as enemies
 
 
 pygame.font.init()
-font = pygame.font.Font('bruh_font.otf', 22)
+font = pygame.font.Font('bruh_font.ttf', 22)
 
 icon_tr = 80
 archer_icon = pygame.transform.scale(pygame.image.load("Assets/GUI/upgrade/archer_icon_lvl1.png"), (icon_tr, icon_tr))
@@ -185,9 +185,9 @@ def clearAll(towers, win, background):
     cleared = []
     for tower in towers:
         if (tower.level != 0):
-            currX = tower.x + towerType[tower.typeName][tower.level - 1]["clearShiftX"]
-            currY = tower.y + towerType[tower.typeName][tower.level - 1]["clearShiftY"]
-            cleared.append(pygame.Rect(int(currX), int(currY), towerType[tower.typeName][tower.level - 1]["width"], towerType[tower.typeName][tower.level - 1]["height"]))
+            currX = tower.x + towerType[tower.typeName][tower.level - 1]["clearShiftX"] - 40
+            currY = tower.y + towerType[tower.typeName][tower.level - 1]["clearShiftY"] - 20
+            cleared.append(pygame.Rect(int(currX), int(currY), towerType[tower.typeName][tower.level - 1]["width"] + 100, towerType[tower.typeName][tower.level - 1]["height"] + 100))
             win.blit(background, (currX, currY), cleared[len(cleared) - 1])
             if (tower.typeName == "magic" and tower.attacking):
                 currX = tower.target[0]

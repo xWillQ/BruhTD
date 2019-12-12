@@ -17,8 +17,7 @@ pygame.display.set_caption("BruhTD")
 
 while run:
 
-    print(pygame.mouse.get_pos())
-    # print(G.condition)
+    # print(pygame.mouse.get_pos())
     for event in pygame.event.get():
         G.event = event
         if event.type is pygame.QUIT:
