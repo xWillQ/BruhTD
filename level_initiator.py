@@ -8,7 +8,7 @@ import Map.tower as tower
 
 def level_init(level_num):
 
-    level = open("level" + str(level_num) + ".txt", "r")
+    level = open("Map/level.txt", "r")
     level_num -= 1
     lines = level.read().splitlines()
 
@@ -19,7 +19,7 @@ def level_init(level_num):
 
     level_num += 1
     towers = []
-    tower_positions = open("towers" + str(level_num) + ".txt", "r")
+    tower_positions = open("tower_codes/towers" + str(level_num) + ".txt", "r")
     tower_pos_arr = tower_positions.readlines()
     i = 0
     while i <= len(tower_pos_arr) - 2:
