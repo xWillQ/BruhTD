@@ -1,7 +1,6 @@
 import pygame
 import G
 from GUI.button import isInside
-from GUI.player import Player as player
 
 
 bg = pygame.transform.scale(pygame.image.load('Assets/GUI/menu/bg.png'), (1920, 1080))
@@ -20,7 +19,7 @@ kekW = pygame.transform.scale(pygame.image.load('Assets/GUI/win/preview_win.png'
 
 def draw():
 
-    if G.condition == 0:
+    if G.condition == 0:  # starting window
         if G.event.type is pygame.MOUSEBUTTONUP:
             mouse_pos = pygame.mouse.get_pos()
             if mouse_pos[1] <= 635 and mouse_pos[0] >= 840 and mouse_pos[1] >= 435 and mouse_pos[0] <= 1040:
@@ -29,7 +28,7 @@ def draw():
         G.win.blit(dark, (0, 0))
         G.win.blit(playBTN, (840, 435))
 
-    if G.condition == 1:
+    if G.condition == 1:  # level choice menu
 
         G.win.blit(bg, (0, 0))
         G.win.blit(dark, (0, 0))
@@ -47,7 +46,7 @@ def draw():
                 G.level_number = 1
                 G.condition = 10
 
-    if G.condition == 2:
+    if G.condition == 2:  # win window
 
         mouse_pos = pygame.mouse.get_pos()
         G.win.blit(bg, (0, 0))
@@ -61,7 +60,7 @@ def draw():
 
         print(mouse_pos)
 
-    if G.condition == 3:
+    if G.condition == 3:  # lose window
 
         mouse_pos = pygame.mouse.get_pos()
 
