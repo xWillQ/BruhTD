@@ -246,6 +246,7 @@ class Tower():
         """Устанавливает уровень на 1. Заполняет атрибуты башни согласно towerType"""
         if player.gold >= towerType[typeName][0]["cost"]:
             self.typeName = typeName
+            self.cost = towerType[self.typeName][0]["cost"]
             self.level = 1
             self.damage = towerType[self.typeName][self.level - 1]["damage"]
             self.radius = towerType[self.typeName][self.level - 1]["radius"]
