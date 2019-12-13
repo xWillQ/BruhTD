@@ -16,6 +16,7 @@ def draw():
         G.win.blit(playBTN, (0, -2))  # starting window
         if G.event.type is pygame.MOUSEBUTTONUP:
             if isInside(mouse_pos[0], mouse_pos[1], 946, 550, 310):
+                G.event = G.event_N
                 G.condition = 1
 
     if G.condition == 1:  # level choice menu
@@ -24,9 +25,11 @@ def draw():
         if G.event.type is pygame.MOUSEBUTTONUP:
             if isInside(mouse_pos[0], mouse_pos[1], 1400, 307, 108):
                 G.condition = 0
+        if G.event.type is pygame.MOUSEBUTTONUP:
             if isInside(mouse_pos[0], mouse_pos[1], 670, 540, 150):
                 G.level_number = 1
                 G.condition = 10
+        if G.event.type is pygame.MOUSEBUTTONUP:
             if isInside(mouse_pos[0], mouse_pos[1], 867, 540, 150):
                 G.level_number = 2
                 G.condition = 10

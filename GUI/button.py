@@ -1,11 +1,11 @@
 from math import sqrt
 import pygame
-import G
+# import G
 
 
 def isInside(MPx, MPy, butt_x, butt_y, butt_radius):
     butt_radius = butt_radius * 0.97 / 2
-    pygame.draw.circle(G.win, (0, 55, 255), (round(butt_x), round(butt_y)), round(butt_radius), 1)
+    # pygame.draw.circle(G.win, (0, 55, 255), (round(butt_x), round(butt_y)), round(butt_radius), 1)
     return (sqrt((MPx - butt_x)**2 + (MPy - butt_y)**2) + 2 <= butt_radius)
 
 
