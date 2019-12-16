@@ -40,6 +40,7 @@ while run:
             if G.level_number != 0 and G.online is False:
                 turns, background, start, Idirection, mobs, player, towers, deco_bg = level_init(G.level_number)
                 G.online = True
-            level.draw(turns, background, start, Idirection, mobs, player, towers)
+            if G.online is True:
+                level.draw(turns, background, start, Idirection, mobs, player, towers)
 
     pygame.display.update()

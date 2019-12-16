@@ -1,11 +1,15 @@
 rurrddrruurrddrrddllllllldd
 20
-500
+1100
 forest
+0
+250
 rrrrurrrdddrrrrurrddd
 10
 1000
 snow
+0
+250
 rurrddrruurrddrrddllllllldd
 10
 1000

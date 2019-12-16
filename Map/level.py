@@ -7,23 +7,23 @@ import Map.tower as tower
 import G
 
 pygame.font.init()
-font = pygame.font.Font('bruh_font.ttf', 36)
+font = pygame.font.Font('bruh_font.ttf', 30)
 death_button = Button(15, 325, 40, pygame.image.load('Assets/GUI/interface_game/skull.png'))
 
 
 def draw(turns, background, start, Idirection, mobs, player, towers):
 
+    updates = tower.clearAll(towers, G.win, background)
+    updates += enemies.clearAll(mobs, G.win, background)
+
     playerHealth = font.render(str(player.hp), True, (255, 0, 0), 0)
     playerGold = font.render(str(player.gold), True, (255, 255, 0), 0)
     playerMana = font.render(str(player.mana), True, (0, 0, 255), 0)
 
-    G.win.blit(background, (0, 950), pygame.Rect(0, 950, 110, 180))
-    G.win.blit(background, (0, 900), pygame.Rect(0, 900, 100, 100))
+    G.win.blit(background, (0, 0), pygame.Rect(0, 0, 200, 150))
     G.win.blit(background, (15, 325), pygame.Rect(15, 325, 40, 40))
 
     mouse_pos = pygame.mouse.get_pos()
-    updates = tower.clearAll(towers, G.win, background)
-    updates += enemies.clearAll(mobs, G.win, background)
 
     if G.event.type is pygame.MOUSEBUTTONUP and G.wave_trigger is False:
         if G.condition == 10:
@@ -34,6 +34,7 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
         death_button.draw(G.win)
 
     if G.wave_trigger is True:
+
         enemies.updatePositions(mobs, turns, 1920, 1080, player)
 
         for i in range(len(towers)):
@@ -54,6 +55,7 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
                 player.gold_add(mob)
                 player.mana += 4
             else:
+                print(mob.state)
                 mob.draw(G.win)
 
     if G.event.type is pygame.MOUSEBUTTONUP:
@@ -95,10 +97,9 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
         if G.event.type is pygame.MOUSEBUTTONUP:
             player.spell(mouse_pos, mobs, player)
 
-    G.win.blit(playerHealth, (25, 970))
-    G.win.blit(playerGold, (25, 1010))
-    G.win.blit(playerMana, (25, 910))
+    G.win.blit(playerHealth, (25, 10))
+    G.win.blit(playerGold, (25, 40))
+    G.win.blit(playerMana, (25, 70))
 
-    print(mouse_pos)
     pygame.display.update(updates)
     G.event = G.event_N

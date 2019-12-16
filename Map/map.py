@@ -13,6 +13,7 @@ def loadLevel(directions, start, towers, transformation, level, width, height, d
     turn4 = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/turn4.png"), (transformation, transformation))
     back = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/background.png"), (transformation, transformation))
     towerPlace = pygame.transform.scale(pygame.image.load("Assets/Tiles/" + level + "/towerPlace.png"), (transformation, transformation))
+    GUI = pygame.image.load("Assets/level_decos/interface.png")
 
     background = pygame.Surface((width, height))
     turns = [Turn(-100, -100, 1, True, 1)]
@@ -136,7 +137,7 @@ def loadLevel(directions, start, towers, transformation, level, width, height, d
         background.blit(towerPlace, (tower.x - int(transformation / 2), tower.y - int(transformation / 2)))
 
     background.blit(deco_bg, (0, 0))
-
+    background.blit(GUI, (0, 0))
     return (turns, background, start, initialDirection)
 
 
