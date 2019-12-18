@@ -43,7 +43,11 @@ def loadTypes(transformation, level):
                              {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.47, "archer2ShiftX": 0.80, "archer2ShiftY": -0.47}],
                     "stone": [{"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},
                               {"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},
-                              {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.35, "archer2ShiftX": 0.80, "archer2ShiftY": -0.34}]}
+                              {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.35, "archer2ShiftX": 0.80, "archer2ShiftY": -0.34}],
+                    "fire": [{"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},
+                             {"towerShiftX": 0.035, "towerShiftY": 0.22, "archerShiftX": 0.35, "archerShiftY": -0.335},
+                             {"towerShiftX": 0.0, "towerShiftY": 0.2, "archerShiftX": 0.90, "archerShiftY": -0.35, "archer2ShiftX": 0.80, "archer2ShiftY": -0.34}]}
+
     magic = {"leaf": [{"shiftX": 0.03, "shiftY": 0.2, "finalHeight": 0.7, "towerShiftY": 0.2, "topShiftX": 0.34, "topShiftY": 0.0},
                       {"shiftX": 0.03, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.33, "topShiftY": 0.0},
                       {"shiftX": 0.025, "shiftY": 0.145, "finalHeight": 0.8, "towerShiftY": 0.17, "topShiftX": 0.34, "topShiftY": 0.0, "top2ShiftX": 0.01, "top2ShiftY": 0.137, "top3ShiftX": 0.64, "top3ShiftY": 0.137}],
@@ -56,13 +60,13 @@ def loadTypes(transformation, level):
              "stone": [{"shiftX": 0.02, "shiftY": 0.18, "finalHeight": 0.1, "towerShiftY": 0.018, "topShiftX": 0.315, "topShiftY": 0.0},
                        {"shiftX": 0.02, "shiftY": 0.16, "finalHeight": 0.8, "towerShiftY": 0.158, "topShiftX": 0.307, "topShiftY": 0.0},
                        {"shiftX": 0.02, "shiftY": 0.14, "finalHeight": 0.8, "towerShiftY": 0.215, "topShiftX": 0.394, "topShiftY": 0.0, "top1ShiftX": 0.2, "top1ShiftY": 0.015, "top2ShiftX": 0.58, "top2ShiftY": 0.015, "top3ShiftX": 0.15, "top3ShiftY": 0.23, "top4ShiftX": 0.63, "top4ShiftY": 0.23}]}
-    if (level == "vulkan"):
+    if (level == "volcano" or level == "cursedlands" or level == "wastes"):
         level = "fire"
-    if (level == "forest"):
+    if (level == "forest" or level == "jungle"):
         level = "leaf"
     if (level == "desert"):
         level = "sand"
-    if (level == "snow"):
+    if (level == "snow" or level == "deathlands"):
         level = "stone"
     for lvl in range(0, 3):
 

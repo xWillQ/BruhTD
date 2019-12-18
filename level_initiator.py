@@ -35,6 +35,7 @@ def wave_create(start, Idirection):
 def level_init(level_num):
 
     deco_bg = pygame.image.load("Assets/level_decos/level_" + str(level_num) + ".png")
+    # deco_bg = pygame.image.load("Assets/level_decos/level_1.png")
     level = open("Map/level.txt", "r")
     level_num -= 1
     lines = level.read().splitlines()
@@ -62,4 +63,4 @@ def level_init(level_num):
     mobs = wave_create(start, Idirection)
     G.win.blit(background, (0, 0))
     G.wave_trigger = False
-    return turns, background, start, Idirection, mobs, player, towers, deco_bg
+    return turns, background, Idirection, mobs, player, towers, deco_bg, SposX, SposY

@@ -1,16 +1,48 @@
-rurrddrruurrddrrddllllllldd
+rurrddrruurrddrrddllllllldd 1
 20
-1100
+500
 forest
 0
 250
-rrrrurrrdddrrrrurrddd
-10
-1000
+rrrrurrrdddrrrrurrddd 2
+20
+400
 snow
 0
 250
-rurrddrruurrddrrddllllllldd
-10
-1000
-forest
+rruuurrddrrurrddrr 3
+20
+560
+volcano
+0
+650
+llddrrrddrrruuurrrrddrr 4
+20
+510
+wastes
+600
+0
+rurdrrdrruurrdddrrr 5
+20
+570
+deathlands
+0
+350
+rruuurrdddrrrrulluurrrrdddddd 6
+20
+560
+cursedlands
+250
+0
+rruuurrdddrrrrulluurrrrdddddd 7
+20
+560
+jungle
+400
+0
+rruuurrdddrrrrulluurrrrdddddd 8
+20
+560
+desert
+0
+550

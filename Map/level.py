@@ -1,5 +1,4 @@
 import pygame
-from GUI.button import Button
 from GUI.button import isInside
 import Mobs.enemies as enemies
 from Map.tower import Tower as Tower
@@ -8,10 +7,10 @@ import G
 
 pygame.font.init()
 font = pygame.font.Font('bruh_font.ttf', 30)
-death_button = Button(15, 325, 40, pygame.image.load('Assets/GUI/interface_game/skull.png'))
+death_button = pygame.transform.scale(pygame.image.load('Assets/GUI/interface_game/skull.png'), (40, 40))
 
 
-def draw(turns, background, start, Idirection, mobs, player, towers):
+def draw(turns, background, Idirection, mobs, player, towers, sposX, sposY):
 
     updates = tower.clearAll(towers, G.win, background)
     updates += enemies.clearAll(mobs, G.win, background)
@@ -21,17 +20,27 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
     playerMana = font.render(str(player.mana), True, (0, 0, 255), 0)
 
     G.win.blit(background, (0, 0), pygame.Rect(0, 0, 200, 150))
-    G.win.blit(background, (15, 325), pygame.Rect(15, 325, 40, 40))
+    if Idirection == "r":
+        G.win.blit(background, (sposX + 15, sposY + 75), pygame.Rect(sposX + 15, sposY + 75, 40, 40))
+    if Idirection == "d":
+        G.win.blit(background, (sposX + 60, sposY + 15), pygame.Rect(sposX + 60, sposY + 15, 40, 40))
 
     mouse_pos = pygame.mouse.get_pos()
 
     if G.event.type is pygame.MOUSEBUTTONUP and G.wave_trigger is False:
         if G.condition == 10:
-            if isInside(mouse_pos[0], mouse_pos[1], 15 + 20, 325 + 20, 50) is True:
-                G.wave_trigger = True
+            if Idirection == "r":
+                if isInside(mouse_pos[0], mouse_pos[1], sposX + 15 + 20, sposY + 75 + 20, 50) is True:
+                    G.wave_trigger = True
+            if Idirection == "d":
+                if isInside(mouse_pos[0], mouse_pos[1], sposX + 60 + 20, sposY + 15 + 20, 50) is True:
+                    G.wave_trigger = True
 
     if G.wave_trigger is False:
-        death_button.draw(G.win)
+        if Idirection == "r":
+            G.win.blit(death_button, (sposX + 15, sposY + 75))
+        if Idirection == "d":
+            G.win.blit(death_button, (sposX + 60, sposY + 15))
 
     if G.wave_trigger is True:
 
@@ -55,7 +64,6 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
                 player.gold_add(mob)
                 player.mana += 4
             else:
-                print(mob.state)
                 mob.draw(G.win)
 
     if G.event.type is pygame.MOUSEBUTTONUP:
@@ -89,7 +97,7 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
         G.wave_trigger = False
 
     if G.event.type is pygame.MOUSEBUTTONUP:
-        if isInside(mouse_pos[0], mouse_pos[1], 30, 900, 100):
+        if isInside(mouse_pos[0], mouse_pos[1], 1850, 310, 110):
             if player.casting is False:
                 player.casting = True
 
@@ -100,6 +108,6 @@ def draw(turns, background, start, Idirection, mobs, player, towers):
     G.win.blit(playerHealth, (25, 10))
     G.win.blit(playerGold, (25, 40))
     G.win.blit(playerMana, (25, 70))
-
+    print(mouse_pos)
     pygame.display.update(updates)
     G.event = G.event_N

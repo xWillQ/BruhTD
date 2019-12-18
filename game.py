@@ -5,13 +5,13 @@ from GUI import main_menu
 import G
 from time import time
 from level_initiator import level_init
-
+'''
 music = "Formant_1.wav"
 pygame.mixer.init()
 pygame.mixer.music.load(music)
 pygame.mixer.music.play(-1)
 pygame.event.wait()
-
+'''
 for event in pygame.event.get():
     G.event_N = event
     G.event = event
@@ -38,9 +38,9 @@ while run:
 
         if G.condition >= 10:
             if G.level_number != 0 and G.online is False:
-                turns, background, start, Idirection, mobs, player, towers, deco_bg = level_init(G.level_number)
+                turns, background, Idirection, mobs, player, towers, deco_bg, sposX, sposY = level_init(G.level_number)
                 G.online = True
             if G.online is True:
-                level.draw(turns, background, start, Idirection, mobs, player, towers)
+                level.draw(turns, background, Idirection, mobs, player, towers, sposX, sposY)
 
     pygame.display.update()

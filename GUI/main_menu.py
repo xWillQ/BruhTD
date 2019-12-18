@@ -30,8 +30,33 @@ def draw():
                 G.level_number = 1
                 G.condition = 10
         if G.event.type is pygame.MOUSEBUTTONUP:
-            if isInside(mouse_pos[0], mouse_pos[1], 867, 540, 150):
+            if isInside(mouse_pos[0], mouse_pos[1], 866, 540, 150):
                 G.level_number = 2
+                G.condition = 10
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            if isInside(mouse_pos[0], mouse_pos[1], 1054, 540, 150):
+                G.level_number = 3
+                G.condition = 10
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            if isInside(mouse_pos[0], mouse_pos[1], 1240, 540, 150):
+                G.level_number = 4
+                G.condition = 10
+
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            if isInside(mouse_pos[0], mouse_pos[1], 670, 740, 150):
+                G.level_number = 5
+                G.condition = 10
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            if isInside(mouse_pos[0], mouse_pos[1], 869, 740, 150):
+                G.level_number = 6
+                G.condition = 10
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            if isInside(mouse_pos[0], mouse_pos[1], 1058, 740, 150):
+                G.level_number = 7
+                G.condition = 10
+        if G.event.type is pygame.MOUSEBUTTONUP:
+            if isInside(mouse_pos[0], mouse_pos[1], 1244, 740, 150):
+                G.level_number = 8
                 G.condition = 10
 
     if G.condition == 2:  # win window
