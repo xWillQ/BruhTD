@@ -23,9 +23,34 @@ def draw(turns, background, Idirection, mobs, player, towers, sposX, sposY):
     if Idirection == "r":
         G.win.blit(background, (sposX + 15, sposY + 75), pygame.Rect(sposX + 15, sposY + 75, 40, 40))
     if Idirection == "d":
-        G.win.blit(background, (sposX + 60, sposY + 15), pygame.Rect(sposX + 60, sposY + 15, 40, 40))
+        G.win.blit(background, (sposX + 60, sposY + 15), pygame.Rect(sposX + 70, sposY + 15, 40, 40))
 
     mouse_pos = pygame.mouse.get_pos()
+
+    if G.event.type is pygame.MOUSEBUTTONUP:
+        if isInside(mouse_pos[0], mouse_pos[1], 1850, 65, 110) is True:
+            G.condition = 1
+            G.level_number = 0
+            G.online = False
+            G.wave_trigger = False
+
+    if G.event.type is pygame.MOUSEBUTTONUP:
+        if isInside(mouse_pos[0], mouse_pos[1], 1850, 195, 110) is True:
+            if player.mana - 20 >= 0:
+                player.mana -= 20
+                player.freeze_casted = True
+
+    if G.event.type is pygame.MOUSEBUTTONUP:
+        if isInside(mouse_pos[0], mouse_pos[1], 1850, 440, 110) is True:
+            if player.mana - 20 >= 0:
+                player.mana -= 20
+                player.pu_casted = True
+
+    if player.freeze_casted is True:
+        player.freeze_ticker()
+
+    if player.pu_casted is True:
+        player.power_up_ticker()
 
     if G.event.type is pygame.MOUSEBUTTONUP and G.wave_trigger is False:
         if G.condition == 10:
@@ -59,6 +84,12 @@ def draw(turns, background, Idirection, mobs, player, towers, sposX, sposY):
                 towers[i].reduceCooldown()
 
         for mob in mobs:
+
+            if player.freeze_casted is True:
+                mob.velocity = 0.0
+            else:
+                player.freeze_cancel(mob)
+
             if (mob.state == "dead"):
                 mobs.remove(mob)
                 player.gold_add(mob)
@@ -76,8 +107,16 @@ def draw(turns, background, Idirection, mobs, player, towers, sposX, sposY):
                 Tower.gui_type_change(towers[i], player, mouse_pos)
 
     for i in range(len(towers)):
+
+        if towers[i].level != 0:
+            if player.pu_casted is True:
+                player.power_up(towers[i])
+            else:
+                player.pu_cancel(towers[i])
+
         if towers[i].level != 0:
             # pygame.draw.circle(G.win, (0, 55, 255), (towers[i].x, towers[i].y), round(towers[i].radius), 1)
+            print(towers[i].damage)
             towers[i].draw(G.win)
         if towers[i].gui_opened is True:
             Tower.draw_gui(towers[i])

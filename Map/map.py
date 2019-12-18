@@ -19,7 +19,7 @@ def loadLevel(directions, start, towers, transformation, level, width, height, d
     turns = [Turn(-100, -100, 1, True, 1)]
     x = start[0]
     y = start[1]
-    margin = 0.02  # Определяет на каком расстоянии от края дороги будут идти мобы, в процентах от размера дороги
+    margin = 0.10  # Определяет на каком расстоянии от края дороги будут идти мобы, в процентах от размера дороги
     initialDirection = ""
 
     for i in range(0, ceil(width / transformation)):

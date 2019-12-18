@@ -2,6 +2,12 @@ import pygame
 from GUI.button import isInside
 import G
 
+enemyType = {"scorpio": {"velocity": 1.5, "hp": 70, "shiftX": 0.07, "shiftY": 0.14, "reward": 3},
+             "wizard": {"velocity": 1.0, "hp": 150, "shiftX": 0.17, "shiftY": 0.13, "reward": 5}}
+towerType = {"archer": {"damage": [5, 10, 7]},
+             "magic": {"damage": [15, 20, 25]},
+             "support": {"damage": [10, 10, 10]}}
+
 
 class Player():
     def __init__(self, hp, gold):
@@ -10,6 +16,33 @@ class Player():
         self.mana = 40
         self.frame = 0
         self.casting = False
+        self.freeze_casted = False
+        self.F_tick = 0
+        self.pu_tick = 0
+        self.pu_casted = False
+
+    def power_up(self, tower):
+        tower.damage = towerType[tower.typeName]["damage"][tower.level - 1] + 5
+
+    def pu_cancel(self, tower):
+        tower.damage = towerType[tower.typeName]["damage"][tower.level - 1]
+
+    def power_up_ticker(self):
+        if self.pu_tick != 360:
+            self.pu_tick += 1
+        else:
+            self.pu_casted = False
+            self.pu_tick = 0
+
+    def freeze_ticker(self):
+        if self.F_tick != 180:
+            self.F_tick += 1
+        else:
+            self.freeze_casted = False
+            self.F_tick = 0
+
+    def freeze_cancel(self, mob):
+        mob.velocity = enemyType[mob.typeName]["velocity"]
 
     def hp_loss(self, mob):
         self.hp -= mob.damage
