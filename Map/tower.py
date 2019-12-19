@@ -20,10 +20,9 @@ towerType = {"archer": [{"damage": 5, "cooldown": 30, "radius": 200, "cost": 70}
                         {"damage": 10, "cooldown": 30, "radius": 240, "cost": 110},
                         {"damage": 7, "cooldown": 20, "radius": 280, "cost": 150}],
 
-             "magic": [{"damage": 15, "cooldown": 50, "radius": 160, "cost": 100},
-                       {"damage": 20, "cooldown": 50, "radius": 200, "cost": 160},
-                       {"damage": 25, "cooldown": 45, "radius": 240, "cost": 220}],
-
+             "magic": [{"damage": 15, "cooldown": 50, "radius": 250, "cost": 100},
+                       {"damage": 20, "cooldown": 50, "radius": 350, "cost": 160},
+                       {"damage": 25, "cooldown": 45, "radius": 450, "cost": 220}],
              "support": [{"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19, "cost": 70},
                          {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19, "cost": 110},
                          {"damage": 10, "cooldown": 50, "radius": 160, "shiftX": 0.0, "shiftY": 0.19, "cost": 150}]}
@@ -315,7 +314,7 @@ class Tower():
 
             archer_tower_cost = font.render(str(towerType["archer"][0]["cost"]), True, (255, 255, 0), 0)
             magic_tower_cost = font.render(str(towerType["magic"][0]["cost"]), True, (255, 255, 0), 0)
-            support_tower_cost = font.render(str(towerType["support"][0]["cost"]), True, (255, 255, 0), 0)
+            # support_tower_cost = font.render(str(towerType["support"][0]["cost"]), True, (255, 255, 0), 0)
 
             G.win.blit(build_gui, (tower.x - 90, tower.y - 90))
 
@@ -323,9 +322,9 @@ class Tower():
             G.win.blit(lable, (tower.x - 85, tower.y - 110))
             G.win.blit(archer_tower_cost, (tower.x - 80, tower.y - 110))
 
-            G.win.blit(support_icon, (tower.x - 100, tower.y + 20))
-            G.win.blit(lable, (tower.x - 85, tower.y))
-            G.win.blit(support_tower_cost, (tower.x - 80, tower.y))
+            # G.win.blit(support_icon, (tower.x - 100, tower.y + 20))
+            # G.win.blit(lable, (tower.x - 85, tower.y))
+            # G.win.blit(support_tower_cost, (tower.x - 80, tower.y))
 
             G.win.blit(magic_icon, (tower.x + 20, tower.y - 90))
             G.win.blit(lable, (tower.x + 35, tower.y - 110))
@@ -337,7 +336,7 @@ class Tower():
             if tower.level != 3:
                 archer_tower_cost = font.render(str(towerType["archer"][tower.level]["cost"]), True, (255, 255, 0), 0)
                 magic_tower_cost = font.render(str(towerType["magic"][tower.level]["cost"]), True, (255, 255, 0), 0)
-                support_tower_cost = font.render(str(towerType["support"][tower.level]["cost"]), True, (255, 255, 0), 0)
+                # support_tower_cost = font.render(str(towerType["support"][tower.level]["cost"]), True, (255, 255, 0), 0)
 
                 if tower.typeName == "magic":
                     G.win.blit(magic_icon, (tower.x + 20, tower.y - 90))
@@ -349,10 +348,10 @@ class Tower():
                     G.win.blit(lable, (tower.x - 85, tower.y - 110))
                     G.win.blit(archer_tower_cost, (tower.x - 80, tower.y - 110))
 
-                if tower.typeName == "support":
-                    G.win.blit(support_icon, (tower.x - 100, tower.y + 20))
-                    G.win.blit(lable, (tower.x - 85, tower.y))
-                    G.win.blit(support_tower_cost, (tower.x - 80, tower.y))
+                # if tower.typeName == "support":
+                    # G.win.blit(support_icon, (tower.x - 100, tower.y + 20))
+                    # G.win.blit(lable, (tower.x - 85, tower.y))
+                    # G.win.blit(support_tower_cost, (tower.x - 80, tower.y))
 
     def gui_level_up(tower, player, mouse_pos):
 
@@ -368,10 +367,10 @@ class Tower():
                     tower.upgrade(player)
                     tower.gui_opened = False
 
-            if tower.typeName == "support":
-                if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y + 50, 70):
-                    tower.upgrade(player)
-                    tower.gui_opened = False
+            # if tower.typeName == "support":
+            #     if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y + 50, 70):
+            #         tower.upgrade(player)
+            #         tower.gui_opened = False
 
     def gui_close(towers, exc):
 
@@ -389,6 +388,6 @@ class Tower():
             if isInside(mouse_pos[0], mouse_pos[1], tower.x + 60, tower.y - 50, 70):
                 tower.setType(player, "magic")
                 tower.gui_opened = False
-            if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y + 60, 70):
-                tower.setType(player, "support")
-                tower.gui_opened = False
+            # if isInside(mouse_pos[0], mouse_pos[1], tower.x - 60, tower.y + 60, 70):
+            #     tower.setType(player, "support")
+            #     tower.gui_opened = False

@@ -7,7 +7,7 @@ import Map.tower as tower
 import pygame
 import G
 
-enemies.loadTypes(0.2)
+enemies.loadTypes(0.15)
 
 
 def wave_create(start, Idirection):
@@ -58,7 +58,7 @@ def level_init(level_num):
         i += 2
 
     player = Player(int(player_hp), int(player_gold))
-    tower.loadTypes(1 * 0.8, level_theme)
+    tower.loadTypes(1, level_theme)
     turns, background, start, Idirection = loadLevel(level_map, (Spos), towers, 0.75, level_theme, 1920, 1080, deco_bg)
     mobs = wave_create(start, Idirection)
     G.win.blit(background, (0, 0))

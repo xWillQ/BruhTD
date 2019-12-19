@@ -5,13 +5,13 @@ from GUI import main_menu
 import G
 from time import time
 from level_initiator import level_init
-'''
+
 music = "Formant_1.wav"
 pygame.mixer.init()
 pygame.mixer.music.load(music)
 pygame.mixer.music.play(-1)
 pygame.event.wait()
-'''
+
 for event in pygame.event.get():
     G.event_N = event
     G.event = event
