@@ -148,5 +148,5 @@ def draw(turns, background, Idirection, mobs, player, towers, sposX, sposY):
     G.win.blit(playerGold, (25, 40))
     G.win.blit(playerMana, (25, 70))
     print(mouse_pos)
-    pygame.display.update()
+    pygame.display.update(updates)
     G.event = G.event_N
