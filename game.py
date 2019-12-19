@@ -6,6 +6,8 @@ import G
 from time import time
 from level_initiator import level_init
 
+# yes, thats messed up
+
 music = "Formant_1.wav"
 pygame.mixer.init()
 pygame.mixer.music.load(music)
