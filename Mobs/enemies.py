@@ -87,7 +87,7 @@ class Enemy():
     def turn(self, turn):
         d = sqrt((self.x - turn.x)**2 + (self.y - turn.y)**2)
         a = (2 * (d**2) - self.velocity**2) / (2 * d)
-        h = sqrt(d**2 - a**2)
+        h = sqrt((d**2 - a**2) + 0.0001)
         x2 = turn.x + a * (self.x - turn.x) / d
         y2 = turn.y + a * (self.y - turn.y) / d
         newX1 = x2 + h * (self.y - turn.y) / d

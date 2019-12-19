@@ -22,7 +22,7 @@ class Player():
         self.pu_casted = False
 
     def power_up(self, tower):
-        tower.damage = towerType[tower.typeName]["damage"][tower.level - 1] + 5
+        tower.damage = towerType[tower.typeName]["damage"][tower.level - 1] + 15
 
     def pu_cancel(self, tower):
         tower.damage = towerType[tower.typeName]["damage"][tower.level - 1]
@@ -35,7 +35,7 @@ class Player():
             self.pu_tick = 0
 
     def freeze_ticker(self):
-        if self.F_tick != 180:
+        if self.F_tick != 280:
             self.F_tick += 1
         else:
             self.freeze_casted = False

@@ -86,7 +86,7 @@ def draw(turns, background, Idirection, mobs, player, towers, sposX, sposY):
         for mob in mobs:
 
             if player.freeze_casted is True:
-                mob.velocity = 0.0
+                mob.velocity = 0.00
             else:
                 player.freeze_cancel(mob)
 
